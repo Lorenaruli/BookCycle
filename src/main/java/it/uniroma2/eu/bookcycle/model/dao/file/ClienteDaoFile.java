@@ -2,6 +2,9 @@ package it.uniroma2.eu.bookcycle.model.dao.file;
 
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.domain.Cliente;
+import it.uniroma2.eu.bookcycle.model.domain.Libraio;
+import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 import java.io.*;
 import java.util.Properties;
@@ -34,7 +37,7 @@ public class ClienteDaoFile implements ClienteDao {
             }
             return file;
         } catch (IOException e) {
-            throw new DaoException("Errore nel caricamento del percorso dal file di proprietà", e);
+            throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
         }
     }
 
@@ -66,7 +69,7 @@ public class ClienteDaoFile implements ClienteDao {
             }
             return false;
         } catch (IOException e) {
-            throw new DaoException("Errore nella lettura del file clienti", e);
+            throw new DaoException("Errore nella lettura del file clienti");
         }
     }
 
@@ -82,7 +85,7 @@ public class ClienteDaoFile implements ClienteDao {
             }
             return false;
         } catch (IOException e) {
-            throw new DaoException("Errore nella verifica delle credenziali", e);
+            throw new DaoException("Errore nella verifica delle credenziali");
         }
     }
 
@@ -103,7 +106,7 @@ public class ClienteDaoFile implements ClienteDao {
             }
             throw new DaoException("Cliente non trovato: " + username);
         } catch (IOException e) {
-            throw new DaoException("Errore nella lettura del file clienti", e);
+            throw new DaoException("Errore nella lettura del file clienti");
         }
     }
 
@@ -113,7 +116,7 @@ public class ClienteDaoFile implements ClienteDao {
             writer.write(riga);
             writer.newLine();
         } catch (IOException e) {
-            throw new DaoException("Errore nella scrittura del file clienti", e);
+            throw new DaoException("Errore nella scrittura del file clienti");
         }
     }
 
@@ -137,7 +140,7 @@ public class ClienteDaoFile implements ClienteDao {
             }
             throw new DaoException("Cliente non trovato: " + username);
         } catch (IOException e) {
-            throw new DaoException("Errore nella lettura del file", e);
+            throw new DaoException("Errore nella lettura del file");
         }
     }
 }

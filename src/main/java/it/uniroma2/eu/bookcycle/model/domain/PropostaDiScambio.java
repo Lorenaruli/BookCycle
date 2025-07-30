@@ -7,7 +7,7 @@ public class PropostaDiScambio {
     private Libro libroRichiesto;
     private String stato;
 
-    public PropostaDiScambioropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
+    public void PropostaDiScambioropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
         this.mittente = mittente;
         this.destinatario = destinatario;
         this.libroOfferto = libroOfferto;
@@ -21,6 +21,14 @@ public class PropostaDiScambio {
         return this.stato;
         //qualcuno dovra occuparsi di aggiornare lo stato di proposta quando viene accettata o rifiutata
 
+    }
+
+    public Utente getMittente() {
+        return mittente;
+    }
+
+    public Utente getDestinatario() {
+        return destinatario;
     }
 }
 

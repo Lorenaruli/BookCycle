@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utente extends Cliente {
-    private List<PropostaDiScambio> propostePendenti;
+    private List<PropostaDiScambio> proposteInviate = new ArrayList<>();
+    private List<PropostaDiScambio> proposteRicevute = new ArrayList<>();
     public List<Libro> libri;
 
     // Costruttore
@@ -16,7 +17,8 @@ public class Utente extends Cliente {
 
     public Utente(String username, List<PropostaDiScambio> propostePendenti, List<Libro> libri) {
         super(username); // chiama il costruttore della superclasse
-        this.propostePendenti = propostePendenti;
+        this.proposteInviate = proposteInviate;
+        this.proposteRicevute= proposteRicevute;
         this.libri = new ArrayList<>();
     }
     public void aggiungiLibro (Libro libro ){
@@ -26,8 +28,28 @@ public class Utente extends Cliente {
     public void eliminaLibro (Libro libro){
         libri.remove(libro);
     }
-    public void aggiungiProposta(PropostaDiScambio proposta) {
-        propostePendenti.add(proposta); // deve occuparsene il controller di aggiungere la proposta
+    public void aggiungiPropostaInviata(PropostaDiScambio proposta) {
+        proposteInviate.add(proposta);
+    }
+
+    public void aggiungiPropostaRicevuta(PropostaDiScambio proposta) {
+        proposteRicevute.add(proposta);
+    }
+
+    public void rimuoviPropostaInviata(PropostaDiScambio proposta) {
+        proposteInviate.remove(proposta);
+    }
+
+    public void rimuoviPropostaRicevuta(PropostaDiScambio proposta) {
+        proposteRicevute.remove(proposta);
+    }
+
+    public List<PropostaDiScambio> getProposteInviate() {
+        return new ArrayList<>(proposteInviate);
+    }
+
+    public List<PropostaDiScambio> getProposteRicevute() {
+        return new ArrayList<>(proposteRicevute);
     }
 
     public void vediListaLibri() {

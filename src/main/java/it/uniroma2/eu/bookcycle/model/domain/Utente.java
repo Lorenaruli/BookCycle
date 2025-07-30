@@ -62,5 +62,8 @@ public class Utente extends Cliente {
         }
     }
 
+    public List<Libro> getLibri() {
+        return libri;
+    }
 }
 

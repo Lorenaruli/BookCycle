@@ -8,7 +8,13 @@ public class Utente extends Cliente {
     public List<Libro> libri;
 
     // Costruttore
-    public Utente(String username,List<PropostaDiScambio> propostePendenti, List<Libro> libri) {
+
+
+    public Utente(String username) {
+        super(username);
+    }
+
+    public Utente(String username, List<PropostaDiScambio> propostePendenti, List<Libro> libri) {
         super(username); // chiama il costruttore della superclasse
         this.propostePendenti = propostePendenti;
         this.libri = new ArrayList<>();

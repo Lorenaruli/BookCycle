@@ -16,4 +16,7 @@ public abstract class Cliente {
     // public abstract void aggiungiLibro(Libro libro, Annuncio annuncio );
     //public abstract void eliminaLibro(Libro libro, Annuncio annuncio);
 
+    public String getUsername() {
+        return username;
+    }
 }

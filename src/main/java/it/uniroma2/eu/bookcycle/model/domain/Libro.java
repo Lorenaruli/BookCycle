@@ -33,5 +33,4 @@ public class Libro {
     //mancano da aggiungere le vere operazioni che deve fare libro
 }
 
-{
-}
+

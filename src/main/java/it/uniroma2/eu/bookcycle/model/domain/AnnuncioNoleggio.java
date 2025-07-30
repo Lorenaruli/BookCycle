@@ -7,4 +7,8 @@ public class AnnuncioNoleggio extends Annuncio{
         super(libro, prezzo, libraio);
         this.numMesi = numMesi;
     }
+    @Override
+    public TipoAnnuncio getTipo() {
+        return TipoAnnuncio.ANNUNCIONOLEGGIO;
+    }
 }

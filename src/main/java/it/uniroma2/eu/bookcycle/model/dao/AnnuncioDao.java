@@ -7,16 +7,16 @@ import java.util.List;
 
 public interface AnnuncioDao {
 
-
+    public void aggiornaIdCounterDaFile();
     void salvaAnnuncio(Annuncio annuncio) throws DaoException;
 
-    void rimuoviAnnuncio(Annuncio annuncio) throws DaoException;
+    void rimuoviAnnuncio(long idAnnuncio) throws DaoException;
 
 
-    List<Annuncio> getTuttiAnnunci() throws DaoException;
+    List<Annuncio> ottieniTuttiAnnunci() throws DaoException;
 
 
-    List<Annuncio> getAnnunciPerLibraio(String usernameLibraio) throws DaoException;
+    List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) throws DaoException;
 
 
     List<Annuncio> cercaPerTitolo(String titolo) throws DaoException;
@@ -28,5 +28,5 @@ public interface AnnuncioDao {
     List<Annuncio> cercaPerGenere(String genere) throws DaoException;
 
 
-    List<Annuncio> getAnnunciPerTipo(TipoAnnuncio tipo) throws DaoException;
+    List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) throws DaoException;
 }

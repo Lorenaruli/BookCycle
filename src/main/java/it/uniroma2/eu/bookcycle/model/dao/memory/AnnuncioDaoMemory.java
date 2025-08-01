@@ -3,6 +3,7 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
+import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 
 import java.util.ArrayList;
@@ -10,8 +11,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AnnuncioDaoMemory implements AnnuncioDao {
+    private static AnnuncioDaoMemory instanza;
 
-    private final List<Annuncio> annunci = new ArrayList<>();
+    private List<Annuncio> annunci = new ArrayList<>();
+
+    public static AnnuncioDaoMemory ottieniIstanza(){
+        if (instanza == null){
+            instanza = new AnnuncioDaoMemory();
+
+        }
+        return instanza;
+    }
+
 
     @Override
     public void salvaAnnuncio(Annuncio annuncio) throws DaoException {
@@ -21,20 +32,26 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         annunci.add(annuncio);
     }
 
+
     @Override
-    public void rimuoviAnnuncio(Annuncio annuncio) throws DaoException {
-        if (!annunci.remove(annuncio)) {
+    public void aggiornaIdCounterDaFile(){
+        PropostaDiScambio.setIdCounter(0);;
+    }
+    @Override
+    public void rimuoviAnnuncio(long idAnnuncio) throws DaoException {
+        boolean removed = annunci.removeIf(a -> a.getIdAnnuncio() == idAnnuncio);
+        if (!removed) {
             throw new DaoException("Annuncio non trovato");
         }
     }
 
     @Override
-    public List<Annuncio> getTuttiAnnunci() throws DaoException {
+    public List<Annuncio> ottieniTuttiAnnunci() throws DaoException {
         return new ArrayList<>(annunci);
     }
 
     @Override
-    public List<Annuncio> getAnnunciPerLibraio(String usernameLibraio) throws DaoException {
+    public List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) throws DaoException {
         if (usernameLibraio == null) {
             throw new DaoException("Username nullo");
         }
@@ -74,7 +91,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     }
 
     @Override
-    public List<Annuncio> getAnnunciPerTipo(TipoAnnuncio tipo) throws DaoException {
+    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) throws DaoException {
         if (tipo == null) {
             throw new DaoException("Tipo nullo");
         }

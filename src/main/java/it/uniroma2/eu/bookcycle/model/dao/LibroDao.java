@@ -12,5 +12,8 @@ public interface LibroDao {
 
     List<Libro> cercaPerGenere(String genere) throws DaoException;
 
-    List<Libro> getTuttiLibriScambiabili() throws DaoException;
+    List<Libro> getLibri() throws DaoException;
+
+
+    public void rimuoviLibro(long idLibro);
 }

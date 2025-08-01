@@ -15,7 +15,7 @@ public class Utente extends Cliente {
         super(username);
     }
 
-    public Utente(String username, List<PropostaDiScambio> propostePendenti, List<Libro> libri) {
+    public Utente(String username, List<PropostaDiScambio> proposteInviate,List<PropostaDiScambio> proposteRicevute, List<Libro> libri) {
         super(username); // chiama il costruttore della superclasse
         this.proposteInviate = proposteInviate;
         this.proposteRicevute= proposteRicevute;

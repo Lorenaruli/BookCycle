@@ -10,36 +10,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClienteDaoMemory implements ClienteDao {
+    private static ClienteDaoMemory instanza;
 
-    // Classe interna per contenere i dati aggiuntivi (non presenti nelle entity)
-    private static class DatiCliente {
-        private final Cliente cliente;
-        private final String password;
-        private final String telefono;
-        private final String email;
 
-        public DatiCliente(Cliente cliente, String password, String telefono, String email) {
-            this.cliente = cliente;
-            this.password = password;
-            this.telefono = telefono;
-            this.email = email;
+    public static ClienteDaoMemory ottieniIstanza(){
+        if (instanza == null){
+            instanza = new ClienteDaoMemory();
+
         }
-
-        public Cliente getCliente() {
-            return cliente;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public String getTelefono() {
-            return telefono;
-        }
-
-        public String getEmail() {
-            return email;
-        }
+        return instanza;
     }
 
     // Mappa principale: username → DatiCliente
@@ -72,11 +51,11 @@ public class ClienteDaoMemory implements ClienteDao {
         return datiClienti.containsKey(username);
     }
 
-    // Metodo utile per fare login
-    public boolean verificaCredenziali(String username, String password) {
-        DatiCliente dati = datiClienti.get(username);
-        return dati != null && dati.getPassword().equals(password);
-    }
+//    // Metodo utile per fare login
+//    public boolean verificaCredenziali(String username, String password) {
+//        DatiCliente dati = datiClienti.get(username);
+//        return dati != null && dati.getPassword().equals(password);
+//    }
 
     // Metodo per recuperare la entity (Cliente, Utente o Libraio)
     public Cliente getCliente(String username) throws DaoException {
@@ -103,5 +82,38 @@ public class ClienteDaoMemory implements ClienteDao {
             throw new DaoException("Cliente non trovato: " + username);
         }
         return dati.getTelefono();
+    }
+
+    // Classe interna per contenere i dati aggiuntivi (non presenti nelle entity)
+    private static class DatiCliente {
+        private final Cliente cliente;
+        private final String password;
+        private final String telefono;
+        private final String email;
+
+
+        public DatiCliente(Cliente cliente, String password, String telefono, String email) {
+            this.cliente = cliente;
+            this.password = password;
+            this.telefono = telefono;
+            this.email = email;
+        }
+
+
+        public Cliente getCliente() {
+            return cliente;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public String getTelefono() {
+            return telefono;
+        }
+
+        public String getEmail() {
+            return email;
+        }
     }
 }

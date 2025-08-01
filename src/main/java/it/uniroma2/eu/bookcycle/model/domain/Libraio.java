@@ -15,16 +15,15 @@ public class Libraio  extends Cliente {
 
 
     public Libraio(String username, List<Annuncio> annunci) {
-        super(username); // chiama il costruttore della superclasse
-        this.annunci = annunci;}
+        super(username);
+        this.annunci = annunci;
+    }
 
-    public void aggiungiLibro(Libro libro, Annuncio annuncio)
-    { //rispetto a utente deve anche aggiungere o togliere l'annuncio
-        libri.add(libro);
+    public void aggiungiAnnuncio(Libro libro, Annuncio annuncio)
+    {
         annunci.add(annuncio);
     }
-    public void eliminaLibro(Libro libro,Annuncio annuncio){
-        libri.remove(libro);
+    public void eliminaAnnuncio(Libro libro,Annuncio annuncio){
         annunci.remove(annuncio);
     }
 }

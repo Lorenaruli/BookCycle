@@ -11,9 +11,9 @@ public interface PropostaDiScambioDao {
     void rimuoviRichiesta(long idProposta) throws DaoException;
     void aggiornaIdCounterDaFile();
 
-    List<it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio> getProposteRicevute(String usernameDestinatario) throws DaoException;
+    List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) throws DaoException;
 
-    List<it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio> getProposteInviate(String usernameMittente) throws DaoException;
+    List<PropostaDiScambio> getProposteInviate(String usernameMittente) throws DaoException;
 
 
 }

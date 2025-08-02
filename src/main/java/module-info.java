@@ -5,6 +5,8 @@ module it.uniroma2.eu.bookcycle {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
+    exports it.uniroma2.eu.bookcycle.grafica.gui to javafx.fxml;
+    opens it.uniroma2.eu.bookcycle.grafica.gui to javafx.fxml;
 
     opens it.uniroma2.eu.bookcycle to javafx.fxml;
     exports it.uniroma2.eu.bookcycle;

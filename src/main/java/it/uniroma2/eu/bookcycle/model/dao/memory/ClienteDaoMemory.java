@@ -51,29 +51,21 @@ public class ClienteDaoMemory implements ClienteDao {
         return datiClienti.containsKey(username);
     }
 
-//    // Metodo utile per fare login
-//    public boolean verificaCredenziali(String username, String password) {
+    @Override
+    public boolean confrontaCredenziali(String username, String password) {
+        DatiCliente dati = datiClienti.get(username);
+        return dati != null && dati.getPassword().equals(password);
+    }
+
+
+//    Metodo per recuperare la mail
+//    public String getEmail(String username) throws DaoException {
 //        DatiCliente dati = datiClienti.get(username);
-//        return dati != null && dati.getPassword().equals(password);
+//        if (dati == null) {
+//            throw new DaoException("Cliente non trovato: " + username);
+//        }
+//        return dati.getEmail();
 //    }
-
-    // Metodo per recuperare la entity (Cliente, Utente o Libraio)
-    public Cliente getCliente(String username) throws DaoException {
-        DatiCliente dati = datiClienti.get(username);
-        if (dati == null) {
-            throw new DaoException("Cliente non trovato: " + username);
-        }
-        return dati.getCliente();
-    }
-
-    // Metodo per recuperare la mail
-    public String getEmail(String username) throws DaoException {
-        DatiCliente dati = datiClienti.get(username);
-        if (dati == null) {
-            throw new DaoException("Cliente non trovato: " + username);
-        }
-        return dati.getEmail();
-    }
 
     // Metodo per recuperare il numero di telefono
     public String getTelefono(String username) throws DaoException {
@@ -82,6 +74,15 @@ public class ClienteDaoMemory implements ClienteDao {
             throw new DaoException("Cliente non trovato: " + username);
         }
         return dati.getTelefono();
+    }
+
+    @Override
+    public Cliente ottieniCliente(String username) throws DaoException {
+        DatiCliente dati = datiClienti.get(username);
+        if (dati == null) {
+            throw new DaoException("Cliente non trovato: " + username);
+        }
+        return dati.getCliente();
     }
 
     // Classe interna per contenere i dati aggiuntivi (non presenti nelle entity)
@@ -116,4 +117,5 @@ public class ClienteDaoMemory implements ClienteDao {
             return email;
         }
     }
+
 }

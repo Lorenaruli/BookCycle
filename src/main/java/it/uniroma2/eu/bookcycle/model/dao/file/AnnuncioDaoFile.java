@@ -18,7 +18,7 @@ public class AnnuncioDaoFile implements AnnuncioDao {
     public AnnuncioDaoFile() throws DaoException {
         this.file = inizializzaPercorsoDaProperties();
         this.annunci = caricaAnnunci();
-        aggiornaIdCounterDaFile();
+        aggiornaIdCounter();
     }
 
     private File inizializzaPercorsoDaProperties() throws DaoException {
@@ -71,7 +71,7 @@ public class AnnuncioDaoFile implements AnnuncioDao {
     }
 
     @Override
-    public void aggiornaIdCounterDaFile() {
+    public void aggiornaIdCounter() {
         long max = 0;
         for (Annuncio a : annunci) {
             if (a.getIdAnnuncio() > max) {

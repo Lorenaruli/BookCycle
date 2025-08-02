@@ -25,6 +25,11 @@ public class Libro implements Serializable {
         this.stato= DISPONIBILE;
         this.tipologia=tipologia;
     }
+    public Libro(String titolo, String autore, String genere){
+        this.titolo = titolo;
+        this.autore = autore;
+        this.genere = genere;
+    }
 
     public String getTitolo() {
         return titolo;

@@ -7,18 +7,21 @@ import it.uniroma2.eu.bookcycle.model.domain.Libraio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class ClienteDaoFile implements ClienteDao {
 
     private static final String PROPERTIES_PATH = "data/proprieta.properties";
-    private final File file;
+    private  File file;
+    private Map<String, ClienteDaoFile.DatiClienteF> datiClienti;
 
     public ClienteDaoFile() throws DaoException {
         this.file = inizializzaPercorsoDaProperties();
+        this.datiClienti = new HashMap<>();
     }
+
+
+
 
     private File inizializzaPercorsoDaProperties() throws DaoException {
         try (InputStream input = new FileInputStream(PROPERTIES_PATH)) {
@@ -75,8 +78,8 @@ public class ClienteDaoFile implements ClienteDao {
         }
         return false;
     }
-
-    public Cliente getCliente(String username) throws DaoException {
+    @Override
+    public Cliente ottieniCliente(String username) throws DaoException {
         for (Cliente cliente : leggiClienti()) {
             if (cliente.getUsername().equals(username)) {
                 return cliente;
@@ -84,7 +87,6 @@ public class ClienteDaoFile implements ClienteDao {
         }
         throw new DaoException("Cliente non trovato: " + username);
     }
-
 
 
     private List<Cliente> leggiClienti() throws DaoException {
@@ -103,15 +105,21 @@ public class ClienteDaoFile implements ClienteDao {
         }
     }
 
-    public class ClienteRecord implements Serializable {
-        private static final long serialVersionUID = 1L;
 
-        private final Cliente cliente;  // può essere Utente o Libraio
-        private final String password;
-        private final String telefono;
-        private final String email;
+    @Override
+    public boolean confrontaCredenziali(String username, String password) {
+        DatiClienteF dati = datiClienti.get(username);
+        return dati != null && dati.getPassword().equals(password);
+    }
 
-        public ClienteRecord(Cliente cliente, String password, String telefono, String email) {
+    public class DatiClienteF implements Serializable {
+
+        private Cliente cliente;  // può essere Utente o Libraio
+        private String password;
+        private String telefono;
+        private String email;
+
+        public void DatiClienteF(Cliente cliente, String password, String telefono, String email) {
             this.cliente = cliente;
             this.password = password;
             this.telefono = telefono;
@@ -119,19 +127,24 @@ public class ClienteDaoFile implements ClienteDao {
         }
 
         public Cliente getCliente() {
+
             return cliente;
         }
 
         public String getPassword() {
+
             return password;
         }
 
         public String getTelefono() {
+
             return telefono;
         }
 
         public String getEmail() {
+
             return email;
         }
     }
 }
+

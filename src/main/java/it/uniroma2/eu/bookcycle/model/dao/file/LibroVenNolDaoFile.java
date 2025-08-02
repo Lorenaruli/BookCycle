@@ -1,21 +1,17 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
-import it.uniroma2.eu.bookcycle.model.domain.Libro;
-
 import java.io.File;
-import java.util.List;
 
 
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
-import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
+import it.uniroma2.eu.bookcycle.model.dao.LIbroVenNolDao;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class LibroVenNolDaoFile extends LibroDaoFile{
+public class LibroVenNolDaoFile extends LibroDaoFile implements LIbroVenNolDao {
     public File inizializzaPercorsoDaProperties() throws DaoException {
         try (InputStream input = new FileInputStream("resources/proprieta.properties")) {
             Properties props = new Properties();

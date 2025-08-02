@@ -34,7 +34,8 @@ public abstract class FactoryDao {
     }
 
     public abstract AnnuncioDao ottieniAnnuncioDao();
-    public abstract LibroDao ottieniLibroDao();
+    public abstract LibroScambioDao ottieniLibroScambioDao();
+    public abstract LIbroVenNolDao ottieniLibroVeNolDao();
     public abstract ClienteDao ottieniClienteDao();
-    public abstract PropostaDiScambioDao PropostaDiScambioDao();
+    public abstract PropostaDiScambioDao ottieniPropostaDiScambioDao();
 }

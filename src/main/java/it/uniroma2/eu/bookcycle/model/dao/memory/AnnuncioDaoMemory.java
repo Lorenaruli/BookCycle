@@ -34,7 +34,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
 
 
     @Override
-    public void aggiornaIdCounterDaFile(){
+    public void aggiornaIdCounter(){
         PropostaDiScambio.setIdCounter(0);;
     }
     @Override

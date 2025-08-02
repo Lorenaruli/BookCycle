@@ -1,13 +1,8 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
-import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
-import it.uniroma2.eu.bookcycle.model.domain.*;
+import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class LibroScambioDaoMemory extends LibroDaoMemory{
+public class LibroScambioDaoMemory extends LibroDaoMemory implements LibroScambioDao {
     private static LibroScambioDaoMemory instanza;
 
     public static LibroScambioDaoMemory ottieniIstanza(){

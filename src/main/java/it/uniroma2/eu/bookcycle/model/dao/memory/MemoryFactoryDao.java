@@ -9,17 +9,22 @@ public class MemoryFactoryDao extends FactoryDao {
     }
 
     @Override
-    public LibroDao ottieniLibroDao() {
-        return null;
+    public LibroScambioDao ottieniLibroScambioDao() {
+        return LibroScambioDaoMemory.ottieniIstanza();
+    }
+
+    @Override
+    public LIbroVenNolDao ottieniLibroVeNolDao() {
+        return LibroVenNolDaoMemory.ottieniIstanza();
     }
 
     @Override
     public ClienteDao ottieniClienteDao() {
-        return null;
+        return ClienteDaoMemory.ottieniIstanza();
     }
 
     @Override
-    public PropostaDiScambioDao PropostaDiScambioDao() {
-        return null;
+    public PropostaDiScambioDao ottieniPropostaDiScambioDao() {
+        return PropostaDiScambioDaoMemory.ottieniIstanza();
     }
 }

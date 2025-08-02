@@ -14,6 +14,7 @@ public interface LibroDao {
 
     List<Libro> getLibri() throws DaoException;
 
-
+    public void aggiungiLibro(Libro libro);
     public void rimuoviLibro(long idLibro);
+    //aggiungi metodo per ricercare libri in base al proprietario
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AnnuncioDao {
 
-    public void aggiornaIdCounterDaFile();
+    public void aggiornaIdCounter();
     void salvaAnnuncio(Annuncio annuncio) throws DaoException;
 
     void rimuoviAnnuncio(long idAnnuncio) throws DaoException;

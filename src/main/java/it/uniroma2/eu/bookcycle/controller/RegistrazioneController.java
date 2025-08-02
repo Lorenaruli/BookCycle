@@ -13,7 +13,7 @@ public class RegistrazioneController {
 
     public void registra(RegistrazioneBean registrazioneBean){
         if (!registrazioneBean.completo()){
-            throw new RuntimeException("non sono state abbastasnza informazioni");
+            throw new RuntimeException("non sono state fornite abbastanza informazioni");
         }
         boolean risultato;
         try {

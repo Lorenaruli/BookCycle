@@ -2,6 +2,7 @@ package it.uniroma2.eu.bookcycle.model.dao.file;
 
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
+import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.StatoLibro;
 
@@ -66,6 +67,15 @@ public abstract class LibroDaoFile implements LibroDao {
         }
 
         salvaLibri(); // salva la lista aggiornata nel file
+    }
+    @Override
+    public void aggiungiLibro(Libro libro) throws DaoException {
+        if (libri == null) {
+            caricaLibri();
+        }
+
+        libri.add(libro);
+        salvaLibri();
     }
 
     public void salvaLibri() throws DaoException {

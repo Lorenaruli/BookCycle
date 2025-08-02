@@ -2,6 +2,7 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
+import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.StatoLibro;
 
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 public class LibroDaoMemory implements LibroDao {
     private List<Libro> libri;
 
-
+    @Override
     public void aggiungiLibro(Libro libro) throws DaoException {
         if (libro == null) {
             throw new DaoException("Libro nullo");

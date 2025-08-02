@@ -9,8 +9,13 @@ public class FileFactoryDao extends FactoryDao {
     }
 
     @Override
-    public LibroDao ottieniLibroDao() {
+    public LibroScambioDao ottieniLibroScambioDao() {
         return new LibroScambioDaoFile();
+    }
+
+    @Override
+    public LIbroVenNolDao ottieniLibroVeNolDao() {
+        return new LibroVenNolDaoFile();
     }
 
     @Override
@@ -19,7 +24,7 @@ public class FileFactoryDao extends FactoryDao {
     }
 
     @Override
-    public PropostaDiScambioDao PropostaDiScambioDao() {
+    public PropostaDiScambioDao ottieniPropostaDiScambioDao() {
         return new PropostaDiScambioDaoFile();
     }
 }

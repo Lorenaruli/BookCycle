@@ -42,6 +42,13 @@ public abstract class LibroDaoFile implements LibroDao {
                     .collect(Collectors.toList());
         }
 
+    @Override
+    public List<Libro> cercaPerProprietario(String username) throws DaoException {
+        return libri.stream()
+                .filter(l -> l.getUsernameProprietario().equalsIgnoreCase(username))
+                .collect(Collectors.toList());
+    }
+
         @Override
         public List<Libro> getLibri() throws DaoException {
             // implementazione solo se SCAMBIABILI sono riconoscibili tramite proprietà

@@ -25,10 +25,11 @@ public class Libro implements Serializable {
         this.stato= DISPONIBILE;
         this.tipologia=tipologia;
     }
-    public Libro(String titolo, String autore, String genere){
+    public Libro(String titolo, String autore, String genere, String usernameProprietario){
         this.titolo = titolo;
         this.autore = autore;
         this.genere = genere;
+        this.usernameProprietario=usernameProprietario;
     }
 
     public String getTitolo() {
@@ -63,6 +64,10 @@ public class Libro implements Serializable {
 
     public TipoLibro getTipologia() {
         return tipologia;
+    }
+
+    public String getUsernameProprietario() {
+        return usernameProprietario;
     }
 }
 

@@ -11,10 +11,11 @@ public interface LibroDao {
     List<Libro> cercaPerAutore(String autore) throws DaoException;
 
     List<Libro> cercaPerGenere(String genere) throws DaoException;
+    List<Libro> cercaPerProprietario(String genere) throws DaoException;
 
     List<Libro> getLibri() throws DaoException;
 
     public void aggiungiLibro(Libro libro);
     public void rimuoviLibro(long idLibro);
-    //aggiungi metodo per ricercare libri in base al proprietario
+
 }

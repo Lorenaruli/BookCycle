@@ -13,7 +13,7 @@ public class PropostaDiScambio implements Serializable {
     private String stato;
     private long idProposta;
 
-    public void PropostaDiScambioropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
+    public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
         this.mittente = mittente;
         this.destinatario = destinatario;
         this.libroOfferto = libroOfferto;
@@ -22,7 +22,7 @@ public class PropostaDiScambio implements Serializable {
         this.idProposta= idCounter++;
     }
 
-    public void PropostaDiScambioropostaDiScambio(long idProposta, Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
+    public void PropostaDiScambio(long idProposta, Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
         this.mittente = mittente;
         this.destinatario = destinatario;
         this.libroOfferto = libroOfferto;

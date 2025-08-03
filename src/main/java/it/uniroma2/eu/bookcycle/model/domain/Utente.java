@@ -28,12 +28,19 @@ public class Utente extends Cliente {
     public void eliminaLibro (Libro libro){
         libri.remove(libro);
     }
-    public void aggiungiPropostaInviata(PropostaDiScambio proposta) {
-        proposteInviate.add(proposta);
+    public void aggiungiProposteInviate(List<PropostaDiScambio> nuoveProposte) {
+        if (proposteInviate == null) {
+            proposteInviate = new ArrayList<>();
+        }
+        proposteInviate.addAll(nuoveProposte);
     }
 
-    public void aggiungiPropostaRicevuta(PropostaDiScambio proposta) {
-        proposteRicevute.add(proposta);
+
+    public void aggiungiProposteRicevute(List<PropostaDiScambio> nuoveProposte) {
+        if (proposteRicevute == null) {
+            proposteRicevute = new ArrayList<>();
+        }
+        proposteRicevute.addAll(nuoveProposte);
     }
 
     public void rimuoviPropostaInviata(PropostaDiScambio proposta) {
@@ -64,6 +71,9 @@ public class Utente extends Cliente {
 
     public List<Libro> getLibri() {
         return libri;
+    }
+    public void setLibri(List<Libro> posseduti){
+        this.libri=posseduti;
     }
 }
 

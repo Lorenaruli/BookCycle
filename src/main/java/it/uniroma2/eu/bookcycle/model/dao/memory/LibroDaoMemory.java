@@ -51,6 +51,12 @@ public class LibroDaoMemory implements LibroDao {
                 .filter(l -> l.getGenere().equalsIgnoreCase(genere))
                 .collect(Collectors.toList());
     }
+    @Override
+    public List<Libro> cercaPerProprietario(String username) throws DaoException {
+        return libri.stream()
+                .filter(l -> l.getUsernameProprietario().equalsIgnoreCase(username))
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<Libro> getLibri() {

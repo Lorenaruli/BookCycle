@@ -4,13 +4,16 @@ import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
+import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClienteDaoMemory implements ClienteDao {
     private static ClienteDaoMemory instanza;
+    private List<Libro> libriMiei;
 
 
     public static ClienteDaoMemory ottieniIstanza(){
@@ -27,6 +30,7 @@ public class ClienteDaoMemory implements ClienteDao {
     public ClienteDaoMemory() {
         this.datiClienti = new HashMap<>();
     }
+
 
     @Override
     public void aggiungiUtente(String username, String password, String telefono, String email) throws DaoException {

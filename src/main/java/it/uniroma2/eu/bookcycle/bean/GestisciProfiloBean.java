@@ -1,13 +1,12 @@
 package it.uniroma2.eu.bookcycle.bean;
 
-import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
-
-public class AggiungiLibroBean {
+public class GestisciProfiloBean {
     private String titolo;
     private String autore;
     private String genere;
 
-    public AggiungiLibroBean() {
+    public GestisciProfiloBean() {
+
     }
 
     public boolean completo(){

@@ -2,6 +2,8 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
+import it.uniroma2.eu.bookcycle.model.dao.file.PropostaDiScambioDaoFile;
+import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 
 import java.util.ArrayList;
@@ -9,8 +11,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
 
-    private  List<PropostaDiScambio> proposteTotali = new ArrayList<>();
+    private  List<PropostaDiScambio> proposteTotali;
     private static PropostaDiScambioDaoMemory instanza;
+    private static boolean idCounterInizializzato = false;
+
+    private PropostaDiScambioDaoMemory(){
+        aggiornaIdCounter();
+        this.proposteTotali=new ArrayList<>();
+    }
 
 
     public static PropostaDiScambioDaoMemory ottieniIstanza(){
@@ -22,13 +30,23 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     }
 
     @Override
-    public void salvaRichiesta(PropostaDiScambio proposta) throws DaoException {
+    public void aggiungiRichiesta(PropostaDiScambio proposta) throws DaoException {
         if (proposta == null) throw new DaoException("Proposta nulla");
         proposteTotali.add(proposta);
     }
     @Override
-    public void aggiornaIdCounterDaFile(){
-        PropostaDiScambio.setIdCounter(0);;
+    public long aggiornaIdCounter(){
+        if (!idCounterInizializzato) {
+            PropostaDiScambio.setIdCounter(0);
+            idCounterInizializzato = true;
+        }
+        long max = 0;
+        for (PropostaDiScambio a : proposteTotali) {
+            if (a.getIdProposta() > max) {
+                max = a.getIdProposta();
+            }
+        }
+        return (max+1);
     }
 
     @Override

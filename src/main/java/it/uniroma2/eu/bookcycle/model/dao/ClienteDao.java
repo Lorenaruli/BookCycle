@@ -9,5 +9,6 @@ public interface ClienteDao {
     public boolean esisteCliente(String username) throws DaoException;
     public Cliente ottieniCliente(String username);
     public boolean confrontaCredenziali(String username, String password);
+    public Cliente trovaPerUsername(String username);
 
 }

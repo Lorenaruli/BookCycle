@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.uniroma2.eu.bookcycle.grafica.gui.VediLibriTuttiViewController">
+
+    <VBox spacing="10"
+          AnchorPane.topAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0">
+
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+
+        <!-- Campo ricerca -->
+        <Label text="Titolo:" />
+        <TextField fx:id="titoloField" promptText="Inserisci titolo" />
+
+        <!-- Bottone cerca -->
+        <Button text="Cerca" onAction="#filtraLibri" maxWidth="Infinity"/>
+
+        <!-- Tabella libri -->
+        <TableView fx:id="libriTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="titoloColumn" prefWidth="150" text="Titolo" />
+                <TableColumn fx:id="autoreColumn" prefWidth="150" text="Autore" />
+                <TableColumn fx:id="genereColumn" prefWidth="150" text="Genere" />
+                <TableColumn fx:id="azioneColumn" prefWidth="100" text="Seleziona" />
+            </columns>
+        </TableView>
+
+        <!-- Bottone torna indietro -->
+        <Button fx:id="tornaIndietroButton" text="Torna indietro" onAction="#tornaIndietro" maxWidth="Infinity"/>
+
+    </VBox>
+</AnchorPane>

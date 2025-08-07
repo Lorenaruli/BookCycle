@@ -1,16 +1,18 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.dao.LIbroVenNolDao;
+import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 
 import java.util.List;
 
 public class LibroId {
-    public void aggiornaIdCounter(LibroScambioDaoFile scambioDao, LibroVenNolDaoFile venditaDao) throws DaoException {
+    public long generaLibroId(LibroScambioDao scambioDao, LIbroVenNolDao venditaDao) throws DaoException {
         long max = 0;
 
-        List<Libro> libriScambio = scambioDao.getLibri();
-        List<Libro> libriVendita = venditaDao.getLibri();
+        List<Libro> libriScambio = scambioDao.getTuttiLibri();
+        List<Libro> libriVendita = venditaDao.getTuttiLibri();
 
         for (Libro l : libriScambio) {
             if (l.getIdLibro() > max) {
@@ -23,7 +25,7 @@ public class LibroId {
                 max = l.getIdLibro();
             }
         }
-
-        Libro.setIdCounter(max + 1);
+        long id=max+1;
+        return id;
     }
 }

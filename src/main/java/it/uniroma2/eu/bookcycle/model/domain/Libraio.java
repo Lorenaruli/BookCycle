@@ -5,7 +5,6 @@ import java.util.List;
 public class Libraio  extends Cliente {
     private List<Annuncio> annunci;
 
-    // Costruttore
 
 
     public Libraio(String username) {
@@ -19,12 +18,12 @@ public class Libraio  extends Cliente {
         this.annunci = annunci;
     }
 
-    public void aggiungiAnnuncio(Libro libro, Annuncio annuncio)
+    public void aggiungiAnnuncio(Annuncio annuncio)
     {
         annunci.add(annuncio);
     }
-    public void eliminaAnnuncio(Libro libro,Annuncio annuncio){
-        annunci.remove(annuncio);
+    public void eliminaAnnuncio(Libro libro, long idAnnuncio){
+        annunci.removeIf(annuncio->annuncio.getIdAnnuncio()==idAnnuncio);
     }
 }
 

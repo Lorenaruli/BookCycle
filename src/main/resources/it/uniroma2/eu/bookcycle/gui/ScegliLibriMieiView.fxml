@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" fx:controller="it.uniroma2.eu.bookcycle.grafica.gui.ScegliLibriMieiViewController">
+
+    <children>
+
+        <Label fx:id="titoloLabel" layoutX="117.0" layoutY="22.0" style="-fx-font-size: 18px;" text="Scegli un tuo libro da proporre per lo scambio" />
+
+        <VBox fx:id="contenitoreLibri" layoutX="50.0" layoutY="70.0" prefWidth="500.0">
+            <!-- I libri verranno aggiunti dinamicamente -->
+            <padding>
+                <Insets bottom="0.0" left="0.0" right="0.0" top="0.0" />
+            </padding>
+            <spacing>
+                10.0
+            </spacing>
+        </VBox>
+
+        <Label fx:id="messaggioNessunLibro" layoutX="100.0" layoutY="200.0" style="-fx-text-fill: red; -fx-font-size: 14px;" text="Non puoi effettuare lo scambio perché non hai libri disponibili" visible="false" wrapText="true" />
+
+        <Button fx:id="tornaIndietroButton" layoutX="240.0" layoutY="350.0" onAction="#tornaIndietro" text="Torna indietro" />
+
+    </children>
+</AnchorPane>

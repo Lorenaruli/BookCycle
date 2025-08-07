@@ -11,41 +11,72 @@ import java.util.*;
 
 public class ClienteDaoFile implements ClienteDao {
 
-    private static final String PROPERTIES_PATH = "data/proprieta.properties";
-    private  File file;
-    private Map<String, ClienteDaoFile.DatiClienteF> datiClienti;
+    private List<Cliente> clienti;
+    private static final String PROPERTIES_PATH = "proprieta.properties";
+    private File file;
+    private Map<String, DatiClienteF> datiClienti;
 
     public ClienteDaoFile() throws DaoException {
         this.file = inizializzaPercorsoDaProperties();
         this.datiClienti = new HashMap<>();
+        leggiClienti();
     }
 
-
-
-
     private File inizializzaPercorsoDaProperties() throws DaoException {
-        try (InputStream input = new FileInputStream(PROPERTIES_PATH)) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
+            if (input == null) {
+                throw new DaoException("File di proprietà non trovato nel classpath");
+            }
+
             Properties props = new Properties();
             props.load(input);
+
             String path = props.getProperty("CLIENTI_PATH");
             if (path == null || path.isBlank()) {
                 throw new DaoException("CLIENTI_PATH non trovato nelle proprietà.");
             }
+
             File file = new File(path);
             File parent = file.getParentFile();
             if (parent != null && !parent.exists()) {
                 parent.mkdirs();
             }
+
             if (!file.exists()) {
                 file.createNewFile();
-                // Inizializza il file con una lista vuota
                 try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-                    oos.writeObject(new ArrayList<Cliente>());
+                    oos.writeObject(new ArrayList<DatiClienteF>());
                 }
             }
+
             return file;
         } catch (IOException e) {
             throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
+        }
+    }
+
+    private void caricaDati(List<DatiClienteF> lista) {
+        datiClienti.clear();
+        for (DatiClienteF dati : lista) {
+            datiClienti.put(dati.getCliente().getUsername(), dati);
+        }
+    }
+
+    private List<DatiClienteF> leggiClienti() throws DaoException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            List<DatiClienteF> lista = (List<DatiClienteF>) ois.readObject();
+            caricaDati(lista);
+            return lista;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new DaoException("Errore nella lettura del file clienti");
+        }
+    }
+
+    private void salvaClienti() throws DaoException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(new ArrayList<>(datiClienti.values()));
+        } catch (IOException e) {
+            throw new DaoException("Errore scrittura clienti");
         }
     }
 
@@ -54,9 +85,12 @@ public class ClienteDaoFile implements ClienteDao {
         if (esisteCliente(username)) {
             throw new DaoException("Username già esistente: " + username);
         }
-        List<Cliente> clienti = leggiClienti();
-        clienti.add(new Utente(username));
-        scriviClienti(clienti);
+        List<DatiClienteF> clienti = leggiClienti();
+        Cliente utente = new Utente(username);
+        DatiClienteF dati = new DatiClienteF(utente, password, telefono, email);
+        clienti.add(dati);
+        datiClienti.put(username, dati);
+        salvaClienti();
     }
 
     @Override
@@ -64,62 +98,40 @@ public class ClienteDaoFile implements ClienteDao {
         if (esisteCliente(username)) {
             throw new DaoException("Username già esistente: " + username);
         }
-        List<Cliente> clienti = leggiClienti();
-        clienti.add(new Libraio(username));
-        scriviClienti(clienti);
+        List<DatiClienteF> clienti = leggiClienti();
+        Cliente libraio = new Libraio(username);
+        clienti.add(new DatiClienteF(libraio, password, telefono, email));
+        salvaClienti();
     }
 
     @Override
-    public boolean esisteCliente(String username) throws DaoException {
-        for (Cliente cliente : leggiClienti()) {
-            if (cliente.getUsername().equals(username)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean esisteCliente(String username) {
+        return datiClienti.containsKey(username);
     }
+
     @Override
     public Cliente ottieniCliente(String username) throws DaoException {
-        for (Cliente cliente : leggiClienti()) {
-            if (cliente.getUsername().equals(username)) {
-                return cliente;
-            }
+        DatiClienteF dati = datiClienti.get(username);
+        if (dati == null) {
+            throw new DaoException("Cliente non trovato: " + username);
         }
-        throw new DaoException("Cliente non trovato: " + username);
+        return dati.getCliente();
     }
-
-
-    private List<Cliente> leggiClienti() throws DaoException {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            return (List<Cliente>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new DaoException("Errore nella lettura del file clienti");
-        }
-    }
-
-    private void scriviClienti(List<Cliente> clienti) throws DaoException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(clienti);
-        } catch (IOException e) {
-            throw new DaoException("Errore nella scrittura del file clienti");
-        }
-    }
-
 
     @Override
     public boolean confrontaCredenziali(String username, String password) {
         DatiClienteF dati = datiClienti.get(username);
-        return dati != null && dati.getPassword().equals(password);
+        return dati != null && Objects.equals(dati.getPassword(), password);
     }
 
-    public class DatiClienteF implements Serializable {
+    public static class DatiClienteF implements Serializable {
 
-        private Cliente cliente;  // può essere Utente o Libraio
+        private Cliente cliente;
         private String password;
         private String telefono;
         private String email;
 
-        public void DatiClienteF(Cliente cliente, String password, String telefono, String email) {
+        public DatiClienteF(Cliente cliente, String password, String telefono, String email) {
             this.cliente = cliente;
             this.password = password;
             this.telefono = telefono;
@@ -127,24 +139,26 @@ public class ClienteDaoFile implements ClienteDao {
         }
 
         public Cliente getCliente() {
-
             return cliente;
         }
 
         public String getPassword() {
-
             return password;
         }
 
         public String getTelefono() {
-
             return telefono;
         }
 
         public String getEmail() {
-
             return email;
         }
     }
+    @Override
+    public Cliente trovaPerUsername(String username) {
+        return clienti.stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+    }
 }
-

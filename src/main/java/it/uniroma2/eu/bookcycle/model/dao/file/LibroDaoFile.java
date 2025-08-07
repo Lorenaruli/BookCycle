@@ -2,11 +2,11 @@ package it.uniroma2.eu.bookcycle.model.dao.file;
 
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
-import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.StatoLibro;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,8 +15,11 @@ public abstract class LibroDaoFile implements LibroDao {
         private List<Libro> libri;
 
 
+
         public LibroDaoFile() throws DaoException {
             this.file = inizializzaPercorsoDaProperties();
+            caricaLibri();
+            //LibroId.aggiornaIdCounter
         }
 
         public abstract File inizializzaPercorsoDaProperties() throws DaoException;
@@ -49,16 +52,24 @@ public abstract class LibroDaoFile implements LibroDao {
                 .collect(Collectors.toList());
     }
 
-        @Override
-        public List<Libro> getLibri() throws DaoException {
-            // implementazione solo se SCAMBIABILI sono riconoscibili tramite proprietà
-            return libri.stream()
-                    .filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
-                    .collect(Collectors.toList());
-        }
+    @Override
+    public List<Libro> getLibriDisponibili() throws DaoException {
+        return libri.stream()
+                .filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<Libro> getTuttiLibri() throws DaoException {
+        return new ArrayList<>(libri);
+
+    }
 
     public void caricaLibri() throws DaoException {
         File file = inizializzaPercorsoDaProperties();
+        if (!file.exists() || file.length() == 0) {
+            this.libri = new ArrayList<>();
+            return;
+        }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             this.libri = (List<Libro>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
@@ -73,7 +84,7 @@ public abstract class LibroDaoFile implements LibroDao {
             throw new DaoException("Nessun libro trovato con ID " + idLibro);
         }
 
-        salvaLibri(); // salva la lista aggiornata nel file
+        salvaLibri();
     }
     @Override
     public void aggiungiLibro(Libro libro) throws DaoException {
@@ -93,6 +104,15 @@ public abstract class LibroDaoFile implements LibroDao {
             throw new DaoException("Errore durante il salvataggio dei libri di scambio");
         }
     }
+    @Override
+    public Libro cercaPerId(long id) {
+        return libri.stream()
+                .filter(l -> l.getIdLibro() == id)
+                .findFirst()
+                .orElse(null);
     }
+
+    }
+
 
 

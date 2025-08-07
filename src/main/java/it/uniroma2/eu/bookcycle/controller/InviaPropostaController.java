@@ -1,36 +1,54 @@
 package it.uniroma2.eu.bookcycle.controller;
 
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
+import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
+import it.uniroma2.eu.bookcycle.model.dao.GestoreLibroScambio;
+import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
-import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
-import it.uniroma2.eu.bookcycle.model.domain.Sessione;
-import it.uniroma2.eu.bookcycle.model.domain.Utente;
+import it.uniroma2.eu.bookcycle.model.domain.*;
 
 public class InviaPropostaController {
     private PropostaDiScambioDao propostaDiScambioDao;
 
     public InviaPropostaController() {
-        this.propostaDiScambioDao = propostaDiScambioDao;
+        this.propostaDiScambioDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
     }
 
-    public void InviaProposta(PropostaBean bean) {
+    public void inviaProposta(PropostaBean bean) {
         if (!bean.completo()) {
-            throw new RuntimeException("non sono state fornite abbastanza informazioni");
+            throw new RuntimeException("Non sono state fornite abbastanza informazioni");
         }
-        PropostaDiScambio proposta = new PropostaDiScambio(bean.getMittente(), bean.getDestinatario(), bean.getLibroOfferto(), bean.getLibroRichiesto());
-        propostaDiScambioDao.salvaRichiesta(proposta);
+        GestoreUtente gestoreUtente= new GestoreUtente();
+        GestoreLibroScambio gestoreLibroScambio= new GestoreLibroScambio();
+        long idProposta=propostaDiScambioDao.aggiornaIdCounter();
 
-//        if (bean.getMittente() instanceof Utente) {
-//            ((Utente)bean.getMittente).aggiungiProposteInviate();
-//            libroDao.aggiungiLibro(libro);
-//
-//            Utente utente= (Utente) gestoreUtente.caricaLibriUtente(Sessione.ottieniIstanza().getClienteLoggato().getUsername());}
-//        else
-//            throw new RuntimeException("il cliente non è utente");
-        // tramite la funzioneGestore devi aggiungere le proposteinviate all'utente che le invia
-        // e quelle ricevute a chi riceve
+        Cliente mittente=gestoreUtente.restituisciUtente(bean.getMittente());
+        Cliente destinatario=gestoreUtente.restituisciUtente(bean.getDestinatario());
+        if ((!(mittente instanceof Utente)) || (!(destinatario instanceof Utente)) ){
+            throw new RuntimeException("Entrambi i clienti devono essere utenti");
+        }
+        Libro libroOfferto= gestoreLibroScambio.restituisciLibro(bean.getLibroOfferto());
+        Libro libroRichiesto=gestoreLibroScambio.restituisciLibro(bean.getLibroRichiesto());
+        PropostaDiScambio proposta = new PropostaDiScambio(
+                (Utente)mittente,
+                (Utente)destinatario,
+                libroRichiesto,
+                libroOfferto,
+                idProposta
+
+        );
+
+
+        propostaDiScambioDao.aggiungiRichiesta(proposta);
+
+
+        String destinatarioUsername = bean.getDestinatario();
+        String mittenteUsername = bean.getMittente();
+
+
+        ((Utente)mittente).aggiungiPropostaInviata(proposta);
+        ((Utente)destinatario).aggiungiPropostaRicevuta(proposta);
     }
-
-
-
 }
+
+

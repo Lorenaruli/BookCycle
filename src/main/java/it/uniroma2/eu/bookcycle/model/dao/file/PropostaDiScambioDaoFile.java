@@ -12,17 +12,18 @@ import java.util.stream.Collectors;
 
 public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
 
+    private static final String PROPERTIES_PATH = "proprieta.properties";
     private final File file;
     private List<PropostaDiScambio> proposteTotali;
 
     public PropostaDiScambioDaoFile() throws DaoException {
         this.file = inizializzaPercorsoDaProperties();
         this.proposteTotali = caricaProposte();
-        aggiornaIdCounterDaFile();
+        aggiornaIdCounter();
     }
 
     private File inizializzaPercorsoDaProperties() throws DaoException {
-        try (InputStream input = getClass().getResourceAsStream("proprieta.properties")) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
             Properties props = new Properties();
             props.load(input);
             String path = props.getProperty("SCAMBI_PATH");
@@ -36,7 +37,6 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
             }
             if (!file.exists()) {
                 file.createNewFile();
-                // Inizializza con una lista vuota
                 try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
                     oos.writeObject(new ArrayList<PropostaDiScambio>());
                 }
@@ -48,14 +48,14 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
     }
 
     @Override
-    public void aggiornaIdCounterDaFile() {
+    public long aggiornaIdCounter() {
         long max = 0;
         for (PropostaDiScambio p : proposteTotali) {
             if (p.getIdProposta() > max) {
                 max = p.getIdProposta();
             }
         }
-        PropostaDiScambio.setIdCounter(max + 1);
+        return (max+1);
     }
 
     private List<PropostaDiScambio> caricaProposte() throws DaoException {
@@ -73,7 +73,7 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
         }
     }
 
-    private void salvaSuFile() throws DaoException {
+    private void salvaProposte() throws DaoException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(proposteTotali);
         } catch (IOException e) {
@@ -82,10 +82,10 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
     }
 
     @Override
-    public void salvaRichiesta(PropostaDiScambio proposta) throws DaoException {
+    public void aggiungiRichiesta(PropostaDiScambio proposta) throws DaoException {
         if (proposta == null) throw new DaoException("Proposta nulla");
         proposteTotali.add(proposta);
-        salvaSuFile();
+        salvaProposte();
     }
 
     @Override
@@ -104,7 +104,7 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
         }
 
         proposteTotali.remove(daRimuovere);
-        salvaSuFile();
+        salvaProposte();
     }
 
     @Override

@@ -12,8 +12,15 @@ import java.util.stream.Collectors;
 
 public class AnnuncioDaoMemory implements AnnuncioDao {
     private static AnnuncioDaoMemory instanza;
+    private static boolean idCounterInizializzato = false;
 
-    private List<Annuncio> annunci = new ArrayList<>();
+    private List<Annuncio> annunci;
+
+    private AnnuncioDaoMemory() {
+        aggiornaIdCounter();
+
+        this.annunci = new ArrayList<>();
+    }
 
     public static AnnuncioDaoMemory ottieniIstanza(){
         if (instanza == null){
@@ -35,7 +42,17 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
 
     @Override
     public void aggiornaIdCounter(){
-        PropostaDiScambio.setIdCounter(0);;
+        if (!idCounterInizializzato) {
+            Annuncio.setIdCounter(0);
+            idCounterInizializzato = true;
+        }
+        long max = 0;
+        for (Annuncio a : annunci) {
+            if (a.getIdAnnuncio() > max) {
+                max = a.getIdAnnuncio();
+            }
+        }
+        Annuncio.setIdCounter(max + 1);
     }
     @Override
     public void rimuoviAnnuncio(long idAnnuncio) throws DaoException {

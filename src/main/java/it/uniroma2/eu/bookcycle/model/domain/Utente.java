@@ -13,42 +13,47 @@ public class Utente extends Cliente {
 
     public Utente(String username) {
         super(username);
+        proposteInviate = new ArrayList<>();
+        proposteRicevute= new ArrayList<>();
+        libri=new ArrayList<>();
     }
 
     public Utente(String username, List<PropostaDiScambio> proposteInviate,List<PropostaDiScambio> proposteRicevute, List<Libro> libri) {
-        super(username); // chiama il costruttore della superclasse
+        super(username);
         this.proposteInviate = proposteInviate;
         this.proposteRicevute= proposteRicevute;
         this.libri = new ArrayList<>();
     }
+
+
     public void aggiungiLibro (Libro libro ){
         libri.add(libro);
     }
 
-    public void eliminaLibro (Libro libro){
-        libri.remove(libro);
+    public void eliminaLibro (long idLibro){
+             libri.removeIf(libro -> libro.getIdLibro() == idLibro);
     }
-    public void aggiungiProposteInviate(List<PropostaDiScambio> nuoveProposte) {
+    public void aggiungiPropostaInviata(PropostaDiScambio proposta) {
         if (proposteInviate == null) {
             proposteInviate = new ArrayList<>();
         }
-        proposteInviate.addAll(nuoveProposte);
+        proposteInviate.add(proposta);
     }
 
 
-    public void aggiungiProposteRicevute(List<PropostaDiScambio> nuoveProposte) {
+    public void aggiungiPropostaRicevuta(PropostaDiScambio proposta) {
         if (proposteRicevute == null) {
             proposteRicevute = new ArrayList<>();
         }
-        proposteRicevute.addAll(nuoveProposte);
+        proposteRicevute.add(proposta);
     }
 
-    public void rimuoviPropostaInviata(PropostaDiScambio proposta) {
-        proposteInviate.remove(proposta);
+    public void rimuoviPropostaInviata(long idProposta) {
+        proposteInviate.removeIf(propostaDiScambio -> propostaDiScambio.getIdProposta() == idProposta);
     }
 
-    public void rimuoviPropostaRicevuta(PropostaDiScambio proposta) {
-        proposteRicevute.remove(proposta);
+    public void rimuoviPropostaRicevuta(long idProposta) {
+        proposteRicevute.removeIf(propostaDiScambio -> propostaDiScambio.getIdProposta()==idProposta);
     }
 
     public List<PropostaDiScambio> getProposteInviate() {
@@ -64,7 +69,7 @@ public class Utente extends Cliente {
             System.out.println("Nessun libro disponibile.");
         } else {
             for (Libro libro : libri) {
-                System.out.println("- " + libro.getTitolo() + " di " + libro.getAutore());
+                System.out.println(" " + libro.getTitolo() + " di " + libro.getAutore());
             }
         }
     }

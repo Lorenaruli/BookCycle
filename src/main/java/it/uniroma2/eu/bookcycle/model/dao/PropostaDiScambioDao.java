@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface PropostaDiScambioDao {
 
-    void salvaRichiesta(PropostaDiScambio proposta) throws DaoException;
+    void aggiungiRichiesta(PropostaDiScambio proposta) throws DaoException;
 
     void rimuoviRichiesta(long idProposta) throws DaoException;
-    void aggiornaIdCounterDaFile();
+    long aggiornaIdCounter();
 
     List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) throws DaoException;
 

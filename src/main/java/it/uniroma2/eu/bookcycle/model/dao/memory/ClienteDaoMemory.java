@@ -2,9 +2,9 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.dao.file.ClienteDaoFile;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
-import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 import java.util.HashMap;
@@ -13,7 +13,15 @@ import java.util.Map;
 
 public class ClienteDaoMemory implements ClienteDao {
     private static ClienteDaoMemory instanza;
-    private List<Libro> libriMiei;
+    private Map<String, DatiClienteM> datiClienti;
+    private List<Cliente> clienti;
+
+    private ClienteDaoMemory() {
+
+        this.datiClienti = new HashMap<>();
+    }
+
+
 
 
     public static ClienteDaoMemory ottieniIstanza(){
@@ -24,12 +32,8 @@ public class ClienteDaoMemory implements ClienteDao {
         return instanza;
     }
 
-    // Mappa principale: username → DatiCliente
-    private final Map<String, DatiCliente> datiClienti;
 
-    public ClienteDaoMemory() {
-        this.datiClienti = new HashMap<>();
-    }
+
 
 
     @Override
@@ -38,7 +42,7 @@ public class ClienteDaoMemory implements ClienteDao {
             throw new DaoException("Username già esistente: " + username);
         }
         Utente utente = new Utente(username); // la tua entity
-        datiClienti.put(username, new DatiCliente(utente, password, telefono, email));
+        datiClienti.put(username, new DatiClienteM(utente, password, telefono, email));
     }
 
     @Override
@@ -47,33 +51,34 @@ public class ClienteDaoMemory implements ClienteDao {
             throw new DaoException("Username già esistente: " + username);
         }
         Libraio libraio = new Libraio(username); // la tua entity
-        datiClienti.put(username, new DatiCliente(libraio, password, telefono, email));
+        datiClienti.put(username, new DatiClienteM(libraio, password, telefono, email));
     }
 
     @Override
     public boolean esisteCliente(String username) {
+
         return datiClienti.containsKey(username);
     }
 
     @Override
     public boolean confrontaCredenziali(String username, String password) {
-        DatiCliente dati = datiClienti.get(username);
+        DatiClienteM dati = datiClienti.get(username);
         return dati != null && dati.getPassword().equals(password);
     }
 
 
-//    Metodo per recuperare la mail
-//    public String getEmail(String username) throws DaoException {
-//        DatiCliente dati = datiClienti.get(username);
-//        if (dati == null) {
-//            throw new DaoException("Cliente non trovato: " + username);
-//        }
-//        return dati.getEmail();
-//    }
 
-    // Metodo per recuperare il numero di telefono
+    public String getEmail(String username) throws DaoException {
+        DatiClienteM dati = datiClienti.get(username);
+        if (dati == null) {
+            throw new DaoException("Cliente non trovato: " + username);
+        }
+        return dati.getEmail();
+    }
+
+
     public String getTelefono(String username) throws DaoException {
-        DatiCliente dati = datiClienti.get(username);
+        DatiClienteM dati = datiClienti.get(username);
         if (dati == null) {
             throw new DaoException("Cliente non trovato: " + username);
         }
@@ -82,22 +87,22 @@ public class ClienteDaoMemory implements ClienteDao {
 
     @Override
     public Cliente ottieniCliente(String username) throws DaoException {
-        DatiCliente dati = datiClienti.get(username);
+        DatiClienteM dati = datiClienti.get(username);
         if (dati == null) {
             throw new DaoException("Cliente non trovato: " + username);
         }
         return dati.getCliente();
     }
 
-    // Classe interna per contenere i dati aggiuntivi (non presenti nelle entity)
-    private static class DatiCliente {
+
+    private static class DatiClienteM {
         private final Cliente cliente;
         private final String password;
         private final String telefono;
         private final String email;
 
 
-        public DatiCliente(Cliente cliente, String password, String telefono, String email) {
+        public DatiClienteM(Cliente cliente, String password, String telefono, String email) {
             this.cliente = cliente;
             this.password = password;
             this.telefono = telefono;
@@ -106,20 +111,31 @@ public class ClienteDaoMemory implements ClienteDao {
 
 
         public Cliente getCliente() {
+
             return cliente;
         }
 
         public String getPassword() {
+
             return password;
         }
 
         public String getTelefono() {
+
             return telefono;
         }
 
         public String getEmail() {
+
             return email;
         }
+    }
+    @Override
+    public Cliente trovaPerUsername(String username) {
+        return clienti.stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
     }
 
 }

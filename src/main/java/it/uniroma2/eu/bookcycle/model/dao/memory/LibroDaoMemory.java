@@ -2,15 +2,22 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
-import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.StatoLibro;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class LibroDaoMemory implements LibroDao {
     private List<Libro> libri;
+//    private static boolean idCounterInizializzato = false;
+
+
+    public LibroDaoMemory(){
+//        aggiornaIdCounter();
+        this.libri=new ArrayList<>();
+    }
 
     @Override
     public void aggiungiLibro(Libro libro) throws DaoException {
@@ -27,9 +34,19 @@ public class LibroDaoMemory implements LibroDao {
         }
     }
 
-    public void aggiornaIdCounter(){
-        Libro.setIdCounter(0);;
-    }
+//    public void aggiornaIdCounter(){
+//        if (!idCounterInizializzato) {
+//            Libro.setIdCounter(0);
+//            idCounterInizializzato = true;
+//        }
+//        long max = 0;
+//        for (Libro a : libri) {
+//            if (a.getIdLibro() > max) {
+//                max = a.getIdLibro();
+//            }
+//        }
+//        Libro.setIdCounter(max + 1);
+//    }
 
     @Override
     public List<Libro> cercaPerTitolo(String titolo) throws DaoException {
@@ -57,13 +74,26 @@ public class LibroDaoMemory implements LibroDao {
                 .filter(l -> l.getUsernameProprietario().equalsIgnoreCase(username))
                 .collect(Collectors.toList());
     }
+    @Override
+    public List<Libro> getTuttiLibri() throws DaoException {
+        return new ArrayList<>(libri);
+
+    }
 
     @Override
-    public List<Libro> getLibri() {
+    public List<Libro> getLibriDisponibili() {
         return libri.stream()
                 .filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
                 .collect(Collectors.toList());
     }
+    @Override
+    public Libro cercaPerId(long id) {
+        return libri.stream()
+                .filter(l -> l.getIdLibro() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
 }
 
 

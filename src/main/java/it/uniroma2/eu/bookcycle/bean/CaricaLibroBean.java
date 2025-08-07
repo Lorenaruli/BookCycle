@@ -1,11 +1,11 @@
 package it.uniroma2.eu.bookcycle.bean;
 
-public class GestisciProfiloBean {
+public class CaricaLibroBean {
     private String titolo;
     private String autore;
     private String genere;
 
-    public GestisciProfiloBean() {
+    public CaricaLibroBean() {
 
     }
 

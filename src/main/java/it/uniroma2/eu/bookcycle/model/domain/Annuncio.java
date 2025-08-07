@@ -21,18 +21,22 @@ public abstract class Annuncio implements Serializable  {
     public abstract TipoAnnuncio getTipo();
 
     public Libro getLibro() {
+
         return libro;
     }
 
     public double getPrezzo() {
+
         return prezzo;
     }
 
     public Libraio getLibraio() {
+
         return libraio;
     }
 
     public long getIdAnnuncio() {
+
         return idAnnuncio;
     }
 
@@ -40,6 +44,7 @@ public abstract class Annuncio implements Serializable  {
         Annuncio.idCounter = idCounter;
     }
     public long  getIdCounter(long idCounter){
+
         return idCounter;
     }
 }

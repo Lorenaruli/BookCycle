@@ -8,33 +8,43 @@ import it.uniroma2.eu.bookcycle.model.domain.Utente;
 import java.util.List;
 
 public class GestoreUtente {
+
     private ClienteDao utenteDao;
-    private LibroScambioDao libroScambioDAO;
+    private LibroScambioDao libroScambioDao;
     private PropostaDiScambioDao propostaDao;
+
+    public GestoreUtente(){
+        this.libroScambioDao = FactoryDao.getIstance().ottieniLibroScambioDao();
+        this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
+
+    }
 
 
     public GestoreUtente(ClienteDao clienteDAO, LibroScambioDao libroScambioDAO) {
         this.utenteDao = clienteDAO;
-        this.libroScambioDAO = libroScambioDAO;
+        this.libroScambioDao = libroScambioDAO;
+    }
+    public GestoreUtente(ClienteDao clienteDAO, PropostaDiScambioDao propostaDao) {
+        this.utenteDao = clienteDAO;
+        this.propostaDao = propostaDao;
     }
 
-    public Cliente caricaLibriUtente(String usernameCliente) {
+    public List<Libro> caricaLibriUtente(String usernameCliente) {
         Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
 
-        if (cliente instanceof Utente) {
-            Utente utente = (Utente) cliente;
-            List<Libro> libriDellUtente = libroScambioDAO.cercaPerProprietario(usernameCliente);
-            utente.setLibri(libriDellUtente);
-        }
+        return libroScambioDao.cercaPerProprietario(usernameCliente);
 
-        return cliente;
+    }
+
+    public List<Libro> caricaLibriTutti(){
+        return libroScambioDao.getLibriDisponibili();
     }
 
     public void caricaProposteUtenteMitente(String usernameCliente) {
         Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
         if (cliente instanceof Utente) {
             List<PropostaDiScambio> proposteInviate = propostaDao.getProposteInviate(usernameCliente);
-            ((Utente) cliente).aggiungiProposteInviate(proposteInviate);
+            //((Utente) cliente).aggiungiProposteInviate(proposteInviate);
         }
     }
 
@@ -42,9 +52,14 @@ public class GestoreUtente {
         Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
         if (cliente instanceof Utente) {
             List<PropostaDiScambio> proposteRicevute = propostaDao.getProposteRicevute(usernameCliente);
-            ((Utente) cliente).aggiungiProposteRicevute(proposteRicevute);
+           // ((Utente) cliente).aggiungiProposteRicevute(proposteRicevute);
 
         }
+    }
+    public Utente restituisciUtente(String username){
+         utenteDao.trovaPerUsername(username);
+         return (Utente)(utenteDao.trovaPerUsername(username));
+
     }
 }
 

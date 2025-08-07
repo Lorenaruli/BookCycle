@@ -3,15 +3,17 @@ package it.uniroma2.eu.bookcycle.controller;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
+import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 public class RegistrazioneController {
     private ClienteDao clienteDao;
 
     public RegistrazioneController() {
-        this.clienteDao = null;
+        this.clienteDao = FactoryDao.getIstance().ottieniClienteDao();
     }
 
     public Cliente registra(RegistrazioneBean registrazioneBean) {
@@ -25,7 +27,7 @@ public class RegistrazioneController {
             throw new RuntimeException(e);
         }
         if (risultato) {
-            throw new RuntimeException("il nome utente esiste già");
+            throw new RuntimeException("scegliere un altro nome utente");
         }
         try {
             switch (registrazioneBean.getRuolo()) {
@@ -33,9 +35,9 @@ public class RegistrazioneController {
                     clienteDao.aggiungiUtente(registrazioneBean.getUsername(),
                             registrazioneBean.getPassword(), registrazioneBean.getTelefono(),
                             registrazioneBean.getEmail());
-                    return new Utente(
-                            registrazioneBean.getUsername()
-                    );
+                    Utente nuovoUtente = new Utente(registrazioneBean.getUsername());
+                    Sessione.ottieniIstanza().setClienteLoggato(nuovoUtente);
+                    return nuovoUtente;
                 }
 
 
@@ -44,9 +46,9 @@ public class RegistrazioneController {
                         registrazioneBean.getPassword(), registrazioneBean.getTelefono(),
                         registrazioneBean.getEmail());
 
-                    return new Libraio(
-                            registrazioneBean.getUsername()
-                    );
+                    Libraio nuovoLibraio = new Libraio(registrazioneBean.getUsername());
+                    Sessione.ottieniIstanza().setClienteLoggato(nuovoLibraio);
+                    return nuovoLibraio;
                 }
                 default -> throw new RuntimeException("Ruolo non valido");
 

@@ -3,6 +3,7 @@ package it.uniroma2.eu.bookcycle.controller;
 import it.uniroma2.eu.bookcycle.bean.LoginBean;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
@@ -12,7 +13,7 @@ public class LoginController {
     private ClienteDao clienteDao;
 
     public LoginController(){
-        this.clienteDao = clienteDao;
+        this.clienteDao = FactoryDao.getIstance().ottieniClienteDao();
     }
     public RuoloCliente login(LoginBean loginBean) throws RuntimeException{
         if (!loginBean.completo()){

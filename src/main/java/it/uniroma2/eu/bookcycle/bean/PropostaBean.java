@@ -4,43 +4,44 @@ import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 public class PropostaBean {
-    private Utente mittente;
-    private Utente destinatario;
-    private Libro libroOfferto;
-    private Libro libroRichiesto;
+    private String usernameMittente;
+    private String usernameDestinatario;
+    private long idLibroM;
+    private long idLibroD;
 
-    public Utente getMittente() {
-        return mittente;
+    public String getMittente() {
+        return usernameMittente;
     }
     public boolean completo(){
-        return mittente != null || destinatario != null|| libroOfferto != null|| libroRichiesto != null;
+        return usernameMittente != null || usernameDestinatario != null|| idLibroM != 0 || idLibroD != 0;
     }
 
-    public void setMittente(Utente mittente) {
-        this.mittente = mittente;
+    public void setMittente(String usernameMittente) {
+        this.usernameMittente = usernameMittente;
     }
 
-    public Utente getDestinatario() {
-        return destinatario;
+    public String getDestinatario() {
+
+        return usernameDestinatario;
     }
 
-    public void setDestinatario(Utente destinatario) {
-        this.destinatario = destinatario;
+    public void setDestinatario(String userameDestinatario) {
+        this.usernameDestinatario = usernameDestinatario;
     }
 
-    public Libro getLibroOfferto() {
-        return libroOfferto;
+    public long getLibroOfferto() {
+        return idLibroM;
     }
 
-    public void setLibroOfferto(Libro libroOfferto) {
-        this.libroOfferto = libroOfferto;
+    public void setLibroOfferto(long  idLibroM) {
+        this.idLibroM = idLibroM;
     }
 
-    public Libro getLibroRichiesto() {
-        return libroRichiesto;
+    public long getLibroRichiesto() {
+        return idLibroD;
     }
 
-    public void setLibroRichiesto(Libro libroRichiesto) {
-        this.libroRichiesto = libroRichiesto;
+    public void setLibroRichiesto(long idLibroD) {
+        this.idLibroD = idLibroD;
     }
 }

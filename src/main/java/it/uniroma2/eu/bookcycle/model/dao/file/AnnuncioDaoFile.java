@@ -11,7 +11,7 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class AnnuncioDaoFile implements AnnuncioDao {
-
+    private static final String PROPERTIES_PATH = "proprieta.properties";
     private final File file;
     private List<Annuncio> annunci;
 
@@ -22,25 +22,33 @@ public class AnnuncioDaoFile implements AnnuncioDao {
     }
 
     private File inizializzaPercorsoDaProperties() throws DaoException {
-        try (InputStream input = getClass().getResourceAsStream("proprieta.properties")) {
+        //try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
+        try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("proprieta.properties")) {
+            if (input == null) {
+                throw new DaoException("File di proprietà non trovato nel classpath");
+            }
+
             Properties props = new Properties();
             props.load(input);
+
             String path = props.getProperty("ANNUNCI_PATH");
             if (path == null || path.isBlank()) {
                 throw new DaoException("ANNUNCI_PATH non trovato nelle proprietà.");
             }
+
             File file = new File(path);
             File parent = file.getParentFile();
             if (parent != null && !parent.exists()) {
                 parent.mkdirs();
             }
+
             if (!file.exists()) {
                 file.createNewFile();
-                // Inizializza con lista vuota
                 try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
                     oos.writeObject(new ArrayList<Annuncio>());
                 }
             }
+
             return file;
         } catch (IOException e) {
             throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
@@ -62,7 +70,7 @@ public class AnnuncioDaoFile implements AnnuncioDao {
         }
     }
 
-    private void salvaSuFile() throws DaoException {
+    private void salvaAnnunci() throws DaoException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(annunci);
         } catch (IOException e) {
@@ -85,7 +93,7 @@ public class AnnuncioDaoFile implements AnnuncioDao {
     public void salvaAnnuncio(Annuncio annuncio) throws DaoException {
         if (annuncio == null) throw new DaoException("Annuncio nullo");
         annunci.add(annuncio);
-        salvaSuFile();
+        salvaAnnunci();
     }
 
     @Override
@@ -104,7 +112,7 @@ public class AnnuncioDaoFile implements AnnuncioDao {
         }
 
         annunci.remove(daRimuovere);
-        salvaSuFile();
+        salvaAnnunci();
     }
 
     @Override

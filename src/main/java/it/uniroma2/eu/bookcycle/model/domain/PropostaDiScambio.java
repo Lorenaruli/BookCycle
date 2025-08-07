@@ -10,24 +10,24 @@ public class PropostaDiScambio implements Serializable {
     private Utente destinatario;
     private Libro libroOfferto;
     private Libro libroRichiesto;
-    private String stato;
+    private StatoProposta stato;
     private long idProposta;
 
-    public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
-        this.mittente = mittente;
-        this.destinatario = destinatario;
-        this.libroOfferto = libroOfferto;
-        this.libroRichiesto = libroRichiesto;
-        this.stato= "in attesa";
-        this.idProposta= idCounter++;
-    }
+//    public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
+//        this.mittente = mittente;
+//        this.destinatario = destinatario;
+//        this.libroOfferto = libroOfferto;
+//        this.libroRichiesto = libroRichiesto;
+//        this.stato= StatoProposta.IN_ATTESA;
+//        //this.idProposta= idCounter++;
+//    }
 
-    public void PropostaDiScambio(long idProposta, Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
+    public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto,long idProposta) {
         this.mittente = mittente;
         this.destinatario = destinatario;
         this.libroOfferto = libroOfferto;
         this.libroRichiesto = libroRichiesto;
-        this.stato= "in attesa";
+        //this.stato= StatoProposta.IN_ATTESA;
         this.idProposta= idProposta;
     }
 
@@ -35,11 +35,11 @@ public class PropostaDiScambio implements Serializable {
 
 
     public String getStato() {
-        System.out.println("La proposta è " + this.stato);
-        return this.stato;
-        //qualcuno dovra occuparsi di aggiornare lo stato di proposta quando viene accettata o rifiutata
-
+        System.out.println("La proposta è " + this.stato.name());
+        return this.stato.name();
     }
+
+
 
     public static long getIdCounter() {
         return idCounter;
@@ -81,9 +81,10 @@ public class PropostaDiScambio implements Serializable {
         this.libroRichiesto = libroRichiesto;
     }
 
-    public void setStato(String stato) {
+    public void setStato(StatoProposta stato) {
         this.stato = stato;
     }
+
 
     public long getIdProposta() {
         return idProposta;

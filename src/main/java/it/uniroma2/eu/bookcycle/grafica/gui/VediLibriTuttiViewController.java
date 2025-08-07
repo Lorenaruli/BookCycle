@@ -122,7 +122,8 @@ public class VediLibriTuttiViewController {
                         Parent root = loader.load();
 
                          ScegliLibriMieiViewController controller=loader.getController();
-                         controller.creaBeanProposta(propostaParzialeBean);
+                        controller.creaBeanProposta(propostaParzialeBean);
+                        //controller.inizializzaConBean();
 
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(new Scene(root));

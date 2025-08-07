@@ -8,6 +8,7 @@ import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClienteDaoFile implements ClienteDao {
 
@@ -66,6 +67,9 @@ public class ClienteDaoFile implements ClienteDao {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             List<DatiClienteF> lista = (List<DatiClienteF>) ois.readObject();
             caricaDati(lista);
+            this.clienti = lista.stream()
+                    .map(DatiClienteF::getCliente)
+                    .collect(Collectors.toList());  // <- AGGIUNGI QUESTO
             return lista;
         } catch (IOException | ClassNotFoundException e) {
             throw new DaoException("Errore nella lettura del file clienti");
@@ -102,6 +106,11 @@ public class ClienteDaoFile implements ClienteDao {
         Cliente libraio = new Libraio(username);
         clienti.add(new DatiClienteF(libraio, password, telefono, email));
         salvaClienti();
+    }
+    @Override
+    public Cliente trovaPerUsername(String username) {
+        DatiClienteF dati = datiClienti.get(username);
+        return (dati != null) ? dati.getCliente() : null;
     }
 
     @Override
@@ -154,11 +163,5 @@ public class ClienteDaoFile implements ClienteDao {
             return email;
         }
     }
-    @Override
-    public Cliente trovaPerUsername(String username) {
-        return clienti.stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
-    }
+
 }

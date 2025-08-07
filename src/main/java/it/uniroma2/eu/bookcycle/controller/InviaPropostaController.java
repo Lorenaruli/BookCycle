@@ -7,6 +7,8 @@ import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
+import static it.uniroma2.eu.bookcycle.model.domain.StatoProposta.IN_ATTESA;
+
 public class InviaPropostaController {
     private PropostaDiScambioDao propostaDiScambioDao;
 
@@ -15,6 +17,11 @@ public class InviaPropostaController {
     }
 
     public void inviaProposta(PropostaBean bean) {
+        System.out.println("[DEBUG Controller] Mittente: " + bean.getMittente());
+        System.out.println("[DEBUG Controller] Destinatario: " + bean.getDestinatario());
+        System.out.println("[DEBUG Controller] Libro richiesto: " + bean.getLibroRichiesto());
+        System.out.println("[DEBUG Controller] Libro offerto: " + bean.getLibroOfferto());
+
         if (!bean.completo()) {
             throw new RuntimeException("Non sono state fornite abbastanza informazioni");
         }
@@ -24,9 +31,11 @@ public class InviaPropostaController {
 
         Cliente mittente=gestoreUtente.restituisciUtente(bean.getMittente());
         Cliente destinatario=gestoreUtente.restituisciUtente(bean.getDestinatario());
+
+
         if ((!(mittente instanceof Utente)) || (!(destinatario instanceof Utente)) ){
             throw new RuntimeException("Entrambi i clienti devono essere utenti");
-        }
+       }
         Libro libroOfferto= gestoreLibroScambio.restituisciLibro(bean.getLibroOfferto());
         Libro libroRichiesto=gestoreLibroScambio.restituisciLibro(bean.getLibroRichiesto());
         PropostaDiScambio proposta = new PropostaDiScambio(
@@ -34,7 +43,8 @@ public class InviaPropostaController {
                 (Utente)destinatario,
                 libroRichiesto,
                 libroOfferto,
-                idProposta
+                idProposta,
+                IN_ATTESA
 
         );
 

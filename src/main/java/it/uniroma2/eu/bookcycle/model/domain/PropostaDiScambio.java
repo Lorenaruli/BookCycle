@@ -22,12 +22,12 @@ public class PropostaDiScambio implements Serializable {
 //        //this.idProposta= idCounter++;
 //    }
 
-    public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto,long idProposta) {
+    public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto,long idProposta, StatoProposta statoProposta) {
         this.mittente = mittente;
         this.destinatario = destinatario;
         this.libroOfferto = libroOfferto;
         this.libroRichiesto = libroRichiesto;
-        //this.stato= StatoProposta.IN_ATTESA;
+        this.stato=statoProposta;
         this.idProposta= idProposta;
     }
 

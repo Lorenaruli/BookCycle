@@ -16,6 +16,7 @@ public class GestoreUtente {
     public GestoreUtente(){
         this.libroScambioDao = FactoryDao.getIstance().ottieniLibroScambioDao();
         this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
+        this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
 
     }
 
@@ -25,8 +26,8 @@ public class GestoreUtente {
         this.libroScambioDao = libroScambioDAO;
     }
     public GestoreUtente(ClienteDao clienteDAO, PropostaDiScambioDao propostaDao) {
-        this.utenteDao = clienteDAO;
-        this.propostaDao = propostaDao;
+        this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
+        this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
     }
 
     public List<Libro> caricaLibriUtente(String usernameCliente) {
@@ -40,12 +41,10 @@ public class GestoreUtente {
         return libroScambioDao.getLibriDisponibili();
     }
 
-    public void caricaProposteUtenteMitente(String usernameCliente) {
+    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) {
         Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
-        if (cliente instanceof Utente) {
             List<PropostaDiScambio> proposteInviate = propostaDao.getProposteInviate(usernameCliente);
-            //((Utente) cliente).aggiungiProposteInviate(proposteInviate);
-        }
+        return proposteInviate;
     }
 
     public void caricaProposteUtenteDestinatario(String usernameCliente) {
@@ -57,7 +56,9 @@ public class GestoreUtente {
         }
     }
     public Utente restituisciUtente(String username){
-         utenteDao.trovaPerUsername(username);
+        System.out.println("Cerco utente con username: " + username);
+        Cliente cliente = utenteDao.trovaPerUsername(username);
+        System.out.println("Risultato ottenuto dal DAO: " + cliente);
          return (Utente)(utenteDao.trovaPerUsername(username));
 
     }

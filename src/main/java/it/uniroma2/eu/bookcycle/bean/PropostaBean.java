@@ -25,7 +25,7 @@ public class PropostaBean {
         return usernameDestinatario;
     }
 
-    public void setDestinatario(String userameDestinatario) {
+    public void setDestinatario(String usernameDestinatario) {
         this.usernameDestinatario = usernameDestinatario;
     }
 

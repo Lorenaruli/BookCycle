@@ -20,6 +20,9 @@ public class ProfiloViewController extends GraphicController{
     private Button caricaLibriButton;
 
     @FXML
+    private Button vediProposteInviate;
+
+    @FXML
     private Button vediLibriMiei;
 
     @FXML
@@ -113,8 +116,25 @@ public class ProfiloViewController extends GraphicController{
         }
 
     }
+    @FXML
+    void vediProposte(ActionEvent event) {
 
-}
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/VediProposteInviateView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    }
 
 
 

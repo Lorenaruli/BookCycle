@@ -7,6 +7,7 @@ import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class ClienteDaoMemory implements ClienteDao {
     private ClienteDaoMemory() {
 
         this.datiClienti = new HashMap<>();
+        this.clienti = new ArrayList<>();
     }
 
 
@@ -43,6 +45,7 @@ public class ClienteDaoMemory implements ClienteDao {
         }
         Utente utente = new Utente(username); // la tua entity
         datiClienti.put(username, new DatiClienteM(utente, password, telefono, email));
+        clienti.add(utente);
     }
 
     @Override
@@ -52,6 +55,7 @@ public class ClienteDaoMemory implements ClienteDao {
         }
         Libraio libraio = new Libraio(username); // la tua entity
         datiClienti.put(username, new DatiClienteM(libraio, password, telefono, email));
+        clienti.add(libraio);
     }
 
     @Override
@@ -92,6 +96,14 @@ public class ClienteDaoMemory implements ClienteDao {
             throw new DaoException("Cliente non trovato: " + username);
         }
         return dati.getCliente();
+
+    }
+    @Override
+    public Cliente trovaPerUsername(String username) {
+        return clienti.stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
     }
 
 
@@ -130,12 +142,6 @@ public class ClienteDaoMemory implements ClienteDao {
             return email;
         }
     }
-    @Override
-    public Cliente trovaPerUsername(String username) {
-        return clienti.stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
-    }
+
 
 }

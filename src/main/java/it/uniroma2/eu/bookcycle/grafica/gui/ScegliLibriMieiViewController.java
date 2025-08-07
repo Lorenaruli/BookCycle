@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -33,7 +32,19 @@ public class ScegliLibriMieiViewController {
 
     private PropostaParzialeBean propostaParzialeBean;
 
-    public void initialize() {
+
+    public void creaBeanProposta(PropostaParzialeBean propostaParzialeBean) {
+        this.propostaParzialeBean = propostaParzialeBean;
+        inizializzaConBean();
+    }
+
+    public void inizializzaConBean() {
+        System.out.println("[DEBUG] propostaParzialeBean: " + propostaParzialeBean);
+        if (propostaParzialeBean != null) {
+            System.out.println("[DEBUG] Destinatario in bean: " + propostaParzialeBean.getDestinatario());
+        } else {
+            System.out.println("[DEBUG] propostaParzialeBean è NULL");
+        }
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
         GestoreUtente gestore = new GestoreUtente();
@@ -55,13 +66,18 @@ public class ScegliLibriMieiViewController {
                     Label titoloLabel = new Label(libro.getTitolo());
                     Button scambiaButton = new Button("Scambia con questo");
 
-                    // Qui creo direttamente la proposta completa
                     scambiaButton.setOnAction(e -> {
+                        System.out.println("[DEBUG] propostaParzialeBean: " + propostaParzialeBean);
+                        System.out.println("[DEBUG] Destinatario in bean: " + (propostaParzialeBean != null ? propostaParzialeBean.getDestinatario() : "null"));
+                        String destinatario = propostaParzialeBean.getDestinatario();
+                        //String mittente = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
+                        long libroRichiesto = propostaParzialeBean.getLibroRichiesto();
+
                         PropostaBean propostaBean = new PropostaBean();
                         propostaBean.setMittente(username);
-                        propostaBean.setDestinatario(propostaParzialeBean.getDestinatario());
-                        propostaBean.setLibroRichiesto(propostaParzialeBean.getLibroRichiesto());
-                        propostaBean.setLibroOfferto(libro.getIdLibro()); // OK qui!
+                        propostaBean.setDestinatario(destinatario);
+                        propostaBean.setLibroRichiesto(libroRichiesto);
+                        propostaBean.setLibroOfferto(libro.getIdLibro());
 
                         InviaPropostaController controller = new InviaPropostaController();
                         controller.inviaProposta(propostaBean);
@@ -76,9 +92,12 @@ public class ScegliLibriMieiViewController {
         }
     }
 
-    public void creaBeanProposta(PropostaParzialeBean propostaParzialeBean) {
-        this.propostaParzialeBean = propostaParzialeBean; // solo questo!
-    }
+
+
+//    public void creaBeanProposta(PropostaParzialeBean propostaParzialeBean) {
+//        this.propostaParzialeBean = propostaParzialeBean;
+//        inizializzaConBean();
+//    }
 
     @FXML
     private void tornaIndietro(ActionEvent event) {
@@ -99,3 +118,4 @@ public class ScegliLibriMieiViewController {
         alert.showAndWait();
     }
 }
+

@@ -1,8 +1,7 @@
-package it.uniroma2.eu.bookcycle.grafica.gui;
+package it.uniroma2.eu.bookcycle.controller.gui;
 
-import it.uniroma2.eu.bookcycle.bean.LoginBean;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
-import it.uniroma2.eu.bookcycle.controller.LoginController;
+import it.uniroma2.eu.bookcycle.controller.BeanInvalidoException;
 import it.uniroma2.eu.bookcycle.controller.RegistrazioneController;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
@@ -71,7 +70,6 @@ public class RegistrazioneViewController extends GraphicController {
         try {
             Cliente cliente = registrazioneController.registra(registrazioneBean);
             RuoloCliente ruoloCliente = (cliente instanceof Utente) ? UTENTE : LIBRAIO;
-
             showAlert("Registrazione avvenuta");
 
             switch (ruoloCliente) {
@@ -86,13 +84,14 @@ public class RegistrazioneViewController extends GraphicController {
                 default -> showAlert("Ruolo non riconosciuto.");
             }
 
-        } catch (RuntimeException e) {
+        } catch (BeanInvalidoException e) {
             showAlert("Errore nel caricamento della schermata");
         } catch (IOException e) {
             showAlert("Errore nel caricamento della schermata");
             e.printStackTrace();
         }
-    }
+
+        }
 
     @FXML
     void ritornaAlLogin(ActionEvent event) {

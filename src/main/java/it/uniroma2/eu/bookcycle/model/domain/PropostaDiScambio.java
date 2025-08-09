@@ -34,9 +34,8 @@ public class PropostaDiScambio implements Serializable {
 
 
 
-    public String getStato() {
-        System.out.println("La proposta è " + this.stato.name());
-        return this.stato.name();
+    public StatoProposta getStato() {
+        return this.stato;
     }
 
 

@@ -1,4 +1,4 @@
-package it.uniroma2.eu.bookcycle.grafica.gui;
+package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
@@ -39,9 +39,7 @@ public class ScegliLibriMieiViewController {
     }
 
     public void inizializzaConBean() {
-        System.out.println("[DEBUG] propostaParzialeBean: " + propostaParzialeBean);
         if (propostaParzialeBean != null) {
-            System.out.println("[DEBUG] Destinatario in bean: " + propostaParzialeBean.getDestinatario());
         } else {
             System.out.println("[DEBUG] propostaParzialeBean è NULL");
         }
@@ -70,7 +68,6 @@ public class ScegliLibriMieiViewController {
                         System.out.println("[DEBUG] propostaParzialeBean: " + propostaParzialeBean);
                         System.out.println("[DEBUG] Destinatario in bean: " + (propostaParzialeBean != null ? propostaParzialeBean.getDestinatario() : "null"));
                         String destinatario = propostaParzialeBean.getDestinatario();
-                        //String mittente = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
                         long libroRichiesto = propostaParzialeBean.getLibroRichiesto();
 
                         PropostaBean propostaBean = new PropostaBean();

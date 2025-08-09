@@ -83,7 +83,15 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
 
     @Override
     public void aggiungiRichiesta(PropostaDiScambio proposta) throws DaoException {
-        if (proposta == null) throw new DaoException("Proposta nulla");
+        if (proposta == null) {
+            throw new DaoException("Proposta nulla");
+        }
+        for (int i = 0; i < proposteTotali.size(); i++) {
+            if (proposteTotali.get(i).getIdProposta() == proposta.getIdProposta()) {
+                proposteTotali.set(i, proposta);
+                return;
+            }
+        }
         proposteTotali.add(proposta);
         salvaProposte();
     }
@@ -119,6 +127,34 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
         return proposteTotali.stream()
                 .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PropostaDiScambio> cercaPropostaLibroOfferto(long idLibro) {
+        return proposteTotali.stream()
+                .filter(p -> p.getLibroOfferto() != null
+                        && p.getLibroOfferto().getIdLibro() == idLibro)
+                .toList();
+
+    }
+
+
+    @Override
+    public List<PropostaDiScambio> cercaPropostaLibroRichiesto(long idLibro) {
+        return proposteTotali.stream()
+                .filter(p -> p.getLibroOfferto() != null
+                        && p.getLibroOfferto().getIdLibro() == idLibro)
+                .toList();
+
+    }
+
+    @Override
+    public PropostaDiScambio cercaPropostaId(long idProposta) {
+        return proposteTotali.stream()
+                .filter(p -> p.getIdProposta() == idProposta)
+                .findFirst()
+                .orElse(null);
+
     }
 }
 

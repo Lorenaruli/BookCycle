@@ -1,4 +1,4 @@
-package it.uniroma2.eu.bookcycle.grafica.gui;
+package it.uniroma2.eu.bookcycle.controller.gui;
 
 
 

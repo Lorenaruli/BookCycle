@@ -15,5 +15,13 @@ public interface PropostaDiScambioDao {
 
     List<PropostaDiScambio> getProposteInviate(String usernameMittente) throws DaoException;
 
+    List<PropostaDiScambio> cercaPropostaLibroOfferto(long idLibro);
+
+    List<PropostaDiScambio> cercaPropostaLibroRichiesto(long idLibro);
+
+    PropostaDiScambio cercaPropostaId(long idProposta);
+
+
+
 
 }

@@ -1,5 +1,5 @@
 
-package it.uniroma2.eu.bookcycle.grafica.gui;
+package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.controller.LoginController;
 import javafx.event.ActionEvent;
@@ -98,7 +98,18 @@ public class ProfiloViewController extends GraphicController{
 
     @FXML
     void gestisciProposte(ActionEvent event) {
-    // vai a dettagli proposte
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/GestisciProposteView.fxml"));
+            Parent root = loader.load();
+            GestisciProposteViewController ctrl = loader.getController();
+           // ctrl.caricaDati();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Impossibile caricare la schermata del profilo.");
+            e.printStackTrace();
+        }
     }
 
     @FXML

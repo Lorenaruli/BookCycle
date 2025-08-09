@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.eu.bookcycle.controller.gui.GestisciProposteViewController">
+
+    <VBox spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+
+        <!-- Tabella proposte -->
+        <TableView fx:id="proposteTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="libroRichiestoCol" prefWidth="300" text="Libro richiesto" />
+                <TableColumn fx:id="libroOffertoCol" prefWidth="300" text="Libro offerto" />
+                <TableColumn fx:id="gestisciCol" prefWidth="120" text="Gestisci" />
+            </columns>
+
+            <!-- Placeholder opzionale -->
+            <placeholder>
+                <Label text="Nessuna proposta ricevuta" />
+            </placeholder>
+        </TableView>
+
+        <!-- Bottone torna indietro a tutta larghezza -->
+        <Button fx:id="tornaIndietroButton" maxWidth="Infinity" onAction="#tornaIndietro" text="Torna indietro" />
+    </VBox>
+</AnchorPane>

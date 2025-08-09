@@ -16,9 +16,9 @@ public class RegistrazioneController {
         this.clienteDao = FactoryDao.getIstance().ottieniClienteDao();
     }
 
-    public Cliente registra(RegistrazioneBean registrazioneBean) {
+    public Cliente registra(RegistrazioneBean registrazioneBean) throws BeanInvalidoException{
         if (!registrazioneBean.completo()) {
-            throw new RuntimeException("non sono state fornite abbastanza informazioni");
+            throw new BeanInvalidoException("non sono state fornite abbastanza informazioni");
         }
         boolean risultato;
         try {

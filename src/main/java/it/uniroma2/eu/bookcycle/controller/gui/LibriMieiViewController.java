@@ -1,13 +1,10 @@
-package it.uniroma2.eu.bookcycle.grafica.gui;
+package it.uniroma2.eu.bookcycle.controller.gui;
 
 
 
-import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
-import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
-import it.uniroma2.eu.bookcycle.model.domain.Utente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

@@ -104,7 +104,7 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     public List<PropostaDiScambio> cercaPropostaLibroRichiesto(long idLibro) {
         return proposteTotali.stream()
                 .filter(p -> p.getLibroRichiesto() != null
-                        && p.getLibroOfferto().getIdLibro() == idLibro)
+                        && p.getLibroRichiesto().getIdLibro() == idLibro)
                 .toList();
 
     }

@@ -1,9 +1,12 @@
-package it.uniroma2.eu.bookcycle.controller.gui;
+package it.uniroma2.eu.bookcycle.controller.gui2;
+
 
 import it.uniroma2.eu.bookcycle.bean.ClienteBean;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
+import it.uniroma2.eu.bookcycle.bean2.SchermataAccessoBean;
 import it.uniroma2.eu.bookcycle.controller.BeanInvalidoException;
 import it.uniroma2.eu.bookcycle.controller.RegistrazioneController;
+import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,13 +24,16 @@ import java.io.IOException;
 import static it.uniroma2.eu.bookcycle.model.domain.RuoloCliente.LIBRAIO;
 import static it.uniroma2.eu.bookcycle.model.domain.RuoloCliente.UTENTE;
 
-public class RegistrazioneViewController extends GraphicController {
+public class Registrazione2ViewController extends GraphicController {
+
+    @FXML
+    private Button PrecedentRegistratoButton;
+
+    @FXML
+    private Button RegistratiButton;
 
     @FXML
     private TextField emailLabel;
-
-    @FXML
-    private CheckBox libraioCheck;
 
     @FXML
     private PasswordField passwordField;
@@ -38,33 +43,33 @@ public class RegistrazioneViewController extends GraphicController {
 
     @FXML
     private TextField usernameLabel;
-    @FXML
-    private Button PrecedentRegistratoButton;
 
-    @FXML
-    private Button RegistratiButton;
+    private RuoloCliente ruolo;
+
+    public void getRuoloSelezionato(SchermataAccessoBean bean){
+        this.ruolo=bean.getRuolo();
+    }
+
 
     @FXML
     void registra(ActionEvent event) {
-        if (usernameLabel.getText().isBlank() ||
-                passwordField.getText().isBlank() ||
-                emailLabel.getText().isBlank() ||
-                telephoneLabel.getText().isBlank()) {
+            if (usernameLabel.getText().isBlank() ||
+                    passwordField.getText().isBlank() ||
+                    emailLabel.getText().isBlank() ||
+                    telephoneLabel.getText().isBlank()) {
 
-            showAlert("Per favore, compila tutti i campi.");
-            return;
-        }
+                showAlert("Per favore, compila tutti i campi.");
+                return;
+            }
 
+            RegistrazioneBean registrazioneBean = new RegistrazioneBean();
+            registrazioneBean.setUsername(usernameLabel.getText());
+            registrazioneBean.setPassword(passwordField.getText());
+            registrazioneBean.setEmail(emailLabel.getText());
+            registrazioneBean.setTelefono(telephoneLabel.getText());
+            registrazioneBean.setRuolo(ruolo);
 
-        RegistrazioneBean registrazioneBean = new RegistrazioneBean();
-        registrazioneBean.setUsername(usernameLabel.getText());
-        registrazioneBean.setPassword(passwordField.getText());
-        registrazioneBean.setEmail(emailLabel.getText());
-        registrazioneBean.setTelefono(telephoneLabel.getText());
-        registrazioneBean.setRuolo(libraioCheck.isSelected() ? LIBRAIO : UTENTE);
-
-        RegistrazioneController registrazioneController = new RegistrazioneController();
-
+            RegistrazioneController registrazioneController = new RegistrazioneController();
         try {
             ClienteBean clienteBean = registrazioneController.registra(registrazioneBean);
             RuoloCliente ruoloCliente = (clienteBean.getRuoloCliente())== UTENTE ? UTENTE : LIBRAIO;
@@ -89,22 +94,25 @@ public class RegistrazioneViewController extends GraphicController {
             e.printStackTrace();
         }
 
-        }
+    }
+
+
+
 
     @FXML
     void ritornaAlLogin(ActionEvent event) {
-        Stage stage = (Stage) emailLabel.getScene().getWindow();;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/LoginView.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/Login2View.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+
+
 
 }
 

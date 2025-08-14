@@ -1,17 +1,19 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
-import it.uniroma2.eu.bookcycle.model.domain.Cliente;
-import it.uniroma2.eu.bookcycle.model.domain.Libro;
-import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
-import it.uniroma2.eu.bookcycle.model.domain.Utente;
+import it.uniroma2.eu.bookcycle.bean.ContattiBean;
+import it.uniroma2.eu.bookcycle.bean.LibroBean;
+import it.uniroma2.eu.bookcycle.model.domain.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class GestoreUtente {
 
     private ClienteDao utenteDao;
     private LibroScambioDao libroScambioDao;
     private PropostaDiScambioDao propostaDao;
+    Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
 
     public GestoreUtente(){
         this.libroScambioDao = FactoryDao.getIstance().ottieniLibroScambioDao();
@@ -30,15 +32,34 @@ public class GestoreUtente {
         this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
     }
 
-    public List<Libro> caricaLibriUtente(String usernameCliente) {
-        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
+    public List<LibroBean> caricaLibriUtente(String usernameCliente) {
+        if(clienteAttuale instanceof Utente) {
 
-        return libroScambioDao.cercaPerProprietario(usernameCliente);
+            Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
 
+
+        List<Libro> libriUtente= libroScambioDao.cercaPerProprietario(usernameCliente);
+            return libriUtente.stream()
+                    .map(l -> new LibroBean(l.getTitolo(),l.getAutore(),l.getGenere(),l.getIdLibro(),l.getUsernameProprietario(),l.getStato()))
+                    .toList();
+        }
+        return Collections.emptyList();
     }
 
-    public List<Libro> caricaLibriTutti(){
-        return libroScambioDao.getLibriDisponibili();
+
+
+
+
+//    public List<Libro> caricaLibriTutti(){
+//        return libroScambioDao.getLibriDisponibili();
+//    }
+
+    public List<LibroBean> caricaLibriTutti() {
+        String usernameCorrente= clienteAttuale.getUsername();
+        return libroScambioDao.getLibriDisponibili().stream()
+                .filter(libro -> !Objects.equals(libro.getUsernameProprietario(), usernameCorrente))
+                .map(libro -> new LibroBean(libro.getTitolo(),libro.getAutore(),libro.getGenere(),libro.getIdLibro(), libro.getUsernameProprietario(), libro.getStato()))
+                .toList();
     }
 
     public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) {
@@ -61,6 +82,13 @@ public class GestoreUtente {
         System.out.println("Risultato ottenuto dal DAO: " + cliente);
          return (Utente)(utenteDao.trovaPerUsername(username));
 
+    }
+
+    public ContattiBean getContattiByUsername(String username) {
+        String email = utenteDao.trovaEmail(username);
+        String tel   = utenteDao.trovaTelefono(username);
+        if (email == null && tel == null) return null;
+        return new ContattiBean(username,tel, email);
     }
 }
 

@@ -4,7 +4,7 @@ import it.uniroma2.eu.bookcycle.model.domain.Libro;
 
 import java.util.List;
 
-public class ProfiloUtenteBean {
+public class ProfiloUtenteBean {//da eliminare
     String username;
     List<Libro> libriPosseduti;
 

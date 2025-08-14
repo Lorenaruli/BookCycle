@@ -1,13 +1,11 @@
 package it.uniroma2.eu.bookcycle.controller;
 
+import it.uniroma2.eu.bookcycle.bean.ClienteBean;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
-import it.uniroma2.eu.bookcycle.model.domain.Cliente;
-import it.uniroma2.eu.bookcycle.model.domain.Libraio;
-import it.uniroma2.eu.bookcycle.model.domain.Sessione;
-import it.uniroma2.eu.bookcycle.model.domain.Utente;
+import it.uniroma2.eu.bookcycle.model.domain.*;
 
 public class RegistrazioneController {
     private ClienteDao clienteDao;
@@ -16,7 +14,7 @@ public class RegistrazioneController {
         this.clienteDao = FactoryDao.getIstance().ottieniClienteDao();
     }
 
-    public Cliente registra(RegistrazioneBean registrazioneBean) throws BeanInvalidoException{
+    public ClienteBean registra(RegistrazioneBean registrazioneBean) throws BeanInvalidoException{
         if (!registrazioneBean.completo()) {
             throw new BeanInvalidoException("non sono state fornite abbastanza informazioni");
         }
@@ -37,7 +35,11 @@ public class RegistrazioneController {
                             registrazioneBean.getEmail());
                     Utente nuovoUtente = new Utente(registrazioneBean.getUsername());
                     Sessione.ottieniIstanza().setClienteLoggato(nuovoUtente);
-                    return nuovoUtente;
+                    ClienteBean clienteBean= new ClienteBean();
+                    clienteBean.setRuoloCliente(RuoloCliente.UTENTE);
+                    clienteBean.setUsername(registrazioneBean.getUsername());
+
+                    return clienteBean;
                 }
 
 
@@ -48,7 +50,11 @@ public class RegistrazioneController {
 
                     Libraio nuovoLibraio = new Libraio(registrazioneBean.getUsername());
                     Sessione.ottieniIstanza().setClienteLoggato(nuovoLibraio);
-                    return nuovoLibraio;
+                    ClienteBean clienteBean= new ClienteBean();
+                    clienteBean.setRuoloCliente(RuoloCliente.LIBRAIO);
+                    clienteBean.setUsername(registrazioneBean.getUsername());
+
+                    return clienteBean;
                 }
                 default -> throw new RuntimeException("Ruolo non valido");
 

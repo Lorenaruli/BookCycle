@@ -1,7 +1,9 @@
-package it.uniroma2.eu.bookcycle.controller.gui;
+package it.uniroma2.eu.bookcycle.controller.gui2;
+
 
 import it.uniroma2.eu.bookcycle.bean.LoginBean;
 import it.uniroma2.eu.bookcycle.controller.LoginController;
+import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,26 +18,25 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LogInViewController extends GraphicController {
+public class Login2ViewController extends GraphicController {
+
+    @FXML
+    private Button loginButton;
 
     @FXML
     private PasswordField passwordField;
 
     @FXML
-    private TextField usernameLabel;
-
-    @FXML
     private Button registratiButton;
 
     @FXML
-    private Button loginButton;
+    private TextField usernameLabel;
 
     @FXML
     void login(ActionEvent event) {
         LoginBean loginBean = new LoginBean();
         loginBean.setUsername(usernameLabel.getText());
         loginBean.setPassword(passwordField.getText());
-        //loginBean.setRuolo(libraioCheck.isSelected() ? RuoloCliente.LIBRAIO : RuoloCliente.UTENTE);
         LoginController loginController = new LoginController();
         RuoloCliente ruoloCliente;
         try {
@@ -68,22 +69,18 @@ public class LogInViewController extends GraphicController {
 
     @FXML
     void tornaARegistrazione(ActionEvent event) {
-        try{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml"));
-        Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/Registrazione2View.fxml"));
+            Parent root = loader.load();
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        //stage.setTitle("Registrazione");
-        stage.show();
-    } catch (IOException e) {
-        showAlert("Errore nel caricamento della schermata registrazione.");
-        e.printStackTrace();
-    }
-
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Errore nel caricamento della schermata registrazione.");
+            e.printStackTrace();
+        }
 
     }
-
 }
-
 

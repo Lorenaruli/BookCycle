@@ -89,6 +89,7 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
         for (int i = 0; i < proposteTotali.size(); i++) {
             if (proposteTotali.get(i).getIdProposta() == proposta.getIdProposta()) {
                 proposteTotali.set(i, proposta);
+                salvaProposte();
                 return;
             }
         }
@@ -142,8 +143,8 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
     @Override
     public List<PropostaDiScambio> cercaPropostaLibroRichiesto(long idLibro) {
         return proposteTotali.stream()
-                .filter(p -> p.getLibroOfferto() != null
-                        && p.getLibroOfferto().getIdLibro() == idLibro)
+                .filter(p -> p.getLibroRichiesto() != null
+                        && p.getLibroRichiesto().getIdLibro() == idLibro)
                 .toList();
 
     }

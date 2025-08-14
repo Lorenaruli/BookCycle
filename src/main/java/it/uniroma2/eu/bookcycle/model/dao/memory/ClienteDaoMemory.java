@@ -7,10 +7,7 @@ import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ClienteDaoMemory implements ClienteDao {
     private static ClienteDaoMemory instanza;
@@ -22,7 +19,19 @@ public class ClienteDaoMemory implements ClienteDao {
         this.datiClienti = new HashMap<>();
         this.clienti = new ArrayList<>();
     }
+ public void aggiornaCliente(Cliente cliente){
+     if (cliente == null) {
+         throw new DaoException("Cliente nullo");
+     }
 
+     for (int i = 0; i < clienti.size(); i++) {
+         if (Objects.equals(clienti.get(i).getUsername(), cliente.getUsername())) {
+             clienti.set(i, cliente);
+             return;
+         }
+     }
+
+ }
 
 
 
@@ -56,6 +65,18 @@ public class ClienteDaoMemory implements ClienteDao {
         Libraio libraio = new Libraio(username); // la tua entity
         datiClienti.put(username, new DatiClienteM(libraio, password, telefono, email));
         clienti.add(libraio);
+    }
+
+    @Override
+    public String trovaEmail(String username) {
+        DatiClienteM d = datiClienti.get(username);
+        return (d != null) ? d.getEmail() : null;
+    }
+
+    @Override
+    public String trovaTelefono(String username) {
+        DatiClienteM d = datiClienti.get(username);
+        return (d != null) ? d.getTelefono() : null;
     }
 
     @Override

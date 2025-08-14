@@ -2,10 +2,9 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 
 
+import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
-import it.uniroma2.eu.bookcycle.model.domain.Libro;
-import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class VediLibriTuttiViewController {
+public class VediLibriTuttiViewController extends GraphicController{
 
     @FXML
     private TextField titoloField;
@@ -31,21 +30,21 @@ public class VediLibriTuttiViewController {
     private Button tornaIndietroButton;
 
     @FXML
-    private TableView<Libro> libriTable;
+    private TableView<LibroBean> libriTable;
 
     @FXML
-    private TableColumn<Libro, String> titoloColumn;
+    private TableColumn<LibroBean, String> titoloColumn;
 
     @FXML
-    private TableColumn<Libro, String> autoreColumn;
+    private TableColumn<LibroBean, String> autoreColumn;
 
     @FXML
-    private TableColumn<Libro, String> genereColumn;
+    private TableColumn<LibroBean, String> genereColumn;
 
     @FXML
-    private TableColumn<Libro, Void> azioneColumn;
+    private TableColumn<LibroBean, Void> azioneColumn;
 
-    private ObservableList<Libro> listaLibriDisponibili;
+    private ObservableList<LibroBean> listaLibriDisponibili;
 
     //private final GestoreLibri gestoreLibri = new GestoreLibri();
 
@@ -63,17 +62,18 @@ public class VediLibriTuttiViewController {
     private void caricaLibri() {
         try {
             GestoreUtente gestoreUtente= new GestoreUtente();
-            String usernameCorrente = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
 
-            List<Libro> libriDisponibili = gestoreUtente.caricaLibriTutti();
-            List<Libro> soloAltriLibri = libriDisponibili.stream()
-                    .filter(libro -> !libro.getUsernameProprietario().equals(usernameCorrente))
-                    .collect(Collectors.toList());
-            listaLibriDisponibili = FXCollections.observableArrayList(soloAltriLibri);
+            List<LibroBean> libriDisponibili = gestoreUtente.caricaLibriTutti();
+//            List<LibroBean> soloAltriLibri = libriDisponibili.stream()
+//                    .filter(libroBean -> !libroBean.getUsernameProprietario().equals(usernameCorrente))
+//                    .collect(Collectors.toList());
+            listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);
             libriTable.setItems(listaLibriDisponibili);
         } catch (Exception e) {
-            mostraErrore("Errore durante il caricamento dei libri.");
+            showAlert("Errore durante il caricamento dei libri.");
             e.printStackTrace();
+            LibroBean libroBean= new LibroBean();
+            libroBean.getIdLibro();
         }
     }
 
@@ -84,7 +84,7 @@ public class VediLibriTuttiViewController {
         if (titolo.isEmpty()) {
             libriTable.setItems(listaLibriDisponibili);
         } else {
-            List<Libro> filtrati = listaLibriDisponibili.stream()
+            List<LibroBean> filtrati = listaLibriDisponibili.stream()
                     .filter(libro -> libro.getTitolo().toLowerCase().contains(titolo))
                     .collect(Collectors.toList());
 
@@ -101,7 +101,7 @@ public class VediLibriTuttiViewController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            mostraErrore("Impossibile caricare la schermata del profilo.");
+            showAlert("Impossibile caricare la schermata del profilo.");
             e.printStackTrace();
         }
     }
@@ -112,7 +112,7 @@ public class VediLibriTuttiViewController {
 
             {
                 btn.setOnAction(event -> {
-                    Libro libroSelezionato = getTableView().getItems().get(getIndex());
+                    LibroBean libroSelezionato = getTableView().getItems().get(getIndex());
                     PropostaParzialeBean propostaParzialeBean= new PropostaParzialeBean();
                     propostaParzialeBean.setLibroRichiesto(libroSelezionato.getIdLibro());
                     propostaParzialeBean.setDestinatario(libroSelezionato.getUsernameProprietario());
@@ -130,7 +130,7 @@ public class VediLibriTuttiViewController {
                         stage.show();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        mostraErrore("Errore durante il caricamento della schermata di selezione.");
+                        showAlert("Errore durante il caricamento della schermata di selezione.");
                     }
                 });
             }
@@ -144,21 +144,21 @@ public class VediLibriTuttiViewController {
     }
 
 
-    private void mostraErrore(String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setTitle("Errore");
-        alert.setContentText(msg);
-        alert.showAndWait();
-    }
-
-    private void mostraInfo(String msg) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setTitle("Informazione");
-        alert.setContentText(msg);
-        alert.showAndWait();
-    }
+//    private void mostraErrore(String msg) {
+//        Alert alert = new Alert(Alert.AlertType.ERROR);
+//        alert.setHeaderText(null);
+//        alert.setTitle("Errore");
+//        alert.setContentText(msg);
+//        alert.showAndWait();
+//    }
+//
+//    private void mostraInfo(String msg) {
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setHeaderText(null);
+//        alert.setTitle("Informazione");
+//        alert.setContentText(msg);
+//        alert.showAndWait();
+//    }
 
 
     }

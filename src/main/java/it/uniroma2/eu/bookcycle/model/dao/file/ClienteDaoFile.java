@@ -63,7 +63,24 @@ public class ClienteDaoFile implements ClienteDao {
         }
     }
 
-    private List<DatiClienteF> leggiClienti() throws DaoException {
+    public void aggiornaCliente(Cliente cliente) {
+        if (cliente == null) {
+            throw new DaoException("Cliente nullo");
+        }
+
+        for (int i = 0; i < clienti.size(); i++) {
+            if (Objects.equals(clienti.get(i).getUsername(), cliente.getUsername())) {
+                clienti.set(i, cliente);
+                salvaClienti();
+                return;
+            }
+        }
+    }
+
+
+
+
+        private List<DatiClienteF> leggiClienti() throws DaoException {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             List<DatiClienteF> lista = (List<DatiClienteF>) ois.readObject();
             caricaDati(lista);
@@ -96,6 +113,26 @@ public class ClienteDaoFile implements ClienteDao {
         datiClienti.put(username, dati);
         salvaClienti();
     }
+    @Override
+    public String trovaEmail(String username) {
+        DatiClienteF d = datiClienti.get(username);
+        if (d == null) {
+            try { leggiClienti(); } catch (DaoException e) { e.printStackTrace(); return null; }
+            d = datiClienti.get(username);
+        }
+        return (d != null) ? d.getEmail() : null;
+    }
+
+    @Override
+    public String trovaTelefono(String username) {
+        DatiClienteF d = datiClienti.get(username);
+        if (d == null) {
+            try { leggiClienti(); } catch (DaoException e) { e.printStackTrace(); return null; }
+            d = datiClienti.get(username);
+        }
+        return (d != null) ? d.getTelefono() : null;
+    }
+
 
     @Override
     public void aggiungiLibraio(String username, String password, String telefono, String email) throws DaoException {

@@ -2,8 +2,8 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 
 
+import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
-import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,18 +27,18 @@ public class LibriMieiViewController {
     private Button tornaIndietroButton;
 
     @FXML
-    private ListView<Libro> libriList;
+    private ListView<LibroBean> libriList;
     public void initialize() {
         String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
         GestoreUtente gestore = new GestoreUtente();
-        List<Libro> libriUtente = gestore.caricaLibriUtente(username);
+        List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
 
-        ObservableList<Libro> lista = FXCollections.observableArrayList(libriUtente);
+        ObservableList<LibroBean> lista = FXCollections.observableArrayList(libriUtente);
         libriList.setItems(lista);
 
         libriList.setCellFactory(lv -> new ListCell<>() {
             @Override
-            protected void updateItem(Libro libro, boolean empty) {
+            protected void updateItem(LibroBean libro, boolean empty) {
                 super.updateItem(libro, empty);
                 if (empty || libro == null) {
                     setText(null);

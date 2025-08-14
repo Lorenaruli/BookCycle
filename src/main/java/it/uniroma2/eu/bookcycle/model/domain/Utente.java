@@ -57,11 +57,11 @@ public class Utente extends Cliente {
     }
 
     public List<PropostaDiScambio> getProposteInviate() {
-        return new ArrayList<>(proposteInviate);
+        return  (proposteInviate);
     }
 
     public List<PropostaDiScambio> getProposteRicevute() {
-        return new ArrayList<>(proposteRicevute);
+        return (proposteRicevute);
     }
 
     public void vediListaLibri() {
@@ -80,5 +80,6 @@ public class Utente extends Cliente {
     public void setLibri(List<Libro> posseduti){
         this.libri=posseduti;
     }
+
 }
 

@@ -40,7 +40,7 @@ public class CaricaLibroViewController extends GraphicController {
                 caricaLibroBean.setGenere(genereField.getText());
                 CaricaLibroController caricaLibroController = new CaricaLibroController();
                 caricaLibroController.AggiungiLibro(caricaLibroBean);
-            showAlert("libro caricato con successo");
+            showAlert("Libro caricato con successo");
 
         }
         @FXML

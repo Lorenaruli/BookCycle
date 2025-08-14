@@ -2,9 +2,6 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta2Bean;
 import it.uniroma2.eu.bookcycle.controller.GestisciPropostaController;
-import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
-import it.uniroma2.eu.bookcycle.model.domain.Cliente;
-import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -40,15 +37,14 @@ public class GestisciProposteViewController extends GraphicController{
     private Button tornaIndietroButton;
 
     private final GestisciPropostaController app = new GestisciPropostaController();
-    Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
+    String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
 
     @FXML
     private void initialize() {
-        libroOffertoCol.setCellValueFactory(new PropertyValueFactory<>("titoloRichiesto"));
-        libroRichiestoCol.setCellValueFactory(new PropertyValueFactory<>("titoloOfferto"));
+        libroOffertoCol.setCellValueFactory(new PropertyValueFactory<>("titoloOfferto"));
+        libroRichiestoCol.setCellValueFactory(new PropertyValueFactory<>("titoloRichiesto"));
 
-        // Carico subito i dati dell'utente loggato
-        caricaDati(cliente.getUsername());
+        caricaDati(username);
 
         gestisciCol.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("Gestisci");

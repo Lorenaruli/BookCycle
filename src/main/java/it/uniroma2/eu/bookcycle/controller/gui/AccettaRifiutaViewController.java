@@ -58,6 +58,7 @@ public class AccettaRifiutaViewController extends GraphicController{
     @FXML
     private void rifiuta(ActionEvent e) {
         invia(StatoProposta.RIFIUTATA);
+        showAlert("Proposta rifiutata");
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml")

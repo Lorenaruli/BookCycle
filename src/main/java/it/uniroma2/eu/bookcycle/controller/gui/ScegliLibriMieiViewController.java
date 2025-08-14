@@ -1,5 +1,6 @@
 package it.uniroma2.eu.bookcycle.controller.gui;
 
+import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.InviaPropostaController;
@@ -11,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ScegliLibriMieiViewController {
+public class ScegliLibriMieiViewController extends GraphicController{
 
     @FXML
     private VBox contenitoreLibri;
@@ -41,15 +41,14 @@ public class ScegliLibriMieiViewController {
     public void inizializzaConBean() {
         if (propostaParzialeBean != null) {
         } else {
-            System.out.println("[DEBUG] propostaParzialeBean è NULL");
         }
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
         GestoreUtente gestore = new GestoreUtente();
 
         if (cliente instanceof Utente) {
-            List<Libro> libriUtente = gestore.caricaLibriUtente(username);
-            List<Libro> libriDisponibili = libriUtente.stream()
+            List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
+            List<LibroBean> libriDisponibili = libriUtente.stream()
                     .filter(libro -> libro.getStato() == StatoLibro.DISPONIBILE)
                     .collect(Collectors.toList());
 
@@ -57,7 +56,7 @@ public class ScegliLibriMieiViewController {
                 Label messaggio = new Label("Non puoi effettuare lo scambio perché non hai libri disponibili.");
                 contenitoreLibri.getChildren().add(messaggio);
             } else {
-                for (Libro libro : libriDisponibili) {
+                for (LibroBean libro : libriDisponibili) {
                     HBox riga = new HBox();
                     riga.setSpacing(10);
 
@@ -65,8 +64,6 @@ public class ScegliLibriMieiViewController {
                     Button scambiaButton = new Button("Scambia con questo");
 
                     scambiaButton.setOnAction(e -> {
-                        System.out.println("[DEBUG] propostaParzialeBean: " + propostaParzialeBean);
-                        System.out.println("[DEBUG] Destinatario in bean: " + (propostaParzialeBean != null ? propostaParzialeBean.getDestinatario() : "null"));
                         String destinatario = propostaParzialeBean.getDestinatario();
                         long libroRichiesto = propostaParzialeBean.getLibroRichiesto();
 
@@ -79,7 +76,7 @@ public class ScegliLibriMieiViewController {
                         InviaPropostaController controller = new InviaPropostaController();
                         controller.inviaProposta(propostaBean);
 
-                        mostraConferma("Proposta inviata!");
+                        showAlert("Proposta inviata");
                     });
 
                     riga.getChildren().addAll(titoloLabel, scambiaButton);
@@ -107,12 +104,12 @@ public class ScegliLibriMieiViewController {
         }
     }
 
-    private void mostraConferma(String messaggio) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Scambio");
-        alert.setHeaderText(null);
-        alert.setContentText(messaggio);
-        alert.showAndWait();
-    }
+//    private void mostraConferma(String messaggio) {
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("Scambio");
+//        alert.setHeaderText(null);
+//        alert.setContentText(messaggio);
+//        alert.showAndWait();
+//    }
 }
 

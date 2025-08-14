@@ -10,5 +10,8 @@ public interface ClienteDao {
     public Cliente ottieniCliente(String username);
     public boolean confrontaCredenziali(String username, String password);
     public Cliente trovaPerUsername(String username);
+    public void aggiornaCliente(Cliente cliente);
+    public String trovaTelefono(String username);
+    public String trovaEmail(String username);
 
 }

@@ -1,11 +1,15 @@
 package it.uniroma2.eu.bookcycle.controller;
 
+import it.uniroma2.eu.bookcycle.bean.Proposta3Bean;
+import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreLibroScambio;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.*;
+
+import java.util.List;
 
 import static it.uniroma2.eu.bookcycle.model.domain.StatoProposta.IN_ATTESA;
 
@@ -15,12 +19,20 @@ public class InviaPropostaController {
     public InviaPropostaController() {
         this.propostaDiScambioDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
     }
+    public List<Proposta4Bean> creaListaBeanProposteInviate(String usernameMittente) {
+        return propostaDiScambioDao.getProposteInviate(usernameMittente).stream()
+                .map(p -> {
+                    Proposta4Bean bean = new Proposta4Bean();
+                    bean.setTitoloOfferto(p.getLibroOfferto().getTitolo());
+                    bean.setUsernameDestinatario(p.getDestinatario().getUsername());
+                    bean.setIdProposta(p.getIdProposta());
+                    bean.setStato(p.getStato());
+                    return bean;
+                })
+                .toList();
+    }
 
     public void inviaProposta(PropostaBean bean) {
-        System.out.println("[DEBUG Controller] Mittente: " + bean.getMittente());
-        System.out.println("[DEBUG Controller] Destinatario: " + bean.getDestinatario());
-        System.out.println("[DEBUG Controller] Libro richiesto: " + bean.getLibroRichiesto());
-        System.out.println("[DEBUG Controller] Libro offerto: " + bean.getLibroOfferto());
 
         if (!bean.completo()) {
             throw new RuntimeException("Non sono state fornite abbastanza informazioni");

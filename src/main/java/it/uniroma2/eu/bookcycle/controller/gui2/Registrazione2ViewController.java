@@ -77,7 +77,7 @@ public class Registrazione2ViewController extends GraphicController {
 
             switch (ruoloCliente) {
                 case UTENTE -> {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/Profilo2View.fxml"));
                     Parent root = loader.load();
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
@@ -102,7 +102,7 @@ public class Registrazione2ViewController extends GraphicController {
     @FXML
     void ritornaAlLogin(ActionEvent event) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/Login2View.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/Login2View.fxml"));
                 Parent root = loader.load();
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));

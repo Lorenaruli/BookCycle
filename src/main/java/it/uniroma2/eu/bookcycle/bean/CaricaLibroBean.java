@@ -9,6 +9,12 @@ public class CaricaLibroBean {
 
     }
 
+    public CaricaLibroBean(String titolo, String autore, String genere) {
+        this.titolo = titolo;
+        this.autore = autore;
+        this.genere = genere;
+    }
+
     public boolean completo(){
         return titolo != null || autore != null || genere != null;
     }

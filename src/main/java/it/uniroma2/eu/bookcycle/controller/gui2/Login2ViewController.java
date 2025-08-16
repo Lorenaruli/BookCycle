@@ -2,6 +2,7 @@ package it.uniroma2.eu.bookcycle.controller.gui2;
 
 
 import it.uniroma2.eu.bookcycle.bean.LoginBean;
+import it.uniroma2.eu.bookcycle.bean2.SchermataAccessoBean;
 import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
@@ -49,7 +50,7 @@ public class Login2ViewController extends GraphicController {
         try {
             switch (ruoloCliente) {
                 case UTENTE -> {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/Profilo2View.fxml"));
                     Parent root = loader.load();
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
@@ -70,9 +71,13 @@ public class Login2ViewController extends GraphicController {
     @FXML
     void tornaARegistrazione(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/Registrazione2View.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/it/uniroma2/eu/bookcycle/gui2/Registrazione2View.fxml"));
             Parent root = loader.load();
-
+            Registrazione2ViewController contr = loader.getController();
+            SchermataAccessoBean bean = new SchermataAccessoBean();
+            bean.setRuolo(RuoloCliente.UTENTE);
+            contr.getRuoloSelezionato(bean);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

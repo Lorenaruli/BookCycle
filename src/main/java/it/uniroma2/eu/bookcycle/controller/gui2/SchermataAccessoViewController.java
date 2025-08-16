@@ -41,7 +41,7 @@ public class SchermataAccessoViewController extends GraphicController {
 
     private void apriRegistrazione(ActionEvent event, RuoloCliente ruolo) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/Registrazione2View.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/Registrazione2View.fxml"));
             Parent root = loader.load();
             Registrazione2ViewController regCtrl = loader.getController();
             regCtrl.getRuoloSelezionato(bean);

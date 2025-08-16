@@ -95,10 +95,10 @@ public class LibriScambioViewController extends GraphicController {
         propostaParzialeBean.setDestinatario(libroSelezionato.getUsernameProprietario());
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ScegliLibriMiei2View.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/ScegliLibriMiei2View.fxml"));
             Parent root = loader.load();
 
-            ScegliLibriMieiViewController controller = loader.getController();
+            ScegliLibriMiei2ViewController controller = loader.getController();
             controller.creaBeanProposta(propostaParzialeBean);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -135,7 +135,7 @@ public class LibriScambioViewController extends GraphicController {
     @FXML
     void tornaAlProfilo(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/Profilo2View.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/Profilo2View.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

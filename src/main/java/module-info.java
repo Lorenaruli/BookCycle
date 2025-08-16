@@ -10,6 +10,7 @@ module it.uniroma2.eu.bookcycle {
     opens it.uniroma2.eu.bookcycle.controller.gui to javafx.fxml;
     opens it.uniroma2.eu.bookcycle.model.domain to javafx.base;
     opens it.uniroma2.eu.bookcycle.bean to javafx.base;
+    opens it.uniroma2.eu.bookcycle.controller.gui2 to javafx.fxml;
 
 
     opens it.uniroma2.eu.bookcycle to javafx.fxml;

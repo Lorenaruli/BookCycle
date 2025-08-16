@@ -97,7 +97,7 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
         propostaBean.setMittente(username);
         propostaBean.setDestinatario(destinatario);
         propostaBean.setLibroRichiesto(libroRichiesto);
-        propostaBean.setLibroOfferto(libroSelezionato.getIdLibro()); // <-- libro scelto correttamente
+        propostaBean.setLibroOfferto(libroSelezionato.getIdLibro());
 
         try {
             InviaPropostaController controller = new InviaPropostaController();
@@ -113,7 +113,7 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
     @FXML
     void tornaIndietro(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/LibriScambioView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/LibriScambioView.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));

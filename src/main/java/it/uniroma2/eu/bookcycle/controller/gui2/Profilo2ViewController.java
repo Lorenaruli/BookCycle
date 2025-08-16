@@ -31,7 +31,7 @@ public class Profilo2ViewController {
         LoginController loginController = new LoginController();
         loginController.logout();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/SchermataProfiloView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/SchermataAccessoView.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
@@ -48,7 +48,7 @@ public class Profilo2ViewController {
     @FXML
     void cercaLibri(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/TipoLibroView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/TipoLibroView.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
@@ -64,11 +64,36 @@ public class Profilo2ViewController {
 
     @FXML
     void gestisciProposte(ActionEvent event) {
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/ProposteView.fxml")
+                );
+                Parent root = loader.load();
 
-    }
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
 
     @FXML
     void vediLibriMiei(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/LibriMiei2View.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

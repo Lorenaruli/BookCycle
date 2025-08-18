@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.stream.Collectors.toList;
+
 public class GestoreUtente {
 
     private ClienteDao utenteDao;
@@ -15,7 +17,7 @@ public class GestoreUtente {
     private PropostaDiScambioDao propostaDao;
     Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
 
-    public GestoreUtente(){
+    public GestoreUtente() {
         this.libroScambioDao = FactoryDao.getIstance().ottieniLibroScambioDao();
         this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
         this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
@@ -27,27 +29,25 @@ public class GestoreUtente {
         this.utenteDao = clienteDAO;
         this.libroScambioDao = libroScambioDAO;
     }
+
     public GestoreUtente(ClienteDao clienteDAO, PropostaDiScambioDao propostaDao) {
         this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
         this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
     }
 
     public List<LibroBean> caricaLibriUtente(String usernameCliente) {
-        if(clienteAttuale instanceof Utente) {
+        if (clienteAttuale instanceof Utente) {
 
             Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
 
 
-        List<Libro> libriUtente= libroScambioDao.cercaPerProprietario(usernameCliente);
+            List<Libro> libriUtente = libroScambioDao.cercaPerProprietario(usernameCliente);
             return libriUtente.stream()
-                    .map(l -> new LibroBean(l.getTitolo(),l.getAutore(),l.getGenere(),l.getIdLibro(),l.getUsernameProprietario(),l.getStato()))
+                    .map(l -> new LibroBean(l.getTitolo(), l.getAutore(), l.getGenere(), l.getIdLibro(), l.getUsernameProprietario()))
                     .toList();
         }
         return Collections.emptyList();
     }
-
-
-
 
 
 //    public List<Libro> caricaLibriTutti(){
@@ -55,40 +55,43 @@ public class GestoreUtente {
 //    }
 
     public List<LibroBean> caricaLibriTutti() {
-        String usernameCorrente= clienteAttuale.getUsername();
-        return libroScambioDao.getLibriDisponibili().stream()
+        String usernameCorrente = clienteAttuale.getUsername();
+        return libroScambioDao.getTuttiLibri().stream()
                 .filter(libro -> !Objects.equals(libro.getUsernameProprietario(), usernameCorrente))
-                .map(libro -> new LibroBean(libro.getTitolo(),libro.getAutore(),libro.getGenere(),libro.getIdLibro(), libro.getUsernameProprietario(), libro.getStato()))
+                .map(libro -> new LibroBean(libro.getTitolo(), libro.getAutore(), libro.getGenere(), libro.getIdLibro(), libro.getUsernameProprietario()))
                 .toList();
     }
 
-    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) {
-        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
-            List<PropostaDiScambio> proposteInviate = propostaDao.getProposteInviate(usernameCliente);
-        return proposteInviate;
-    }
-
-    public void caricaProposteUtenteDestinatario(String usernameCliente) {
-        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
-        if (cliente instanceof Utente) {
-            List<PropostaDiScambio> proposteRicevute = propostaDao.getProposteRicevute(usernameCliente);
-           // ((Utente) cliente).aggiungiProposteRicevute(proposteRicevute);
-
-        }
-    }
-    public Utente restituisciUtente(String username){
-        System.out.println("Cerco utente con username: " + username);
+    //    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) {
+//        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
+//            List<PropostaDiScambio> proposteInviate = propostaDao.getProposteInviate(usernameCliente);
+//        return proposteInviate;
+//    }
+//
+//    public void caricaProposteUtenteDestinatario(String usernameCliente) {
+//        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
+//        if (cliente instanceof Utente) {
+//            List<PropostaDiScambio> proposteRicevute = propostaDao.getProposteRicevute(usernameCliente);
+//           // ((Utente) cliente).aggiungiProposteRicevute(proposteRicevute);
+//
+//        }
+//    }
+    public Utente restituisciUtente(String username) {
         Cliente cliente = utenteDao.trovaPerUsername(username);
-        System.out.println("Risultato ottenuto dal DAO: " + cliente);
-         return (Utente)(utenteDao.trovaPerUsername(username));
+        return (Utente) (utenteDao.trovaPerUsername(username));
 
     }
 
     public ContattiBean getContattiByUsername(String username) {
         String email = utenteDao.trovaEmail(username);
-        String tel   = utenteDao.trovaTelefono(username);
+        String tel = utenteDao.trovaTelefono(username);
         if (email == null && tel == null) return null;
-        return new ContattiBean(username,tel, email);
+        return new ContattiBean(username, tel, email);
+    }
+
+    public Cliente clienteLoggato() {
+        return Sessione.ottieniIstanza().getClienteLoggato();
+
     }
 }
 

@@ -4,6 +4,7 @@ import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.InviaPropostaController;
+import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 import javafx.event.ActionEvent;
@@ -32,6 +33,8 @@ public class ScegliLibriMieiViewController extends GraphicController{
 
     private PropostaParzialeBean propostaParzialeBean;
 
+    private GestoreUtente gestore=new GestoreUtente();
+
 
     public void creaBeanProposta(PropostaParzialeBean propostaParzialeBean) {
         this.propostaParzialeBean = propostaParzialeBean;
@@ -42,14 +45,13 @@ public class ScegliLibriMieiViewController extends GraphicController{
         if (propostaParzialeBean != null) {
         } else {
         }
-        Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
+     Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
-        GestoreUtente gestore = new GestoreUtente();
 
         if (cliente instanceof Utente) {
             List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
             List<LibroBean> libriDisponibili = libriUtente.stream()
-                    .filter(libro -> libro.getStato() == StatoLibro.DISPONIBILE)
+                    //.filter(libro -> libro.getStato() == StatoLibro.DISPONIBILE)
                     .collect(Collectors.toList());
 
             if (libriDisponibili.isEmpty()) {

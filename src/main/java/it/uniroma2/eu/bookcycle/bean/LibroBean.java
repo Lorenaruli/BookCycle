@@ -8,15 +8,15 @@ public class LibroBean {
     String genere;
     long id;
     String usernameProprietario;
-    StatoLibro stato;
+//    StatoLibro stato;
 
-    public LibroBean(String titolo, String autore, String genere, long id, String username, StatoLibro stato) {
+    public LibroBean(String titolo, String autore, String genere, long id, String username) {
         this.titolo = titolo;
         this.autore = autore;
         this.genere = genere;
         this.id = id;
         this.usernameProprietario=username;
-        this.stato=stato;
+//        this.stato=stato;
 
     }
 
@@ -63,11 +63,11 @@ public class LibroBean {
         this.usernameProprietario = usernameProprietario;
     }
 
-    public StatoLibro getStato() {
-        return stato;
-    }
-
-    public void setStato(StatoLibro stato) {
-        this.stato = stato;
-    }
+//    public StatoLibro getStato() {
+//        return stato;
+//    }
+//
+//    public void setStato(StatoLibro stato) {
+//        this.stato = stato;
+//    }
 }

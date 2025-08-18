@@ -15,4 +15,13 @@ module it.uniroma2.eu.bookcycle {
 
     opens it.uniroma2.eu.bookcycle to javafx.fxml;
     exports it.uniroma2.eu.bookcycle;
+
+
+    // li ho aggiiunti per far funzionare i test
+    exports it.uniroma2.eu.bookcycle.model.dao.memory;
+    exports it.uniroma2.eu.bookcycle.model.dao.file;
+    exports it.uniroma2.eu.bookcycle.model.dao;
+    exports it.uniroma2.eu.bookcycle.model.domain;
+    exports it.uniroma2.eu.bookcycle.controller;
+    exports it.uniroma2.eu.bookcycle.bean;
 }

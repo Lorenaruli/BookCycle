@@ -19,6 +19,8 @@ public class ClienteDaoMemory implements ClienteDao {
         this.datiClienti = new HashMap<>();
         this.clienti = new ArrayList<>();
     }
+
+
  public void aggiornaCliente(Cliente cliente){
      if (cliente == null) {
          throw new DaoException("Cliente nullo");

@@ -5,7 +5,6 @@ import it.uniroma2.eu.bookcycle.bean.Proposta2Bean;
 import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.controller.GestisciPropostaController;
 import it.uniroma2.eu.bookcycle.controller.InviaPropostaController;
-import it.uniroma2.eu.bookcycle.controller.gui.AccettaRifiutaViewController;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -60,7 +59,7 @@ public class ProposteViewController {
             {
                 btn.setOnAction(e -> {
                     Proposta2Bean row = getTableView().getItems().get(getIndex());
-                    apriAccettaRifiuta(row.getIdProposta(), e);
+                    apriAccettaRifiuta(row, e);   // <-- ora passo l'intero bean
                 });
             }
             @Override
@@ -82,12 +81,19 @@ public class ProposteViewController {
         proposteRicevute.setItems(FXCollections.observableArrayList(beans));
     }
 
-    private void apriAccettaRifiuta(long idProposta, ActionEvent event) {
+    private void apriAccettaRifiuta(Proposta2Bean propostaSelezionata, ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/AccettaRifiutaView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/it/uniroma2/eu/bookcycle/gui2/AccettaRifiuta2View.fxml"));
             Parent root = loader.load();
-            AccettaRifiutaViewController ctrl = loader.getController();
-            ctrl.setIdProposta(idProposta);
+
+            AccettaRifiuta2ViewController ctrl = loader.getController();
+            ctrl.setDati(
+                    propostaSelezionata.getIdProposta(),
+                    propostaSelezionata.getTitoloOfferto(),
+                    propostaSelezionata.getTitoloRichiesto()
+            );
+
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));

@@ -2,6 +2,9 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta2Bean;
 import it.uniroma2.eu.bookcycle.controller.GestisciPropostaController;
+//import it.uniroma2.eu.bookcycle.model.domain.Sessione;
+import it.uniroma2.eu.bookcycle.controller.LoginController;
+import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -36,7 +39,10 @@ public class GestisciProposteViewController extends GraphicController{
     @FXML
     private Button tornaIndietroButton;
 
-    private final GestisciPropostaController app = new GestisciPropostaController();
+    private  GestisciPropostaController app = new GestisciPropostaController();
+
+    private  GestoreUtente gestore = new GestoreUtente();
+
     String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
 
     @FXML

@@ -7,7 +7,7 @@ import it.uniroma2.eu.bookcycle.model.domain.Libro;
 
 import java.util.List;
 
-public class LibroId {
+public class LibroIdFacade {
     public long generaLibroId(LibroScambioDao scambioDao, LIbroVenNolDao venditaDao) throws DaoException {
         long max = 0;
 

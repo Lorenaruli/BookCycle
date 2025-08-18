@@ -41,6 +41,9 @@ public class LoginController {
         Sessione.ottieniIstanza().setClienteLoggato(null);
     }
 
-        }
+
+    }
+
+
 
 

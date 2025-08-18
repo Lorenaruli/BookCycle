@@ -80,12 +80,12 @@ public class LibroDaoMemory implements LibroDao {
 
     }
 
-    @Override
-    public List<Libro> getLibriDisponibili() {
-        return libri.stream()
-                .filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<Libro> getLibri() {
+//        return libri.stream()
+//                //.filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
+//                .collect(Collectors.toList());
+//    }
     @Override
     public Libro cercaPerId(long id) {
         return libri.stream()
@@ -93,6 +93,8 @@ public class LibroDaoMemory implements LibroDao {
                 .findFirst()
                 .orElse(null);
     }
+
+
 
 }
 

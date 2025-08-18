@@ -71,7 +71,7 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
 
         List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
         List<LibroBean> libriDisponibili = libriUtente.stream()
-                .filter(libro -> libro.getStato() == StatoLibro.DISPONIBILE)
+                //.filter(libro -> libro.getStato() == StatoLibro.DISPONIBILE)
                 .collect(Collectors.toList());
 
         listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);

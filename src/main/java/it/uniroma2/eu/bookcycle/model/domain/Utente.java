@@ -64,15 +64,15 @@ public class Utente extends Cliente {
         return (proposteRicevute);
     }
 
-    public void vediListaLibri() {
-        if (libri.isEmpty()) {
-            System.out.println("Nessun libro disponibile.");
-        } else {
-            for (Libro libro : libri) {
-                System.out.println(" " + libro.getTitolo() + " di " + libro.getAutore());
-            }
-        }
-    }
+//    public void vediListaLibri() {
+//        if (libri.isEmpty()) {
+//            System.out.println("Nessun libro disponibile.");
+//        } else {
+//            for (Libro libro : libri) {
+//                System.out.println(" " + libro.getTitolo() + " di " + libro.getAutore());
+//            }
+//        }
+//    }
 
     public List<Libro> getLibri() {
         return libri;

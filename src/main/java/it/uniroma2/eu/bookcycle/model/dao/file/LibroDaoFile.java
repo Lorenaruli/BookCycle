@@ -52,12 +52,13 @@ public abstract class LibroDaoFile implements LibroDao {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<Libro> getLibriDisponibili() throws DaoException {
-        return libri.stream()
-                .filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<Libro> getLibri() throws DaoException {
+//        return libri.stream()
+//                //.filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
+//                .collect(Collectors.toList());
+//    }
+//
     @Override
     public List<Libro> getTuttiLibri() throws DaoException {
         return new ArrayList<>(libri);

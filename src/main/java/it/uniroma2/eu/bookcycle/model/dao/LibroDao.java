@@ -13,7 +13,7 @@ public interface LibroDao {
     List<Libro> cercaPerGenere(String genere) throws DaoException;
     List<Libro> cercaPerProprietario(String usernameProprietario) throws DaoException;
 
-    List<Libro> getLibriDisponibili() throws DaoException;
+    //List<Libro> getLibri() throws DaoException;
     List<Libro> getTuttiLibri() throws DaoException;
 
     public void aggiungiLibro(Libro libro);

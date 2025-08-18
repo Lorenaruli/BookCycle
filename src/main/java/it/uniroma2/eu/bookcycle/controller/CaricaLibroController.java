@@ -4,10 +4,8 @@ import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.LIbroVenNolDao;
 import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
-import it.uniroma2.eu.bookcycle.model.dao.file.LibroId;
+import it.uniroma2.eu.bookcycle.model.dao.file.LibroIdFacade;
 import it.uniroma2.eu.bookcycle.model.domain.*;
-
-import static it.uniroma2.eu.bookcycle.model.domain.StatoLibro.DISPONIBILE;
 
 public class CaricaLibroController {
     //private GestoreUtente gestoreUtente;
@@ -28,7 +26,7 @@ public class CaricaLibroController {
         Cliente clienteAttuale=Sessione.ottieniIstanza().getClienteLoggato();
         LIbroVenNolDao libroVenditaDao = FactoryDao.getIstance().ottieniLibroVeNolDao();
 
-        LibroId libroId= new LibroId();
+        LibroIdFacade libroId= new LibroIdFacade();
         long nuovoId = libroId.generaLibroId(libroScambioDao, libroVenditaDao);
 
         if (!bean.completo()) {
@@ -39,7 +37,7 @@ public class CaricaLibroController {
                 bean.getAutore(),
                 bean.getGenere(),
                 clienteAttuale.getUsername(),
-                DISPONIBILE,
+                //DISPONIBILE,
                 nuovoId
         );
 

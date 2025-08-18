@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.eu.bookcycle.gui2.AccettaRifiuta2ViewController">
+<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.eu.bookcycle.controller.gui2.AccettaRifiuta2ViewController">
 
     <children>
         <Label layoutX="20" layoutY="20" text="Vuoi accettare o rifiutare questa proposta?" />

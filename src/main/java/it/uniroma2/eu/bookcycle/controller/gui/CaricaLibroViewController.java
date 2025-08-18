@@ -34,6 +34,15 @@ public class CaricaLibroViewController extends GraphicController {
 
         @FXML
         void caricaLibro(ActionEvent event) {
+
+            if (titoloField.getText().isBlank() ||
+                    autoreField.getText().isBlank() ||
+                    genereField.getText().isBlank()) {
+
+                showAlert("Compila tutti i campi prima di caricare il libro");
+                return;
+            }
+
                 CaricaLibroBean caricaLibroBean=new CaricaLibroBean();
                 caricaLibroBean.setTitolo(titoloField.getText());
                 caricaLibroBean.setAutore(autoreField.getText());

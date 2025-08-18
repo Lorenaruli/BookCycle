@@ -11,26 +11,25 @@ public class Libro implements Serializable {
     private String autore;
     private String genere;
     private long idLibro;
-    private StatoLibro stato;
+    //private StatoLibro stato;
     private TipoLibro tipologia;
     private String usernameProprietario;
 
 
-//    public Libro(String titolo, String autore, String genere, long idLibro, String usernameProprietario, TipoLibro tipologia) {
-//        this.titolo = titolo;
-//        this.autore = autore;
-//        this.genere = genere;
-//        this.idLibro = idLibro;
-//        this.usernameProprietario=usernameProprietario;
-//        this.stato= DISPONIBILE;
-//        this.tipologia=tipologia;
-//    }
-    public Libro(String titolo, String autore, String genere, String usernameProprietario, StatoLibro statoLibro, long idLibro){
+    public Libro(String titolo, String autore, String genere, String usernameProprietario){
         this.titolo = titolo;
         this.autore = autore;
         this.genere = genere;
         this.usernameProprietario=usernameProprietario;
-        this.stato=statoLibro;
+        //this.stato=statoLibro;
+
+    }
+
+    public Libro(String titolo, String autore, String genere, String usernameProprietario, long idLibro){
+        this.titolo = titolo;
+        this.autore = autore;
+        this.genere = genere;
+        this.usernameProprietario=usernameProprietario;
         this.idLibro= idLibro;
 
     }
@@ -62,19 +61,13 @@ public class Libro implements Serializable {
         return idCounter;
     }
 
-    public void setStato(StatoLibro stato) {
-        this.stato = stato;
-    }
 
     public static void setIdCounter(long idCounter) {
 
         Libro.idCounter = idCounter;
     }
 
-    public StatoLibro getStato() {
 
-        return stato;
-    }
 
     public TipoLibro getTipologia() {
 

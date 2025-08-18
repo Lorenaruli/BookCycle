@@ -16,7 +16,6 @@ public class Sessione {
     }
 
     public void setClienteLoggato(Cliente clienteLoggato) {
-        System.out.println("utente registrato");
         this.clienteLoggato = clienteLoggato;
     }
 }

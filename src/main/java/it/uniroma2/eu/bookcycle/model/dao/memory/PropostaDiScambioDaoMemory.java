@@ -16,8 +16,9 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     private static boolean idCounterInizializzato = false;
 
     private PropostaDiScambioDaoMemory(){
-        aggiornaIdCounter();
         this.proposteTotali=new ArrayList<>();
+        aggiornaIdCounter();
+
     }
 
 
@@ -55,6 +56,7 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
             }
         }
         return (max+1);
+//        return ++idCounter;
     }
 
     @Override

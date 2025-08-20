@@ -53,6 +53,14 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         }
         Annuncio.setIdCounter(max + 1);
     }
+
+    @Override
+    public List<Annuncio> cercaPerProprietario(String username) throws DaoException {
+        return annunci.stream()
+                .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(username))
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void rimuoviAnnuncio(long idAnnuncio) throws DaoException {
         boolean removed = annunci.removeIf(a -> a.getIdAnnuncio() == idAnnuncio);

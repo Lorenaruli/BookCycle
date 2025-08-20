@@ -73,6 +73,13 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
     }
 
     @Override
+    public List<Annuncio> cercaPerProprietario(String username) throws DaoException {
+        return annunci.stream()
+                .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(username))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void rimuoviAnnuncio(long idAnnuncio) throws DaoException {
         Annuncio daRimuovere = null;
 

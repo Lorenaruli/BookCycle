@@ -20,7 +20,14 @@ public class Libro implements Serializable {
         this.autore = autore;
         this.genere = genere;
         this.usernameProprietario=usernameProprietario;
-        //this.stato=statoLibro;
+
+    }
+
+    public Libro(String titolo, String autore, String usernameProprietario, long id){
+        this.titolo = titolo;
+        this.autore = autore;
+        this.usernameProprietario=usernameProprietario;
+        this.idLibro=id;
 
     }
 

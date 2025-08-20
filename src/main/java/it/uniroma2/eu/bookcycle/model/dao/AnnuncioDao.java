@@ -11,6 +11,7 @@ public interface AnnuncioDao {
     void salvaAnnuncio(Annuncio annuncio) throws DaoException;
 
     void rimuoviAnnuncio(long idAnnuncio) throws DaoException;
+     List<Annuncio> cercaPerProprietario(String username) throws DaoException;
 
 
     List<Annuncio> ottieniTuttiAnnunci() throws DaoException;

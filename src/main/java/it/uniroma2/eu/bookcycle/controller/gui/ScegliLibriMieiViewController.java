@@ -36,9 +36,6 @@ public class ScegliLibriMieiViewController extends GraphicController {
     }
 
     public void inizializzaConBean() {
-        if (propostaParzialeBean != null) {
-        } else {
-        }
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
 

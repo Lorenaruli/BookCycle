@@ -4,8 +4,7 @@ import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
 import it.uniroma2.eu.bookcycle.controller.CaricaLibroController;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.TextField;
 
 public abstract class CaricaLibroGui extends GraphicController {

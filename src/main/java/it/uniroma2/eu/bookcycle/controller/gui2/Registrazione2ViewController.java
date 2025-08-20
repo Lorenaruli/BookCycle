@@ -6,6 +6,7 @@ import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
 import it.uniroma2.eu.bookcycle.bean2.SchermataAccessoBean;
 import it.uniroma2.eu.bookcycle.controller.BeanInvalidoException;
 import it.uniroma2.eu.bookcycle.controller.RegistrazioneController;
+import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
@@ -101,15 +102,8 @@ public class Registrazione2ViewController extends GraphicController {
 
     @FXML
     void ritornaAlLogin(ActionEvent event) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/Login2View.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui2/Login2View.fxml");
+
         }
 
 

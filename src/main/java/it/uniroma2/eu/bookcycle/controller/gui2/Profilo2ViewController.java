@@ -1,6 +1,7 @@
 package it.uniroma2.eu.bookcycle.controller.gui2;
 
 import it.uniroma2.eu.bookcycle.controller.LoginController;
+import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,70 +31,32 @@ public class Profilo2ViewController {
     void Logout(ActionEvent event) {
         LoginController loginController = new LoginController();
         loginController.logout();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/SchermataAccessoView.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui2/SchermataAccessoView.fxml");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         }
 
 
     @FXML
     void cercaLibri(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/TipoLibroView.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui2/TipoLibroView.fxml");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
     }
 
     @FXML
     void gestisciProposte(ActionEvent event) {
-            try {
-                FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/ProposteView.fxml")
-                );
-                Parent root = loader.load();
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui2/ProposteView.fxml");
 
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
 
 
     @FXML
     void vediLibriMiei(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/LibriMiei2View.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui2/LibriMiei2View.fxml");
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 

@@ -2,6 +2,7 @@ package it.uniroma2.eu.bookcycle.controller.gui2;
 
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
+import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import javafx.collections.FXCollections;
@@ -133,17 +134,7 @@ public class LibriScambioViewController extends GraphicController {
 
     @FXML
     void tornaAlProfilo(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/Profilo2View.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            showAlert("Errore nel caricamento della schermata profilo.");
-            e.printStackTrace();
-        }
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui2/Profilo2View.fxml");
 
     }
 

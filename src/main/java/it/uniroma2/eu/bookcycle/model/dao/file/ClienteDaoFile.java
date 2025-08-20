@@ -31,38 +31,7 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
         }
     }
 
-//    private File inizializzaPercorsoDaProperties() throws DaoException {
-//        try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
-//            if (input == null) {
-//                throw new DaoException("File di proprietà non trovato nel classpath");
-//            }
-//
-//            Properties props = new Properties();
-//            props.load(input);
-//
-//            String path = props.getProperty("CLIENTI_PATH");
-//            if (path == null || path.isBlank()) {
-//                throw new DaoException("CLIENTI_PATH non trovato nelle proprietà.");
-//            }
-//
-//            File file = new File(path);
-//            File parent = file.getParentFile();
-//            if (parent != null && !parent.exists()) {
-//                parent.mkdirs();
-//            }
-//
-//            if (!file.exists()) {
-//                file.createNewFile();
-//                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-//                    oos.writeObject(new ArrayList<DatiClienteF>());
-//                }
-//            }
-//
-//            return file;
-//        } catch (IOException e) {
-//            throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
-//        }
-//    }
+
 
     private void caricaDati(List<DatiClienteF> lista) {
         datiClienti.clear();

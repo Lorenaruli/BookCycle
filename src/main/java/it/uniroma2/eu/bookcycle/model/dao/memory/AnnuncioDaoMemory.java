@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class AnnuncioDaoMemory implements AnnuncioDao {
     private static AnnuncioDaoMemory instanza;
-    private static boolean idCounterInizializzato = false;
+    static boolean idCounterInizializzato = false;
 
     private List<Annuncio> annunci;
 

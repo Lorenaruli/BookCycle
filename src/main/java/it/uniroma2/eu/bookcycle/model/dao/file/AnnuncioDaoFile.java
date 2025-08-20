@@ -23,7 +23,7 @@ public class AnnuncioDaoFile implements AnnuncioDao {
 
     private File inizializzaPercorsoDaProperties() throws DaoException {
         //try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
-        try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("proprieta.properties")) {
+        try (InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
             if (input == null) {
                 throw new DaoException("File di proprietà non trovato nel classpath");
             }

@@ -38,6 +38,9 @@ public class VediProposteInviateViewController {
     private Button tornaIndietroButton;
     private ObservableList<Proposta4Bean> listaProposte;
 
+    private static final String CONTATTI_LABEL = "Contatti";
+
+
     @FXML
     public void initialize() {
         titoliColonna.setCellValueFactory(new PropertyValueFactory<>("titoloOfferto"));
@@ -76,16 +79,16 @@ public class VediProposteInviateViewController {
     }
 
     private void aggiungiColonnaContatti() {
-        TableColumn<Proposta4Bean, Proposta4Bean> contattiCol = new TableColumn<>("Contatti");
+        TableColumn<Proposta4Bean, Proposta4Bean> contattiCol = new TableColumn<>(CONTATTI_LABEL);
         contattiCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         contattiCol.setCellFactory(col -> new TableCell<Proposta4Bean, Proposta4Bean>() {
-            private final Button btn = new Button("Contatti");
+            private final Button btn = new Button("CONTATTI_LABEL");
 
             {
                 btn.setOnAction(e -> {
-                    Proposta4Bean bean = getItem(); // prende l'item della riga corrente
+                    Proposta4Bean bean = getItem();
                     if (bean != null) {
-                        mostraContatti(bean); // metodo del tuo controller
+                        mostraContatti(bean);
                     }
                 });
             }
@@ -117,7 +120,7 @@ public class VediProposteInviateViewController {
 
         if (c != null) {
             Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setHeaderText("Contatti");
+            a.setHeaderText(CONTATTI_LABEL);
             a.setContentText("Email: " + c.getEmail() + "\nTelefono: " + c.getTelefono());
             a.showAndWait();
         } else {

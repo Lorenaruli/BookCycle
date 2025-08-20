@@ -6,9 +6,8 @@ import java.util.List;
 public class Utente extends Cliente {
     private List<PropostaDiScambio> proposteInviate = new ArrayList<>();
     private List<PropostaDiScambio> proposteRicevute = new ArrayList<>();
-    public List<Libro> libri;
+    private List<Libro> libri;
 
-    // Costruttore
 
 
     public Utente(String username) {

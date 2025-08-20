@@ -38,6 +38,9 @@ public class ProposteViewController {
     private final GestisciPropostaController gestisciCtrl = new GestisciPropostaController();
     private final InviaPropostaController inviaCtrl = new InviaPropostaController();
 
+    private static final String CONTATTI_LABEL = "Contatti";
+
+
     @FXML
     private void initialize() {
         String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
@@ -104,10 +107,10 @@ public class ProposteViewController {
     }
 
     private void aggiungiColonnaContatti() {
-        TableColumn<Proposta4Bean, Proposta4Bean> contattiCol = new TableColumn<>("Contatti");
+        TableColumn<Proposta4Bean, Proposta4Bean> contattiCol = new TableColumn<>(CONTATTI_LABEL);
         contattiCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         contattiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("Contatti");
+            private final Button btn = new Button("CONTATTI_LABEL");
             {
                 btn.setOnAction(e -> {
                     Proposta4Bean bean = getItem();
@@ -135,7 +138,7 @@ public class ProposteViewController {
         ContattiBean c = new GestoreUtente().getContattiByUsername(altroUsername);
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         if (c != null) {
-            a.setHeaderText("Contatti");
+            a.setHeaderText("CONTATTI_LABEL");
             a.setContentText("Email: " + c.getEmail() + "\nTelefono: " + c.getTelefono());
         } else {
             a.setHeaderText("Contatti non disponibili");

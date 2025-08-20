@@ -1,6 +1,5 @@
 package it.uniroma2.eu.bookcycle.controller.gui;
-import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
-import it.uniroma2.eu.bookcycle.controller.CaricaLibroController;
+
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.guiComune.CaricaLibroGui;
 import javafx.event.ActionEvent;

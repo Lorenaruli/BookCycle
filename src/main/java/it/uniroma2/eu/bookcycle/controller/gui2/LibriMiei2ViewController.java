@@ -4,6 +4,7 @@ import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.controller.CaricaLibroController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
+import it.uniroma2.eu.bookcycle.controller.guiComune.CaricaLibroGui;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,7 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.util.List;
 
-public class LibriMiei2ViewController extends GraphicController {
+public class LibriMiei2ViewController extends CaricaLibroGui {
 
     @FXML
     private TextField autoreField;
@@ -58,24 +59,25 @@ public class LibriMiei2ViewController extends GraphicController {
 
     @FXML
     void caricaLibro(ActionEvent event) {
+            carica(event, titoloField, autoreField, genereField);
 
-        if (titoloField.getText().isBlank() ||
-                autoreField.getText().isBlank() ||
-                genereField.getText().isBlank()) {
-
-            showAlert("Compila tutti i campi prima di caricare il libro");
-            return;
-        }
-
-        CaricaLibroBean caricaLibroBean=new CaricaLibroBean();
-        caricaLibroBean.setTitolo(titoloField.getText());
-        caricaLibroBean.setAutore(autoreField.getText());
-        caricaLibroBean.setGenere(genereField.getText());
-        CaricaLibroController caricaLibroController = new CaricaLibroController();
-        caricaLibroController.AggiungiLibro(caricaLibroBean);
-        showAlert("Libro caricato con successo");
-
-
+//        if (titoloField.getText().isBlank() ||
+//                autoreField.getText().isBlank() ||
+//                genereField.getText().isBlank()) {
+//
+//            showAlert("Compila tutti i campi prima di caricare il libro");
+//            return;
+//        }
+//
+//        CaricaLibroBean caricaLibroBean=new CaricaLibroBean();
+//        caricaLibroBean.setTitolo(titoloField.getText());
+//        caricaLibroBean.setAutore(autoreField.getText());
+//        caricaLibroBean.setGenere(genereField.getText());
+//        CaricaLibroController caricaLibroController = new CaricaLibroController();
+//        caricaLibroController.AggiungiLibro(caricaLibroBean);
+//        showAlert("Libro caricato con successo");
+//
+//
 
     }
 

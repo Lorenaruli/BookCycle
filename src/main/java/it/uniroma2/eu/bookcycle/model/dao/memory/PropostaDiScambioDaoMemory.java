@@ -41,6 +41,9 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
         }
         proposteTotali.add(proposta);
     }
+
+
+
     @Override
     public long aggiornaIdCounter(){
         if (!idCounterInizializzato) {
@@ -54,7 +57,6 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
             }
         }
         return (max+1);
-//        return ++idCounter;
     }
 
     @Override

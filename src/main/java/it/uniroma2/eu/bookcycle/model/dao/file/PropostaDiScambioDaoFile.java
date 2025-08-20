@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PropostaDiScambioDaoFile extends AbstractFileDao implements PropostaDiScambioDao {
-    private static final String SCAMBI_PATH= "SCAMBI_PATH";
+    private static final String SCAMBI_PATH = "SCAMBI_PATH";
     private final File file;
     private List<PropostaDiScambio> proposteTotali;
 
@@ -19,14 +19,14 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         this.proposteTotali = caricaProposte();
         aggiornaIdCounter();
     }
+
     @Override
     protected void inizializzaFileVuoto(File file) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-                   oos.writeObject(new ArrayList<PropostaDiScambio>());
+            oos.writeObject(new ArrayList<PropostaDiScambio>());
 
         }
     }
-
 
 
     @Override
@@ -37,7 +37,7 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
                 max = p.getIdProposta();
             }
         }
-        return (max+1);
+        return (max + 1);
     }
 
     private List<PropostaDiScambio> caricaProposte() throws DaoException {
@@ -78,6 +78,8 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         proposteTotali.add(proposta);
         salvaProposte();
     }
+
+
 
     @Override
     public void rimuoviProposta(long idProposta) throws DaoException {

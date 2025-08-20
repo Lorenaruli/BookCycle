@@ -4,6 +4,7 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
+import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -91,16 +92,8 @@ public class VediLibriTuttiViewController extends GraphicController{
 
     @FXML
     public void tornaIndietro(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            showAlert("Impossibile caricare la schermata del profilo.");
-            e.printStackTrace();
-        }
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml");
+
     }
 
     private void aggiungiColonnaSeleziona() {
@@ -119,8 +112,7 @@ public class VediLibriTuttiViewController extends GraphicController{
                         Parent root = loader.load();
 
                          ScegliLibriMieiViewController controller=loader.getController();
-                        controller.creaBeanProposta(propostaParzialeBean);
-                        //controller.inizializzaConBean();
+                        controller.creaBeanProposta(propostaParzialeBean);;
 
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(new Scene(root));
@@ -141,21 +133,6 @@ public class VediLibriTuttiViewController extends GraphicController{
     }
 
 
-//    private void mostraErrore(String msg) {
-//        Alert alert = new Alert(Alert.AlertType.ERROR);
-//        alert.setHeaderText(null);
-//        alert.setTitle("Errore");
-//        alert.setContentText(msg);
-//        alert.showAndWait();
-//    }
-//
-//    private void mostraInfo(String msg) {
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setHeaderText(null);
-//        alert.setTitle("Informazione");
-//        alert.setContentText(msg);
-//        alert.showAndWait();
-//    }
 
 
     }

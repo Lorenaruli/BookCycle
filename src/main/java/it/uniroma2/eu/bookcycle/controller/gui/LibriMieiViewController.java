@@ -3,6 +3,7 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
+import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.collections.FXCollections;
@@ -16,9 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.List;
 
 public class LibriMieiViewController {
@@ -51,15 +49,8 @@ public class LibriMieiViewController {
     }
     @FXML
     void tornaIndietro(ActionEvent event){
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml");
+
     }
 }
 

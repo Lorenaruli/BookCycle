@@ -2,17 +2,11 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta3Bean;
 import it.uniroma2.eu.bookcycle.controller.GestisciPropostaController;
+import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.model.domain.StatoProposta;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class AccettaRifiutaViewController extends GraphicController{
 
@@ -36,43 +30,14 @@ public class AccettaRifiutaViewController extends GraphicController{
     private void accetta(ActionEvent event) {
         invia(StatoProposta.ACCETTATA);
         showAlert("Proposta accettata");
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml")
-            );
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (IOException ex) {
-            showAlert("Impossibile caricare la schermata del profilo.");
-            ex.printStackTrace();
-        }
-
-
-
+        SceneManager.cambiaScena(event, "/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml");
     }
 
     @FXML
     private void rifiuta(ActionEvent e) {
         invia(StatoProposta.RIFIUTATA);
         showAlert("Proposta rifiutata");
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml")
-            );
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (IOException ex) {
-            showAlert("Impossibile caricare la schermata del profilo.");
-            ex.printStackTrace();
-        }
+        SceneManager.cambiaScena(e,"/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml");
     }
 
 
@@ -86,15 +51,7 @@ public class AccettaRifiutaViewController extends GraphicController{
 
     @FXML
     private void tornaIndietro(ActionEvent e) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/GestisciProposteView.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException event) {
-            throw new RuntimeException(event);
-        }
+        SceneManager.cambiaScena(e,"/it/uniroma2/eu/bookcycle/gui/GestisciProposteView.fxml");
     }
 
 

@@ -2,6 +2,7 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.bean.LoginBean;
 import it.uniroma2.eu.bookcycle.controller.LoginController;
+import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -66,17 +67,8 @@ public class LogInViewController extends GraphicController {
 
     @FXML
     void tornaARegistrazione(ActionEvent event) {
-        try{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml"));
-        Parent root = loader.load();
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml");
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-    } catch (IOException e) {
-        showAlert("Errore nel caricamento della schermata registrazione.");
-        e.printStackTrace();
-    }
 
 
     }

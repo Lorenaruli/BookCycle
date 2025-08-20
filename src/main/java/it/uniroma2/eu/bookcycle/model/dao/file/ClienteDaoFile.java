@@ -20,7 +20,7 @@ public class ClienteDaoFile implements ClienteDao {
     public ClienteDaoFile() throws DaoException {
         this.file = inizializzaPercorsoDaProperties();
         this.datiClienti = new HashMap<>();
-        leggiDatiClienti();
+        leggiClienti();
     }
 
     private File inizializzaPercorsoDaProperties() throws DaoException {
@@ -80,7 +80,7 @@ public class ClienteDaoFile implements ClienteDao {
 
 
 
-        private List<DatiClienteF> leggiDatiClienti() throws DaoException {
+        private List<DatiClienteF> leggiClienti() throws DaoException {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             List<DatiClienteF> lista = (List<DatiClienteF>) ois.readObject();
             caricaDati(lista);
@@ -106,7 +106,7 @@ public class ClienteDaoFile implements ClienteDao {
         if (esisteCliente(username)) {
             throw new DaoException("Username già esistente: " + username);
         }
-        List<DatiClienteF> clienti = leggiDatiClienti();
+        List<DatiClienteF> clienti = leggiClienti();
         Cliente utente = new Utente(username);
         DatiClienteF dati = new DatiClienteF(utente, password, telefono, email);
         clienti.add(dati);
@@ -117,7 +117,7 @@ public class ClienteDaoFile implements ClienteDao {
     public String trovaEmail(String username) {
         DatiClienteF d = datiClienti.get(username);
         if (d == null) {
-            try { leggiDatiClienti(); } catch (DaoException e) { e.printStackTrace(); return null; }
+            try { leggiClienti(); } catch (DaoException e) { e.printStackTrace(); return null; }
             d = datiClienti.get(username);
         }
         return (d != null) ? d.getEmail() : null;
@@ -127,7 +127,7 @@ public class ClienteDaoFile implements ClienteDao {
     public String trovaTelefono(String username) {
         DatiClienteF d = datiClienti.get(username);
         if (d == null) {
-            try { leggiDatiClienti(); } catch (DaoException e) { e.printStackTrace(); return null; }
+            try { leggiClienti(); } catch (DaoException e) { e.printStackTrace(); return null; }
             d = datiClienti.get(username);
         }
         return (d != null) ? d.getTelefono() : null;
@@ -139,7 +139,7 @@ public class ClienteDaoFile implements ClienteDao {
         if (esisteCliente(username)) {
             throw new DaoException("Username già esistente: " + username);
         }
-        List<DatiClienteF> clienti = leggiDatiClienti();
+        List<DatiClienteF> clienti = leggiClienti();
         Cliente libraio = new Libraio(username);
         clienti.add(new DatiClienteF(libraio, password, telefono, email));
         salvaClienti();

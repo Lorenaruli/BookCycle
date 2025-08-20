@@ -3,21 +3,15 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 import it.uniroma2.eu.bookcycle.bean.LoginBean;
 import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
-import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
+import it.uniroma2.eu.bookcycle.controller.guiComune.LoginClienteGui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 
-public class LogInViewController extends GraphicController {
+public class LogInViewController extends LoginClienteGui {
 
     @FXML
     private PasswordField passwordField;
@@ -33,36 +27,8 @@ public class LogInViewController extends GraphicController {
 
     @FXML
     void login(ActionEvent event) {
-        LoginBean loginBean = new LoginBean();
-        loginBean.setUsername(usernameLabel.getText());
-        loginBean.setPassword(passwordField.getText());
-        LoginController loginController = new LoginController();
-        RuoloCliente ruoloCliente;
-        try {
-            ruoloCliente = loginController.login(loginBean);
-        } catch (RuntimeException e) {
-            showAlert("Credenziali errate");
-            return;
-        }
-        showAlert("Login avvenuto");
-        try {
-            switch (ruoloCliente) {
-                case UTENTE -> {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml"));
-                    Parent root = loader.load();
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                }
-
-                case LIBRAIO -> showAlert("La sezione per i librai non è disponibile.");
-                default -> showAlert("Ruolo non riconosciuto.");
-            }
-
-        } catch (IOException e) {
-            showAlert("Errore nel caricamento della schermata profilo.");
-            e.printStackTrace();
-        }
+        String path="/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml";
+        loginCliente(event, usernameLabel, passwordField,path);
     }
 
     @FXML

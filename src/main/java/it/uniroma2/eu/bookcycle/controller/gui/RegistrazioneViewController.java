@@ -5,6 +5,7 @@ import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
 import it.uniroma2.eu.bookcycle.controller.BeanInvalidoException;
 import it.uniroma2.eu.bookcycle.controller.RegistrazioneController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.guiComune.RegistraClienteGui;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import static it.uniroma2.eu.bookcycle.model.domain.RuoloCliente.LIBRAIO;
 import static it.uniroma2.eu.bookcycle.model.domain.RuoloCliente.UTENTE;
 
-public class RegistrazioneViewController extends GraphicController {
+public class RegistrazioneViewController extends RegistraClienteGui {
 
     @FXML
     private TextField emailLabel;
@@ -47,50 +48,17 @@ public class RegistrazioneViewController extends GraphicController {
 
     @FXML
     void registra(ActionEvent event) {
-        if (usernameLabel.getText().isBlank() ||
-                passwordField.getText().isBlank() ||
-                emailLabel.getText().isBlank() ||
-                telephoneLabel.getText().isBlank()) {
+        String path = "/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml";
 
-            showAlert("Per favore, compila tutti i campi.");
-            return;
-        }
+        registraCliente(event, usernameLabel, passwordField, emailLabel, telephoneLabel, path);
+    }
 
-
-        RegistrazioneBean registrazioneBean = new RegistrazioneBean();
-        registrazioneBean.setUsername(usernameLabel.getText());
-        registrazioneBean.setPassword(passwordField.getText());
-        registrazioneBean.setEmail(emailLabel.getText());
-        registrazioneBean.setTelefono(telephoneLabel.getText());
+    @Override
+    public void setRuolo(RegistrazioneBean registrazioneBean) {
         registrazioneBean.setRuolo(libraioCheck.isSelected() ? LIBRAIO : UTENTE);
+    }
 
-        RegistrazioneController registrazioneController = new RegistrazioneController();
 
-        try {
-            ClienteBean clienteBean = registrazioneController.registra(registrazioneBean);
-            RuoloCliente ruoloCliente = (clienteBean.getRuoloCliente())== UTENTE ? UTENTE : LIBRAIO;
-            showAlert("Registrazione avvenuta");
-
-            switch (ruoloCliente) {
-                case UTENTE -> {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml"));
-                    Parent root = loader.load();
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                }
-                case LIBRAIO -> showAlert("La sezione per i librai non è disponibile.");
-                default -> showAlert("Ruolo non riconosciuto.");
-            }
-
-        } catch (BeanInvalidoException e) {
-            showAlert("Errore nel caricamento della schermata");
-        } catch (IOException e) {
-            showAlert("Errore nel caricamento della schermata");
-            e.printStackTrace();
-        }
-
-        }
 
     @FXML
     void ritornaAlLogin(ActionEvent event) {

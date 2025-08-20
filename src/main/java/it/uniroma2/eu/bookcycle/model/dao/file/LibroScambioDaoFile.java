@@ -15,7 +15,6 @@ public class LibroScambioDaoFile extends LibroDaoFile implements LibroScambioDao
 
     public LibroScambioDaoFile() throws DaoException {
         super("LIBRI_SCAMBIO_PATH");
-        caricaLibri();
     }
 
     @Override
@@ -25,28 +24,9 @@ public class LibroScambioDaoFile extends LibroDaoFile implements LibroScambioDao
         }
     }
 
-    @Override
-    public void caricaLibri() throws DaoException {
-        File file = inizializzaPercorsoDaProperties("LIBRI_SCAMBIO_PATH");
-        if (!file.exists() || file.length() == 0) {
-            this.libri = new ArrayList<>();
-            return;
-        }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            this.libri = (List<Libro>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new DaoException("Errore durante il caricamento dei libri di scambio");
-        }
-    }
 
-    public void salvaLibri() throws DaoException {
-        File file = inizializzaPercorsoDaProperties("LIBRI_SCAMBIO_PATH");
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(libri);
-        } catch (IOException e) {
-            throw new DaoException("Errore durante il salvataggio dei libri di scambio");
-        }
-    }
+
+
 }
 
 

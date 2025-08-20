@@ -19,7 +19,6 @@ public class LibroVenNolDaoFile extends LibroDaoFile implements LIbroVenNolDao {
 
         public LibroVenNolDaoFile() throws DaoException {
             super("LIBRI_VENDITA_PATH");
-            caricaLibri();
         }
 
         @Override
@@ -29,26 +28,5 @@ public class LibroVenNolDaoFile extends LibroDaoFile implements LIbroVenNolDao {
             }
         }
 
-        @Override
-        public void caricaLibri() throws DaoException {
-            File file = inizializzaPercorsoDaProperties("LIBRI_VENDITA_PATH");
-            if (!file.exists() || file.length() == 0) {
-                this.libri = new ArrayList<>();
-                return;
-            }
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                this.libri = (List<Libro>) ois.readObject();
-            } catch (IOException | ClassNotFoundException e) {
-                throw new DaoException("Errore durante il caricamento dei libri di vendita e noleggio");
-            }
-        }
 
-        public void salvaLibri() throws DaoException {
-            File file = inizializzaPercorsoDaProperties("LIBRI_VENDITA_PATH");
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-                oos.writeObject(libri);
-            } catch (IOException e) {
-                throw new DaoException("Errore durante il salvataggio dei libri di vendita e noleggio");
-            }
-        }
     }

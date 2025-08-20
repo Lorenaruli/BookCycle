@@ -12,11 +12,13 @@ import java.util.stream.Collectors;
 public abstract class LibroDaoFile extends AbstractFileDao implements LibroDao {
         private File file;
         protected List<Libro> libri;
+        protected String propertiesKey;
 
 
 
     protected LibroDaoFile(String propertiesKey) throws DaoException {
         this.file = inizializzaPercorsoDaProperties(propertiesKey);
+        this.propertiesKey=propertiesKey;
 
         if (this.file.length() == 0) {
             try {
@@ -25,6 +27,7 @@ public abstract class LibroDaoFile extends AbstractFileDao implements LibroDao {
                 throw new DaoException("Errore inizializzazione file " + file.getAbsolutePath());
             }
         }
+        caricaLibri(propertiesKey);
     }
     protected abstract void inizializzaFileVuoto(File file) throws IOException;
 
@@ -72,7 +75,30 @@ public abstract class LibroDaoFile extends AbstractFileDao implements LibroDao {
     }
 
 
-    protected abstract void caricaLibri();
+    public void caricaLibri(String propertiesKey) throws DaoException {
+        File file = inizializzaPercorsoDaProperties(propertiesKey);
+        if (!file.exists() || file.length() == 0) {
+            this.libri = new ArrayList<>();
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            this.libri = (List<Libro>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new DaoException("Errore durante il caricamento dei libri ");
+        }
+    }
+
+    public void salvaLibri(String propertiesKey) throws DaoException {
+        File file = inizializzaPercorsoDaProperties(propertiesKey);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(libri);
+        } catch (IOException e) {
+            throw new DaoException("Errore durante il salvataggio dei libri di vendita e noleggio");
+        }
+    }
+
+
+
 //    public void caricaLibri() throws DaoException {
 //        File file = inizializzaPercorsoDaProperties();
 //        if (!file.exists() || file.length() == 0) {
@@ -93,19 +119,18 @@ public abstract class LibroDaoFile extends AbstractFileDao implements LibroDao {
             throw new DaoException("Nessun libro trovato con ID " + idLibro);
         }
 
-        salvaLibri();
+        salvaLibri(propertiesKey);
     }
     @Override
     public void aggiungiLibro(Libro libro) throws DaoException {
         if (libri == null) {
-            caricaLibri();
+            caricaLibri(propertiesKey);
         }
 
         libri.add(libro);
-        salvaLibri();
+        salvaLibri(propertiesKey);
     }
 
-    protected abstract void salvaLibri();
 
 //    public void salvaLibri() throws DaoException {
 //        File file = inizializzaPercorsoDaProperties();

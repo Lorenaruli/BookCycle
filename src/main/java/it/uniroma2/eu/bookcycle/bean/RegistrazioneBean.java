@@ -9,8 +9,6 @@ public class RegistrazioneBean {
     private String password;
     private RuoloCliente ruolo;
 
-    public RegistrazioneBean() {
-    }
 
     public boolean completo(){
         return username != null || telefono != null || email != null || password != null || ruolo != null;

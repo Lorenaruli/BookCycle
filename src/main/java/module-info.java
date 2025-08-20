@@ -1,6 +1,7 @@
 module it.uniroma2.eu.bookcycle {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.logging;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -24,4 +25,5 @@ module it.uniroma2.eu.bookcycle {
     exports it.uniroma2.eu.bookcycle.model.domain;
     exports it.uniroma2.eu.bookcycle.controller;
     exports it.uniroma2.eu.bookcycle.bean;
+
 }

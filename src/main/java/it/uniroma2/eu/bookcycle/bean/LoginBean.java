@@ -6,8 +6,8 @@ public class LoginBean {
     private String username;
     private String password;
 
-    public LoginBean() {
-    }
+//    public LoginBean() {
+//    }
     public boolean completo(){
         return username != null || password != null;
     }

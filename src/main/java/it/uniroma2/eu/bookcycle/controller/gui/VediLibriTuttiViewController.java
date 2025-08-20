@@ -92,7 +92,7 @@ public class VediLibriTuttiViewController extends GraphicController{
 
     @FXML
     public void tornaIndietro(ActionEvent event) {
-        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml");
+        SceneManager.cambiaScena(event, "/it/uniroma2/eu/bookcycle/gui/ProfiloUtenteView.fxml");
 
     }
 

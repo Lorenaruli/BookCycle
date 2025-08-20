@@ -33,7 +33,7 @@ public class CaricaLibroViewController extends CaricaLibroGui {
         }
         @FXML
         void tornaIndietro(ActionEvent event) {
-            SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml");
+            SceneManager.cambiaScena(event, "/it/uniroma2/eu/bookcycle/gui/ProfiloUtenteView.fxml");
         }
 
     }

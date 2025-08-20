@@ -30,14 +30,14 @@ public class AccettaRifiutaViewController extends GraphicController{
     private void accetta(ActionEvent event) {
         invia(StatoProposta.ACCETTATA);
         showAlert("Proposta accettata");
-        SceneManager.cambiaScena(event, "/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml");
+        SceneManager.cambiaScena(event, "/it/uniroma2/eu/bookcycle/gui/ProfiloUtenteView.fxml");
     }
 
     @FXML
     private void rifiuta(ActionEvent e) {
         invia(StatoProposta.RIFIUTATA);
         showAlert("Proposta rifiutata");
-        SceneManager.cambiaScena(e,"/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml");
+        SceneManager.cambiaScena(e, "/it/uniroma2/eu/bookcycle/gui/ProfiloUtenteView.fxml");
     }
 
 

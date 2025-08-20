@@ -1,7 +1,5 @@
 package it.uniroma2.eu.bookcycle.controller.gui;
 
-import it.uniroma2.eu.bookcycle.bean.LoginBean;
-import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.guiComune.LoginClienteGui;
 import javafx.event.ActionEvent;
@@ -27,7 +25,7 @@ public class LogInViewController extends LoginClienteGui {
 
     @FXML
     void login(ActionEvent event) {
-        String path="/it/uniroma2/eu/bookcycle/gui/ProfiloView.fxml";
+        String path= "/it/uniroma2/eu/bookcycle/gui/ProfiloUtenteView.fxml";
         loginCliente(event, usernameLabel, passwordField,path);
     }
 

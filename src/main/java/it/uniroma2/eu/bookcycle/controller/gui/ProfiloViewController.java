@@ -3,6 +3,7 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.guiComune.LogoutGui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ProfiloViewController extends GraphicController{
+public class ProfiloViewController extends LogoutGui {
 
     @FXML
     private Button caricaLibriButton;
@@ -44,9 +45,8 @@ public class ProfiloViewController extends GraphicController{
 
     @FXML
     void Logout(ActionEvent event) {
-        LoginController loginController = new LoginController();
-        loginController.logout();
-        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml");
+        String path="/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml";
+        logoutCliente(event,path);
 
     }
 

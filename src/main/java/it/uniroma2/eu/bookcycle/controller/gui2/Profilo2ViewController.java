@@ -2,6 +2,7 @@ package it.uniroma2.eu.bookcycle.controller.gui2;
 
 import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.guiComune.LogoutGui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Profilo2ViewController {
+public class Profilo2ViewController extends LogoutGui {
 
     @FXML
     private Button cercaLibriButton;
@@ -29,9 +30,9 @@ public class Profilo2ViewController {
 
     @FXML
     void Logout(ActionEvent event) {
-        LoginController loginController = new LoginController();
-        loginController.logout();
-        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui2/SchermataAccessoView.fxml");
+
+        String path="/it/uniroma2/eu/bookcycle/gui2/SchermataAccessoView.fxml";
+        logoutCliente(event,path);
 
 
         }
@@ -40,8 +41,6 @@ public class Profilo2ViewController {
     @FXML
     void cercaLibri(ActionEvent event) {
         SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui2/TipoLibroView.fxml");
-
-
 
     }
 

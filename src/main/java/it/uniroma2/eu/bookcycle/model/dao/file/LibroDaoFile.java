@@ -9,18 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class LibroDaoFile implements LibroDao {
+public abstract class LibroDaoFile extends AbstractFileDao implements LibroDao {
         private File file;
-        private List<Libro> libri;
+        protected List<Libro> libri;
 
 
 
-        public LibroDaoFile() throws DaoException {
-            this.file = inizializzaPercorsoDaProperties();
-            caricaLibri();
+    protected LibroDaoFile(String propertiesKey) throws DaoException {
+        this.file = inizializzaPercorsoDaProperties(propertiesKey);
+
+        if (this.file.length() == 0) {
+            try {
+                inizializzaFileVuoto(file);
+            } catch (IOException e) {
+                throw new DaoException("Errore inizializzazione file " + file.getAbsolutePath());
+            }
         }
+    }
+    protected abstract void inizializzaFileVuoto(File file) throws IOException;
 
-        public abstract File inizializzaPercorsoDaProperties() throws DaoException;
+
+//        public LibroDaoFile() throws DaoException {
+//            this.file = inizializzaPercorsoDaProperties();
+//            caricaLibri();
+//        }
+
+//       public abstract File inizializzaPercorsoDaProperties(String key) throws DaoException;
 
         @Override
         public List<Libro> cercaPerTitolo(String titolo) throws DaoException {
@@ -57,18 +71,20 @@ public abstract class LibroDaoFile implements LibroDao {
 
     }
 
-    public void caricaLibri() throws DaoException {
-        File file = inizializzaPercorsoDaProperties();
-        if (!file.exists() || file.length() == 0) {
-            this.libri = new ArrayList<>();
-            return;
-        }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            this.libri = (List<Libro>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new DaoException("Errore durante il caricamento dei libri di scambio");
-        }
-    }
+
+    protected abstract void caricaLibri();
+//    public void caricaLibri() throws DaoException {
+//        File file = inizializzaPercorsoDaProperties();
+//        if (!file.exists() || file.length() == 0) {
+//            this.libri = new ArrayList<>();
+//            return;
+//        }
+//        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+//            this.libri = (List<Libro>) ois.readObject();
+//        } catch (IOException | ClassNotFoundException e) {
+//            throw new DaoException("Errore durante il caricamento dei libri di scambio");
+//        }
+//    }
     @Override
     public void rimuoviLibro(long idLibro) throws DaoException {
         boolean rimosso = libri.removeIf(libro -> libro.getIdLibro() == idLibro);
@@ -89,14 +105,16 @@ public abstract class LibroDaoFile implements LibroDao {
         salvaLibri();
     }
 
-    public void salvaLibri() throws DaoException {
-        File file = inizializzaPercorsoDaProperties();
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(libri);
-        } catch (IOException e) {
-            throw new DaoException("Errore durante il salvataggio dei libri di scambio");
-        }
-    }
+    protected abstract void salvaLibri();
+
+//    public void salvaLibri() throws DaoException {
+//        File file = inizializzaPercorsoDaProperties();
+//        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+//            oos.writeObject(libri);
+//        } catch (IOException e) {
+//            throw new DaoException("Errore durante il salvataggio dei libri di scambio");
+//        }
+//    }
     @Override
     public Libro cercaPerId(long id) {
         return libri.stream()

@@ -10,51 +10,59 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ClienteDaoFile implements ClienteDao {
+public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
 
     private List<Cliente> clienti;
-    private static final String PROPERTIES_PATH = "proprieta.properties";
+    private static final String CLIENTI_PATH = "CLIENTI_PATH";
     private File file;
     private Map<String, DatiClienteF> datiClienti;
 
     public ClienteDaoFile() throws DaoException {
-        this.file = inizializzaPercorsoDaProperties();
+        this.file = inizializzaPercorsoDaProperties(CLIENTI_PATH);
         this.datiClienti = new HashMap<>();
         leggiClienti();
     }
 
-    private File inizializzaPercorsoDaProperties() throws DaoException {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
-            if (input == null) {
-                throw new DaoException("File di proprietà non trovato nel classpath");
-            }
+    @Override
+    protected void inizializzaFileVuoto(File file) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(new ArrayList<DatiClienteF>());
 
-            Properties props = new Properties();
-            props.load(input);
-
-            String path = props.getProperty("CLIENTI_PATH");
-            if (path == null || path.isBlank()) {
-                throw new DaoException("CLIENTI_PATH non trovato nelle proprietà.");
-            }
-
-            File file = new File(path);
-            File parent = file.getParentFile();
-            if (parent != null && !parent.exists()) {
-                parent.mkdirs();
-            }
-
-            if (!file.exists()) {
-                file.createNewFile();
-                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-                    oos.writeObject(new ArrayList<DatiClienteF>());
-                }
-            }
-
-            return file;
-        } catch (IOException e) {
-            throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
         }
     }
+
+//    private File inizializzaPercorsoDaProperties() throws DaoException {
+//        try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
+//            if (input == null) {
+//                throw new DaoException("File di proprietà non trovato nel classpath");
+//            }
+//
+//            Properties props = new Properties();
+//            props.load(input);
+//
+//            String path = props.getProperty("CLIENTI_PATH");
+//            if (path == null || path.isBlank()) {
+//                throw new DaoException("CLIENTI_PATH non trovato nelle proprietà.");
+//            }
+//
+//            File file = new File(path);
+//            File parent = file.getParentFile();
+//            if (parent != null && !parent.exists()) {
+//                parent.mkdirs();
+//            }
+//
+//            if (!file.exists()) {
+//                file.createNewFile();
+//                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+//                    oos.writeObject(new ArrayList<DatiClienteF>());
+//                }
+//            }
+//
+//            return file;
+//        } catch (IOException e) {
+//            throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
+//        }
+//    }
 
     private void caricaDati(List<DatiClienteF> lista) {
         datiClienti.clear();

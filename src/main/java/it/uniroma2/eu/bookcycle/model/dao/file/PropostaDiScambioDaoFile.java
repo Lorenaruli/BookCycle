@@ -7,45 +7,50 @@ import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
-public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
-
-    private static final String PROPERTIES_PATH = "proprieta.properties";
+public class PropostaDiScambioDaoFile extends AbstractFileDao implements PropostaDiScambioDao {
+    private static final String SCAMBI_PATH= "SCAMBI_PATH";
     private final File file;
     private List<PropostaDiScambio> proposteTotali;
 
     public PropostaDiScambioDaoFile() throws DaoException {
-        this.file = inizializzaPercorsoDaProperties();
+        this.file = inizializzaPercorsoDaProperties(SCAMBI_PATH);
         this.proposteTotali = caricaProposte();
         aggiornaIdCounter();
     }
+    @Override
+    protected void inizializzaFileVuoto(File file) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+                   oos.writeObject(new ArrayList<PropostaDiScambio>());
 
-    private File inizializzaPercorsoDaProperties() throws DaoException {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
-            Properties props = new Properties();
-            props.load(input);
-            String path = props.getProperty("SCAMBI_PATH");
-            if (path == null || path.isBlank()) {
-                throw new DaoException("SCAMBI_PATH non trovato nelle proprietà.");
-            }
-            File file = new File(path);
-            File parent = file.getParentFile();
-            if (parent != null && !parent.exists()) {
-                parent.mkdirs();
-            }
-            if (!file.exists()) {
-                file.createNewFile();
-                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-                    oos.writeObject(new ArrayList<PropostaDiScambio>());
-                }
-            }
-            return file;
-        } catch (IOException e) {
-            throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
         }
     }
+
+//    private File inizializzaPercorsoDaProperties() throws DaoException {
+//        try (InputStream input = getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
+//            Properties props = new Properties();
+//            props.load(input);
+//            String path = props.getProperty("SCAMBI_PATH");
+//            if (path == null || path.isBlank()) {
+//                throw new DaoException("SCAMBI_PATH non trovato nelle proprietà.");
+//            }
+//            File file = new File(path);
+//            File parent = file.getParentFile();
+//            if (parent != null && !parent.exists()) {
+//                parent.mkdirs();
+//            }
+//            if (!file.exists()) {
+//                file.createNewFile();
+//                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+//                    oos.writeObject(new ArrayList<PropostaDiScambio>());
+//                }
+//            }
+//            return file;
+//        } catch (IOException e) {
+//            throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
+//        }
+//    }
 
     @Override
     public long aggiornaIdCounter() {

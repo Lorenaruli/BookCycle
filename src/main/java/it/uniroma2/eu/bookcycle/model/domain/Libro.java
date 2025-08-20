@@ -11,7 +11,6 @@ public class Libro implements Serializable {
     private String autore;
     private String genere;
     private long idLibro;
-    //private StatoLibro stato;
     private TipoLibro tipologia;
     private String usernameProprietario;
 

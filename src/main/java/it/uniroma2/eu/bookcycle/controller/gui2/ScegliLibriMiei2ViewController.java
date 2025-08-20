@@ -71,7 +71,6 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
 
         List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
         List<LibroBean> libriDisponibili = libriUtente.stream()
-                //.filter(libro -> libro.getStato() == StatoLibro.DISPONIBILE)
                 .collect(Collectors.toList());
 
         listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);
@@ -90,8 +89,8 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
         }
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
-        String destinatario = propostaParzialeBean.getDestinatario();
-        long libroRichiesto = propostaParzialeBean.getLibroRichiesto();
+        String destinatario = propostaParzialeBean.getMittente();
+        long libroRichiesto = propostaParzialeBean.getLibroOfferto();
 
         PropostaBean propostaBean = new PropostaBean();
         propostaBean.setMittente(username);

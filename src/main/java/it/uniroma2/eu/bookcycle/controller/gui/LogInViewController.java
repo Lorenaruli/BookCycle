@@ -35,7 +35,6 @@ public class LogInViewController extends GraphicController {
         LoginBean loginBean = new LoginBean();
         loginBean.setUsername(usernameLabel.getText());
         loginBean.setPassword(passwordField.getText());
-        //loginBean.setRuolo(libraioCheck.isSelected() ? RuoloCliente.LIBRAIO : RuoloCliente.UTENTE);
         LoginController loginController = new LoginController();
         RuoloCliente ruoloCliente;
         try {
@@ -52,7 +51,6 @@ public class LogInViewController extends GraphicController {
                     Parent root = loader.load();
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
-                    //stage.setTitle("Profilo Utente");
                     stage.show();
                 }
 
@@ -74,7 +72,6 @@ public class LogInViewController extends GraphicController {
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        //stage.setTitle("Registrazione");
         stage.show();
     } catch (IOException e) {
         showAlert("Errore nel caricamento della schermata registrazione.");

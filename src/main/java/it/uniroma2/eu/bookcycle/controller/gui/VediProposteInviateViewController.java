@@ -54,7 +54,6 @@ public class VediProposteInviateViewController {
     void caricaLibriProposte(){
         String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
         InviaPropostaController app = new InviaPropostaController();
-        GestoreUtente gestore = new GestoreUtente();
         List<Proposta4Bean> beans = app.creaListaBeanProposteInviate(username);
         ObservableList<Proposta4Bean> obs = FXCollections.observableArrayList(beans);
         proposteTable.setItems(obs);
@@ -116,7 +115,7 @@ public class VediProposteInviateViewController {
         if (!"ACCETTATA".equalsIgnoreCase(bean.getStato().toString())) return;
 
         String altroUsername = bean.getUsernameDestinatario();
-        ContattiBean c = new GestoreUtente().getContattiByUsername(altroUsername);
+        ContattiBean c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
 
         if (c != null) {
             Alert a = new Alert(Alert.AlertType.INFORMATION);

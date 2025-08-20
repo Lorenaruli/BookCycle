@@ -3,7 +3,6 @@ package it.uniroma2.eu.bookcycle.model.dao.file;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
-import it.uniroma2.eu.bookcycle.model.domain.StatoLibro;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ public abstract class LibroDaoFile implements LibroDao {
         public LibroDaoFile() throws DaoException {
             this.file = inizializzaPercorsoDaProperties();
             caricaLibri();
-            //LibroId.aggiornaIdCounter
         }
 
         public abstract File inizializzaPercorsoDaProperties() throws DaoException;
@@ -52,13 +50,7 @@ public abstract class LibroDaoFile implements LibroDao {
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<Libro> getLibri() throws DaoException {
-//        return libri.stream()
-//                //.filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
-//                .collect(Collectors.toList());
-//    }
-//
+
     @Override
     public List<Libro> getTuttiLibri() throws DaoException {
         return new ArrayList<>(libri);

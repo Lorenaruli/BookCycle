@@ -6,7 +6,6 @@ import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
-import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 import it.uniroma2.eu.bookcycle.model.domain.StatoProposta;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
@@ -29,10 +28,10 @@ public class GestisciPropostaController {
                 .map(p -> {
                     Proposta2Bean bean = new Proposta2Bean();
                     bean.setIdProposta(p.getIdProposta());
-                    bean.setIdLibroR(p.getLibroRichiesto().getIdLibro());
-                    bean.setIdLibroO(p.getLibroOfferto().getIdLibro());
-                    bean.setUsernameM(p.getLibroOfferto().getUsernameProprietario());
-                    bean.setUsernameD(p.getLibroRichiesto().getUsernameProprietario());
+                    bean.setLibroRichiesto(p.getLibroRichiesto().getIdLibro());
+                    bean.setLibroOfferto(p.getLibroOfferto().getIdLibro());
+                    bean.setMittente(p.getLibroOfferto().getUsernameProprietario());
+                    bean.setDestinatario(p.getLibroRichiesto().getUsernameProprietario());
                     bean.setTitoloOfferto(p.getLibroOfferto().getTitolo());
                     bean.setTitoloRichiesto(p.getLibroRichiesto().getTitolo());
                     return bean;
@@ -46,12 +45,12 @@ public class GestisciPropostaController {
         if (propostaBean.getStato() == StatoProposta.RIFIUTATA) {
             proposta.setStato(StatoProposta.RIFIUTATA);
             proposta.getDestinatario().rimuoviPropostaRicevuta(propostaBean.getIdProposta());
-            propostaDao.aggiungiRichiesta(proposta);
+            propostaDao.aggiungiProposta(proposta);
         }
 
         if (propostaBean.getStato() == StatoProposta.ACCETTATA) {
             proposta.setStato(StatoProposta.ACCETTATA);
-            propostaDao.aggiungiRichiesta(proposta);
+            propostaDao.aggiungiProposta(proposta);
 
             long idOfferto = proposta.getLibroOfferto().getIdLibro();
             long idRichiesto = proposta.getLibroRichiesto().getIdLibro();
@@ -87,7 +86,7 @@ public class GestisciPropostaController {
 
 
                 p.setStato(StatoProposta.RIFIUTATA);
-                propostaDao.aggiungiRichiesta(p);
+                propostaDao.aggiungiProposta(p);
 
 
                 Utente m = (Utente) clienteDao.trovaPerUsername(p.getMittente().getUsername());

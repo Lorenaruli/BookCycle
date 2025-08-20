@@ -54,7 +54,6 @@ public class Login2ViewController extends GraphicController {
                     Parent root = loader.load();
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
-                    //stage.setTitle("Profilo Utente");
                     stage.show();
                 }
 

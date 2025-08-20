@@ -13,14 +13,6 @@ public class PropostaDiScambio implements Serializable {
     private StatoProposta stato;
     private long idProposta;
 
-//    public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto) {
-//        this.mittente = mittente;
-//        this.destinatario = destinatario;
-//        this.libroOfferto = libroOfferto;
-//        this.libroRichiesto = libroRichiesto;
-//        this.stato= StatoProposta.IN_ATTESA;
-//        //this.idProposta= idCounter++;
-//    }
 
     public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto,long idProposta, StatoProposta statoProposta) {
         this.mittente = mittente;

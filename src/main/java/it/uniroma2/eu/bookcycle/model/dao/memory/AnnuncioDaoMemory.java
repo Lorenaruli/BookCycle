@@ -3,7 +3,6 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
-import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 
 import java.util.ArrayList;

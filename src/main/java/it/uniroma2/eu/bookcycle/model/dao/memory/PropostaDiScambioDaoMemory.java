@@ -2,8 +2,6 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
-import it.uniroma2.eu.bookcycle.model.dao.file.PropostaDiScambioDaoFile;
-import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     }
 
     @Override
-    public void aggiungiRichiesta(PropostaDiScambio proposta) throws DaoException {
+    public void aggiungiProposta(PropostaDiScambio proposta) throws DaoException {
         if (proposta == null) {
             throw new DaoException("Proposta nulla");
         }
@@ -60,7 +58,7 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     }
 
     @Override
-    public void rimuoviRichiesta(long idProposta) throws DaoException {
+    public void rimuoviProposta(long idProposta) throws DaoException {
         PropostaDiScambio daRimuovere = null;
 
         for (PropostaDiScambio p : proposteTotali) {

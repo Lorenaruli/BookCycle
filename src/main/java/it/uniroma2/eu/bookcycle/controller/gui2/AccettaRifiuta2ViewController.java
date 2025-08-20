@@ -38,7 +38,6 @@ public class AccettaRifiuta2ViewController {
         bean.setIdProposta(idProposta);
         bean.setStato(StatoProposta.ACCETTATA);
         controller.gestisci(bean);
-//        chiudi();
     }
 
     @FXML
@@ -47,7 +46,6 @@ public class AccettaRifiuta2ViewController {
         bean.setIdProposta(idProposta);
         bean.setStato(StatoProposta.RIFIUTATA);
         controller.gestisci(bean);
-//        chiudi();
     }
 
 
@@ -63,11 +61,7 @@ public class AccettaRifiuta2ViewController {
             e.printStackTrace();
         }
     }
-//        chiudi();
     }
 
-//    private void chiudi() {
-//        Stage stage = (Stage) dettagliProposta.getScene().getWindow();
-//        stage.close();
-//    }
+
 

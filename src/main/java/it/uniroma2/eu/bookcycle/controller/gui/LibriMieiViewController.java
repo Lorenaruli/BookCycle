@@ -3,7 +3,6 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
-import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.collections.FXCollections;
@@ -26,8 +25,6 @@ public class LibriMieiViewController {
 
     @FXML
     private Button tornaIndietroButton;
-
-    private  GestoreUtente gestore = new GestoreUtente();
 
 
     @FXML

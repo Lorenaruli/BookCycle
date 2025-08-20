@@ -3,22 +3,15 @@ package it.uniroma2.eu.bookcycle.bean;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
-public class PropostaBean {
-    private String usernameMittente;
+public class PropostaBean extends PropostaParzialeBean{
+
     private String usernameDestinatario;
-    private long idLibroM;
     private long idLibroD;
 
-    public String getMittente() {
-        return usernameMittente;
-    }
     public boolean completo(){
-        return usernameMittente != null || usernameDestinatario != null|| idLibroM != 0 || idLibroD != 0;
+       return usernameDestinatario != null|| idLibroD != 0;
     }
 
-    public void setMittente(String usernameMittente) {
-        this.usernameMittente = usernameMittente;
-    }
 
     public String getDestinatario() {
 
@@ -29,13 +22,7 @@ public class PropostaBean {
         this.usernameDestinatario = usernameDestinatario;
     }
 
-    public long getLibroOfferto() {
-        return idLibroM;
-    }
 
-    public void setLibroOfferto(long  idLibroM) {
-        this.idLibroM = idLibroM;
-    }
 
     public long getLibroRichiesto() {
         return idLibroD;

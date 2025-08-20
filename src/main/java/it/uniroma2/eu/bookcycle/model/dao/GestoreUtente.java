@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static java.util.stream.Collectors.toList;
 
 public class GestoreUtente {
 
@@ -50,9 +49,6 @@ public class GestoreUtente {
     }
 
 
-//    public List<Libro> caricaLibriTutti(){
-//        return libroScambioDao.getLibriDisponibili();
-//    }
 
     public List<LibroBean> caricaLibriTutti() {
         String usernameCorrente = clienteAttuale.getUsername();
@@ -62,35 +58,31 @@ public class GestoreUtente {
                 .toList();
     }
 
-    //    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) {
-//        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
-//            List<PropostaDiScambio> proposteInviate = propostaDao.getProposteInviate(usernameCliente);
-//        return proposteInviate;
-//    }
-//
-//    public void caricaProposteUtenteDestinatario(String usernameCliente) {
-//        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
-//        if (cliente instanceof Utente) {
-//            List<PropostaDiScambio> proposteRicevute = propostaDao.getProposteRicevute(usernameCliente);
-//           // ((Utente) cliente).aggiungiProposteRicevute(proposteRicevute);
-//
-//        }
-//    }
+    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) {
+    Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
+        List<PropostaDiScambio> proposteInviate = propostaDao.getProposteInviate(usernameCliente);
+    return proposteInviate;
+}
+
+    public List<PropostaDiScambio> caricaProposteUtenteDestinatario(String usernameCliente) {
+        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
+
+        List<PropostaDiScambio> proposteRicevute = propostaDao.getProposteRicevute(usernameCliente);
+          return proposteRicevute;
+
+
+    }
     public Utente restituisciUtente(String username) {
         Cliente cliente = utenteDao.trovaPerUsername(username);
         return (Utente) (utenteDao.trovaPerUsername(username));
 
     }
 
-    public ContattiBean getContattiByUsername(String username) {
+    public ContattiBean trovaContattiDaUsername(String username) {
         String email = utenteDao.trovaEmail(username);
         String tel = utenteDao.trovaTelefono(username);
         if (email == null && tel == null) return null;
         return new ContattiBean(username, tel, email);
-    }
-
-    public Cliente clienteLoggato() {
-        return Sessione.ottieniIstanza().getClienteLoggato();
 
     }
 }

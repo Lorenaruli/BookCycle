@@ -102,7 +102,6 @@ public class ProfiloViewController extends GraphicController{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/GestisciProposteView.fxml"));
             Parent root = loader.load();
             GestisciProposteViewController ctrl = loader.getController();
-           // ctrl.caricaDati();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

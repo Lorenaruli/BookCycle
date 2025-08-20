@@ -4,7 +4,6 @@ import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.InviaPropostaController;
-import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 import javafx.event.ActionEvent;
@@ -23,7 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ScegliLibriMieiViewController extends GraphicController{
+public class ScegliLibriMieiViewController extends GraphicController {
 
     @FXML
     private VBox contenitoreLibri;
@@ -33,7 +32,7 @@ public class ScegliLibriMieiViewController extends GraphicController{
 
     private PropostaParzialeBean propostaParzialeBean;
 
-    private GestoreUtente gestore=new GestoreUtente();
+    private GestoreUtente gestore = new GestoreUtente();
 
 
     public void creaBeanProposta(PropostaParzialeBean propostaParzialeBean) {
@@ -45,13 +44,12 @@ public class ScegliLibriMieiViewController extends GraphicController{
         if (propostaParzialeBean != null) {
         } else {
         }
-     Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
+        Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
 
         if (cliente instanceof Utente) {
             List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
             List<LibroBean> libriDisponibili = libriUtente.stream()
-                    //.filter(libro -> libro.getStato() == StatoLibro.DISPONIBILE)
                     .collect(Collectors.toList());
 
             if (libriDisponibili.isEmpty()) {
@@ -66,8 +64,8 @@ public class ScegliLibriMieiViewController extends GraphicController{
                     Button scambiaButton = new Button("Scambia con questo");
 
                     scambiaButton.setOnAction(e -> {
-                        String destinatario = propostaParzialeBean.getDestinatario();
-                        long libroRichiesto = propostaParzialeBean.getLibroRichiesto();
+                        String destinatario = propostaParzialeBean.getMittente();
+                        long libroRichiesto = propostaParzialeBean.getLibroOfferto();
 
                         PropostaBean propostaBean = new PropostaBean();
                         propostaBean.setMittente(username);
@@ -89,12 +87,6 @@ public class ScegliLibriMieiViewController extends GraphicController{
     }
 
 
-
-//    public void creaBeanProposta(PropostaParzialeBean propostaParzialeBean) {
-//        this.propostaParzialeBean = propostaParzialeBean;
-//        inizializzaConBean();
-//    }
-
     @FXML
     private void tornaIndietro(ActionEvent event) {
         try {
@@ -106,12 +98,5 @@ public class ScegliLibriMieiViewController extends GraphicController{
         }
     }
 
-//    private void mostraConferma(String messaggio) {
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("Scambio");
-//        alert.setHeaderText(null);
-//        alert.setContentText(messaggio);
-//        alert.showAndWait();
-//    }
 }
 

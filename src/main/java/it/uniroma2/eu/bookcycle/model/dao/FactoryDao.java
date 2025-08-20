@@ -6,7 +6,6 @@ import it.uniroma2.eu.bookcycle.model.dao.memory.MemoryFactoryDao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
 
 public abstract class FactoryDao {

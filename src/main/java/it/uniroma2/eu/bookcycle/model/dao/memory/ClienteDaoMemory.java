@@ -2,7 +2,6 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
-import it.uniroma2.eu.bookcycle.model.dao.file.ClienteDaoFile;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;

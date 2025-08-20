@@ -1,14 +1,11 @@
 package it.uniroma2.eu.bookcycle.bean;
 
-import it.uniroma2.eu.bookcycle.model.domain.StatoLibro;
-
 public class LibroBean {
     String titolo;
     String autore;
     String genere;
     long id;
     String usernameProprietario;
-//    StatoLibro stato;
 
     public LibroBean(String titolo, String autore, String genere, long id, String username) {
         this.titolo = titolo;
@@ -16,7 +13,7 @@ public class LibroBean {
         this.genere = genere;
         this.id = id;
         this.usernameProprietario=username;
-//        this.stato=stato;
+
 
     }
 
@@ -51,9 +48,6 @@ public class LibroBean {
         return id;
     }
 
-    public void setIdLibro(long id) {
-        this.id = id;
-    }
 
     public String getUsernameProprietario() {
         return usernameProprietario;
@@ -63,11 +57,5 @@ public class LibroBean {
         this.usernameProprietario = usernameProprietario;
     }
 
-//    public StatoLibro getStato() {
-//        return stato;
-//    }
-//
-//    public void setStato(StatoLibro stato) {
-//        this.stato = stato;
-//    }
+
 }

@@ -93,7 +93,7 @@ public class RegistrazioneViewController extends GraphicController {
 
     @FXML
     void ritornaAlLogin(ActionEvent event) {
-        Stage stage = (Stage) emailLabel.getScene().getWindow();;
+        Stage stage = (Stage) emailLabel.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/LoginView.fxml"));
         Parent root = null;
         try {

@@ -19,7 +19,7 @@ public class TestGestisciProposta {
         PropostaDiScambio proposta = new PropostaDiScambio(mittente, destinatario,
                 new Libro("Titolo1", "Autore1", "Genere1", "mario"),
                 new Libro("Titolo2", "Autore2", "Genere2","luca"),0, StatoProposta.IN_ATTESA);
-        propostaDao.aggiungiRichiesta(proposta);
+        propostaDao.aggiungiProposta(proposta);
         GestisciPropostaController controller =
                 new GestisciPropostaController();
 

@@ -11,11 +11,9 @@ import java.util.stream.Collectors;
 
 public class LibroDaoMemory implements LibroDao {
     private List<Libro> libri;
-//    private static boolean idCounterInizializzato = false;
 
 
     public LibroDaoMemory(){
-//        aggiornaIdCounter();
         this.libri=new ArrayList<>();
     }
 
@@ -34,19 +32,6 @@ public class LibroDaoMemory implements LibroDao {
         }
     }
 
-//    public void aggiornaIdCounter(){
-//        if (!idCounterInizializzato) {
-//            Libro.setIdCounter(0);
-//            idCounterInizializzato = true;
-//        }
-//        long max = 0;
-//        for (Libro a : libri) {
-//            if (a.getIdLibro() > max) {
-//                max = a.getIdLibro();
-//            }
-//        }
-//        Libro.setIdCounter(max + 1);
-//    }
 
     @Override
     public List<Libro> cercaPerTitolo(String titolo) throws DaoException {
@@ -80,12 +65,7 @@ public class LibroDaoMemory implements LibroDao {
 
     }
 
-//    @Override
-//    public List<Libro> getLibri() {
-//        return libri.stream()
-//                //.filter(l -> l.getStato() == StatoLibro.DISPONIBILE)
-//                .collect(Collectors.toList());
-//    }
+
     @Override
     public Libro cercaPerId(long id) {
         return libri.stream()

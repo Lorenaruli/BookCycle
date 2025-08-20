@@ -8,7 +8,6 @@ import it.uniroma2.eu.bookcycle.model.dao.file.LibroIdFacade;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
 public class CaricaLibroController {
-    //private GestoreUtente gestoreUtente;
     private LibroScambioDao libroScambioDao;
     Cliente clienteAttuale=Sessione.ottieniIstanza().getClienteLoggato();
 
@@ -37,7 +36,6 @@ public class CaricaLibroController {
                 bean.getAutore(),
                 bean.getGenere(),
                 clienteAttuale.getUsername(),
-                //DISPONIBILE,
                 nuovoId
         );
 
@@ -45,7 +43,6 @@ public class CaricaLibroController {
             ((Utente) clienteAttuale).aggiungiLibro(libro);
             libroScambioDao.aggiungiLibro(libro);
 
-            //Utente utente = (Utente) gestoreUtente.caricaLibriUtente(Sessione.ottieniIstanza().getClienteLoggato().getUsername());
         } else
             throw new RuntimeException("il cliente non è utente");
     }

@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface PropostaDiScambioDao {
 
-    void aggiungiRichiesta(PropostaDiScambio proposta) throws DaoException;
+    void aggiungiProposta(PropostaDiScambio proposta) throws DaoException;
 
-    void rimuoviRichiesta(long idProposta) throws DaoException;
+    void rimuoviProposta(long idProposta) throws DaoException;
     long aggiornaIdCounter();
 
     List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) throws DaoException;

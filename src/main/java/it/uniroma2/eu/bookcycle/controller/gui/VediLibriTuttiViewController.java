@@ -64,9 +64,6 @@ public class VediLibriTuttiViewController extends GraphicController{
             GestoreUtente gestoreUtente= new GestoreUtente();
 
             List<LibroBean> libriDisponibili = gestoreUtente.caricaLibriTutti();
-//            List<LibroBean> soloAltriLibri = libriDisponibili.stream()
-//                    .filter(libroBean -> !libroBean.getUsernameProprietario().equals(usernameCorrente))
-//                    .collect(Collectors.toList());
             listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);
             libriTable.setItems(listaLibriDisponibili);
         } catch (Exception e) {
@@ -114,8 +111,8 @@ public class VediLibriTuttiViewController extends GraphicController{
                 btn.setOnAction(event -> {
                     LibroBean libroSelezionato = getTableView().getItems().get(getIndex());
                     PropostaParzialeBean propostaParzialeBean= new PropostaParzialeBean();
-                    propostaParzialeBean.setLibroRichiesto(libroSelezionato.getIdLibro());
-                    propostaParzialeBean.setDestinatario(libroSelezionato.getUsernameProprietario());
+                    propostaParzialeBean.setLibroOfferto(libroSelezionato.getIdLibro());
+                    propostaParzialeBean.setMittente(libroSelezionato.getUsernameProprietario());
 
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ScegliLibriMieiView.fxml"));

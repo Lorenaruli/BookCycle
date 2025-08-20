@@ -135,7 +135,7 @@ public class ProposteViewController {
 
     private void mostraContatti(Proposta4Bean bean) {
         String altroUsername = bean.getUsernameDestinatario();
-        ContattiBean c = new GestoreUtente().getContattiByUsername(altroUsername);
+        ContattiBean c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         if (c != null) {
             a.setHeaderText("CONTATTI_LABEL");

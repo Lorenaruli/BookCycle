@@ -1,34 +1,31 @@
 package it.uniroma2.eu.bookcycle.bean;
 
-import it.uniroma2.eu.bookcycle.model.domain.Libro;
-import it.uniroma2.eu.bookcycle.model.domain.Utente;
-
 public class PropostaParzialeBean {
-    private String usernamePropietario;
-    private long idLibro;
+    private String usernameMittente;
+    private long idLibroM;
 
     public boolean completo(){
-        return usernamePropietario != null || idLibro!=0;
+        return usernameMittente != null || idLibroM !=0;
     }
 
 
-    public String getDestinatario() {
+    public String getMittente() {
 
-        return usernamePropietario;
+        return usernameMittente;
     }
 
-    public void setDestinatario(String username) {
-        this.usernamePropietario = username;
+    public void setMittente(String username) {
+        this.usernameMittente = username;
     }
 
 
 
-    public long getLibroRichiesto() {
-        return idLibro;
+    public long getLibroOfferto() {
+        return idLibroM;
     }
 
-    public void setLibroRichiesto(long id) {
-        this.idLibro = id;
+    public void setLibroOfferto(long id) {
+        this.idLibroM = id;
     }
 }
 

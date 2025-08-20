@@ -82,7 +82,7 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
     }
 
     @Override
-    public void aggiungiRichiesta(PropostaDiScambio proposta) throws DaoException {
+    public void aggiungiProposta(PropostaDiScambio proposta) throws DaoException {
         if (proposta == null) {
             throw new DaoException("Proposta nulla");
         }
@@ -98,7 +98,7 @@ public class PropostaDiScambioDaoFile implements PropostaDiScambioDao {
     }
 
     @Override
-    public void rimuoviRichiesta(long idProposta) throws DaoException {
+    public void rimuoviProposta(long idProposta) throws DaoException {
         PropostaDiScambio daRimuovere = null;
 
         for (PropostaDiScambio p : proposteTotali) {

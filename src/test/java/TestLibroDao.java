@@ -1,11 +1,7 @@
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
-import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
 import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
-import it.uniroma2.eu.bookcycle.model.dao.file.LibroScambioDaoFile;
-import it.uniroma2.eu.bookcycle.model.dao.memory.LibroScambioDaoMemory;
 import it.uniroma2.eu.bookcycle.model.dao.memory.MemoryFactoryDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
-import it.uniroma2.eu.bookcycle.model.domain.StatoLibro;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

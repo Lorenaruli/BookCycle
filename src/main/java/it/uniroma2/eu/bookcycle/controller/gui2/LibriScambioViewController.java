@@ -3,7 +3,6 @@ package it.uniroma2.eu.bookcycle.controller.gui2;
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
-import it.uniroma2.eu.bookcycle.controller.gui.ScegliLibriMieiViewController;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -91,8 +90,8 @@ public class LibriScambioViewController extends GraphicController {
         }
 
         PropostaParzialeBean propostaParzialeBean = new PropostaParzialeBean();
-        propostaParzialeBean.setLibroRichiesto(libroSelezionato.getIdLibro());
-        propostaParzialeBean.setDestinatario(libroSelezionato.getUsernameProprietario());
+        propostaParzialeBean.setLibroOfferto(libroSelezionato.getIdLibro());
+        propostaParzialeBean.setMittente(libroSelezionato.getUsernameProprietario());
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui2/ScegliLibriMiei2View.fxml"));

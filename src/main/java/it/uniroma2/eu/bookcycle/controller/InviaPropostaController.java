@@ -1,6 +1,5 @@
 package it.uniroma2.eu.bookcycle.controller;
 
-import it.uniroma2.eu.bookcycle.bean.Proposta3Bean;
 import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
@@ -61,7 +60,7 @@ public class InviaPropostaController {
         );
 
 
-        propostaDiScambioDao.aggiungiRichiesta(proposta);
+        propostaDiScambioDao.aggiungiProposta(proposta);
 
 
         String destinatarioUsername = bean.getDestinatario();

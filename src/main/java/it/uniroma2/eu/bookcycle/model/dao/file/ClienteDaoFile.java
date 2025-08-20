@@ -79,6 +79,19 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
     }
 
     @Override
+    public void aggiungiLibraio(String username, String password, String telefono, String email) throws DaoException {
+        if (esisteCliente(username)) {
+            throw new DaoException("Username già esistente: " + username);
+        }
+        List<DatiClienteF> clienti = leggiClienti();
+        Cliente libraio = new Libraio(username);
+        DatiClienteF dati = new DatiClienteF(libraio, password, telefono, email);
+        clienti.add(dati);
+        datiClienti.put(username,dati);
+        salvaClienti();
+    }
+
+    @Override
     public void aggiungiUtente(String username, String password, String telefono, String email) throws DaoException {
         if (esisteCliente(username)) {
             throw new DaoException("Username già esistente: " + username);
@@ -111,16 +124,7 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
     }
 
 
-    @Override
-    public void aggiungiLibraio(String username, String password, String telefono, String email) throws DaoException {
-        if (esisteCliente(username)) {
-            throw new DaoException("Username già esistente: " + username);
-        }
-        List<DatiClienteF> clienti = leggiClienti();
-        Cliente libraio = new Libraio(username);
-        clienti.add(new DatiClienteF(libraio, password, telefono, email));
-        salvaClienti();
-    }
+
     @Override
     public Cliente trovaPerUsername(String username) {
         DatiClienteF dati = datiClienti.get(username);

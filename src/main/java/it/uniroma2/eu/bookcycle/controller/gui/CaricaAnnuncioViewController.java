@@ -5,10 +5,15 @@ import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.guiComune.CaricaAnnuncioGui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 import static it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio.ANNUNCIONOLEGGIO;
 import static it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio.ANNUNCIOVENDITA;
@@ -35,11 +40,23 @@ public class CaricaAnnuncioViewController extends CaricaAnnuncioGui {
 
     @FXML
     void caricaAnnuncio(ActionEvent event) {
-        aggiungi(event, titoloField, autoreField,prezzoField);
-        if(checkButton.isSelected()){
-            SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/controller/gui/InserisciPeriodoViewController.fxml");
-        }
+        aggiungi(event, titoloField, autoreField,prezzoField, checkButton);
+    }
 
+    @Override
+    public void goToNoleggio(CaricaAnnuncioBean bean){
+        try {
+            String path = "/it/uniroma2/eu/bookcycle/gui/InserisciPeriodoView.fxml";
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Parent root = loader.load();
+            InserisciPeriodoViewController controller = loader.getController();
+            controller.beanModificato(bean);
+            Stage stage = (Stage) checkButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

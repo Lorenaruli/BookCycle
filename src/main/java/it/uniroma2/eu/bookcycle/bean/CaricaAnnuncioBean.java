@@ -7,13 +7,26 @@ public class CaricaAnnuncioBean {
     String autore;
     double prezzo;
     TipoAnnuncio tipo;
+    int durata;
+
 
     public CaricaAnnuncioBean(String titolo, String autore, double prezzo, TipoAnnuncio tipo) {
         this.titolo = titolo;
         this.autore = autore;
         this.prezzo = prezzo;
         this.tipo=tipo;
+        this.durata=0;
     }
+
+    public CaricaAnnuncioBean(String titolo, String autore, double prezzo, TipoAnnuncio tipo, int durata) {
+        this.titolo = titolo;
+        this.autore = autore;
+        this.prezzo = prezzo;
+        this.tipo=tipo;
+        this.durata=durata;
+    }
+
+
 
     public CaricaAnnuncioBean(){};
 
@@ -47,5 +60,13 @@ public class CaricaAnnuncioBean {
 
     public void setTipo(TipoAnnuncio tipo) {
         this.tipo = tipo;
+    }
+
+    public int getDurata() {
+        return durata;
+    }
+
+    public void setDurata(int durata) {
+        this.durata = durata;
     }
 }

@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginClienteGui extends GraphicController {
+public abstract class LoginClienteGui extends GraphicController {
 
     protected void loginCliente(ActionEvent event, TextField usernameLabel, PasswordField passwordField, String path){
         LoginBean loginBean = new LoginBean();
@@ -40,7 +40,7 @@ public class LoginClienteGui extends GraphicController {
                     stage.show();
                 }
 
-                case LIBRAIO -> showAlert("La sezione per i librai non è disponibile.");
+                case LIBRAIO -> {goToLibraio();}
                 default -> showAlert("Ruolo non riconosciuto.");
             }
 
@@ -49,6 +49,7 @@ public class LoginClienteGui extends GraphicController {
             e.printStackTrace();
         }
     }
+    protected abstract void goToLibraio();
 
 }
 

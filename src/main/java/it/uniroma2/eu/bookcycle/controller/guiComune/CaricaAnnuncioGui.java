@@ -7,6 +7,7 @@ import it.uniroma2.eu.bookcycle.controller.CaricaLibroController;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 import javafx.event.ActionEvent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 import static it.uniroma2.eu.bookcycle.model.domain.RuoloCliente.LIBRAIO;
@@ -15,7 +16,7 @@ import static it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio.ANNUNCIONOLEGGI
 import static it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio.ANNUNCIOVENDITA;
 
 public abstract class CaricaAnnuncioGui extends GraphicController {
-    protected void aggiungi(ActionEvent event, TextField titoloField, TextField autoreField, TextField prezzoField) {
+    protected void aggiungi(ActionEvent event, TextField titoloField, TextField autoreField, TextField prezzoField, CheckBox check) {
         if (titoloField.getText().isBlank() ||
                 autoreField.getText().isBlank() ||
                 prezzoField.getText().isBlank()) {
@@ -29,11 +30,17 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
             return;
         }
 
+
         CaricaAnnuncioBean caricaAnnuncioBean=new CaricaAnnuncioBean();
         caricaAnnuncioBean.setTitolo(titoloField.getText());
         caricaAnnuncioBean.setAutore(autoreField.getText());
         caricaAnnuncioBean.setPrezzo(prezzo);
         setTipo(caricaAnnuncioBean);
+
+        if(check.isSelected()){
+            goToNoleggio(caricaAnnuncioBean);
+            return;}
+
         CaricaAnnuncioController caricaAnnuncioController = new CaricaAnnuncioController();
         caricaAnnuncioController.AggiungiAnnuncio(caricaAnnuncioBean);
         showAlert("Annuncio caricato con successo");
@@ -41,6 +48,7 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
     }
 
     public abstract void setTipo(CaricaAnnuncioBean bean);
+    public abstract void goToNoleggio(CaricaAnnuncioBean bean);
 
 
 

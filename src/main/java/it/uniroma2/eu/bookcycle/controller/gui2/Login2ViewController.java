@@ -57,5 +57,10 @@ public class Login2ViewController extends LoginClienteGui {
         }
 
     }
+
+    @Override
+    protected void goToLibraio() {
+        showAlert("La sezione per i librai non è ancora disponibile");
+    }
 }
 

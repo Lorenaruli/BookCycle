@@ -55,8 +55,8 @@ public abstract class RegistraClienteGui extends GraphicController {
                     stage.setScene(new Scene(root));
                     stage.show();
                 }
-                case LIBRAIO -> showAlert("La sezione per i librai non è disponibile.");
-                default -> showAlert("Ruolo non riconosciuto.");
+               case LIBRAIO ->  {goToLibraio();}
+//                default -> showAlert("Ruolo non riconosciuto.");
             }
 
         } catch (BeanInvalidoException e) {
@@ -69,4 +69,5 @@ public abstract class RegistraClienteGui extends GraphicController {
 
     }
     protected abstract void setRuolo(RegistrazioneBean registrazioneBean);
+    protected abstract void goToLibraio();
 }

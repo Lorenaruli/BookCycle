@@ -20,7 +20,7 @@ public class ProfiloLibraioViewController extends LogoutGui {
 
     @FXML
     void caricaAnnuncio(ActionEvent event) {
-        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/CaricaAnnuncioView.fxml");
+        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/CaricaAnnunciView.fxml");
 
     }
 

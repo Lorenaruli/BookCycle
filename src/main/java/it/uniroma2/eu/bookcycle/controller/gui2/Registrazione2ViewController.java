@@ -1,11 +1,6 @@
 package it.uniroma2.eu.bookcycle.controller.gui2;
-
-
-import it.uniroma2.eu.bookcycle.bean.ClienteBean;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
 import it.uniroma2.eu.bookcycle.bean2.SchermataAccessoBean;
-import it.uniroma2.eu.bookcycle.controller.BeanInvalidoException;
-import it.uniroma2.eu.bookcycle.controller.RegistrazioneController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 
 import it.uniroma2.eu.bookcycle.controller.guiComune.RegistraClienteGui;
@@ -57,7 +52,10 @@ public class Registrazione2ViewController extends RegistraClienteGui {
             registrazioneBean.setRuolo(ruolo);
         }
 
-
+        @Override
+        public void goToLibraio(){
+        showAlert("La sezione per i librai non è ancora disponibile");
+        }
 
 
 

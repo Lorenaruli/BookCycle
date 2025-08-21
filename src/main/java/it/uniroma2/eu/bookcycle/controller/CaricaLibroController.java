@@ -1,6 +1,7 @@
 package it.uniroma2.eu.bookcycle.controller;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.LIbroVenNolDao;
 import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
@@ -11,17 +12,17 @@ public class CaricaLibroController {
     private LibroScambioDao libroScambioDao;
     Cliente clienteAttuale=Sessione.ottieniIstanza().getClienteLoggato();
 
-    public CaricaLibroController(){
+
+
+    public CaricaLibroController() throws ClienteNonLoggatoException{
+        if (clienteAttuale == null){
+            throw new ClienteNonLoggatoException("non ti sei loggato");
+        }
         this.libroScambioDao = FactoryDao.getIstance().ottieniLibroScambioDao();
     }
-    public CaricaLibroController(CaricaLibroBean bean){
-        if (clienteAttuale == null){
-            throw new RuntimeException("non ti sei loggato");
-        }
-    }
 
 
-    public void AggiungiLibro(CaricaLibroBean bean) {
+    public void AggiungiLibro(CaricaLibroBean bean) throws BeanInvalidoException, OggettoInvalidoException, PersistenzaException, RuoloClienteException {
         Cliente clienteAttuale=Sessione.ottieniIstanza().getClienteLoggato();
         LIbroVenNolDao libroVenditaDao = FactoryDao.getIstance().ottieniLibroVeNolDao();
 
@@ -29,7 +30,7 @@ public class CaricaLibroController {
         long nuovoId = libroId.generaLibroId(libroScambioDao, libroVenditaDao);
 
         if (!bean.completo()) {
-            throw new RuntimeException("non sono state fornite abbastanza informazioni");
+            throw new BeanInvalidoException( "non sono state fornite abbastanza informazioni");
         }
         Libro libro = new Libro(
                 bean.getTitolo(),
@@ -44,7 +45,7 @@ public class CaricaLibroController {
             libroScambioDao.aggiungiLibro(libro);
 
         } else
-            throw new RuntimeException("il cliente non è utente");
+            throw new RuoloClienteException("il cliente non è utente");
     }
     }
 

@@ -52,11 +52,11 @@ public class Login2ViewController extends LoginClienteGui {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            showAlert("Errore nel caricamento della schermata registrazione.");
-            e.printStackTrace();
+            showAlert("Errore nel caricamento della schermata");
+        }
         }
 
-    }
+
 
     @Override
     protected void goToLibraio() {

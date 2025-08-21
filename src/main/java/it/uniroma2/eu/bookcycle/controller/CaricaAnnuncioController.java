@@ -1,6 +1,10 @@
 package it.uniroma2.eu.bookcycle.controller;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaAnnuncioBean;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonLoggatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.RuoloClienteException;
 import it.uniroma2.eu.bookcycle.model.dao.*;
 import it.uniroma2.eu.bookcycle.model.dao.file.LibroIdFacade;
 import it.uniroma2.eu.bookcycle.model.domain.*;
@@ -11,17 +15,16 @@ public class CaricaAnnuncioController {
     private AnnuncioDao annuncioDao;
     Cliente clienteAttuale= Sessione.ottieniIstanza().getClienteLoggato();
 
-    public CaricaAnnuncioController(){
+    public CaricaAnnuncioController()throws ClienteNonLoggatoException {
         this.libroVen = FactoryDao.getIstance().ottieniLibroVeNolDao();
-        this.annuncioDao =FactoryDao.getIstance().ottieniAnnuncioDao();
-    }
-    public CaricaAnnuncioController(CaricaAnnuncioBean bean){
-        if (clienteAttuale == null){
-            throw new RuntimeException("non ti sei loggato");
+        this.annuncioDao = FactoryDao.getIstance().ottieniAnnuncioDao();
+        if (clienteAttuale == null) {
+            throw new ClienteNonLoggatoException("non ti sei loggato");
         }
     }
 
-    public void AggiungiAnnuncio(CaricaAnnuncioBean bean){
+
+    public void AggiungiAnnuncio(CaricaAnnuncioBean bean) throws PersistenzaException, RuoloClienteException, OggettoInvalidoException {
 
         Cliente clienteAttuale=Sessione.ottieniIstanza().getClienteLoggato();
         LibroScambioDao libroScambio = FactoryDao.getIstance().ottieniLibroScambioDao();
@@ -57,7 +60,7 @@ public class CaricaAnnuncioController {
 
 
         else
-            throw new RuntimeException("il cliente non è libraio");
+            throw new RuoloClienteException("il cliente non è libraio");
     }
         }
 

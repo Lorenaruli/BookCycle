@@ -2,10 +2,10 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.guiComune.LoginClienteGui;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.GuiException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,15 +32,13 @@ public class LogInViewController extends LoginClienteGui {
 
     @FXML
     void login(ActionEvent event) {
-        String path= "/it/uniroma2/eu/bookcycle/gui/ProfiloUtenteView.fxml";
-        loginCliente(event, usernameLabel, passwordField,path);
+        String path = "/it/uniroma2/eu/bookcycle/gui/ProfiloUtenteView.fxml";
+        loginCliente(event, usernameLabel, passwordField, path);
     }
 
     @FXML
     void tornaARegistrazione(ActionEvent event) {
-        SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml");
-
-
+        SceneManager.cambiaScena(event, "/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml");
 
     }
 
@@ -55,14 +53,12 @@ public class LogInViewController extends LoginClienteGui {
             }
 
             Parent root = loader.load();
-
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Errore nel caricamento della schermata");
+            showAlert("Errore caricamento ProfiloLibraioView");
         }
     }
 }

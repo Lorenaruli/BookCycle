@@ -1,8 +1,10 @@
 package it.uniroma2.eu.bookcycle.controller;
 
 import it.uniroma2.eu.bookcycle.bean.LoginBean;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.BeanInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.CredenzialiSbagliateException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
@@ -15,27 +17,24 @@ public class LoginController {
     public LoginController(){
         this.clienteDao = FactoryDao.getIstance().ottieniClienteDao();
     }
-    public RuoloCliente login(LoginBean loginBean) throws RuntimeException{
+
+    public RuoloCliente login(LoginBean loginBean) throws BeanInvalidoException, ClienteNonTrovatoException {
         if (!loginBean.completo()){
-            throw new RuntimeException("non sono state fornite abbastanza informazioni");
+            throw new BeanInvalidoException("non sono state fornite abbastanza informazioni");
+        }
+        boolean risultato=clienteDao.confrontaCredenziali(loginBean.getUsername(), loginBean.getPassword());
+
+        if (!risultato){
+            throw new CredenzialiSbagliateException("credenziali sbagliate");
+        }
+        Cliente cliente = clienteDao.ottieniCliente(loginBean.getUsername());
+        Sessione.ottieniIstanza().setClienteLoggato(cliente);
+        if (cliente instanceof Libraio) {
+            return RuoloCliente.LIBRAIO;
+        } else {
+            return RuoloCliente.UTENTE;
         }
 
-            boolean risultato=clienteDao.confrontaCredenziali(loginBean.getUsername(), loginBean.getPassword());
-            if (!risultato){
-                throw new RuntimeException("credenziali sbagliate");
-            }
-        try {
-            Cliente cliente = clienteDao.ottieniCliente(loginBean.getUsername());
-            Sessione.ottieniIstanza().setClienteLoggato(cliente);
-            if (cliente instanceof Libraio) {
-                return RuoloCliente.LIBRAIO;
-            } else {
-                return RuoloCliente.UTENTE;
-            }
-
-        } catch (DaoException e) {
-            throw new RuntimeException("Errore durante il recupero dell'utente");
-        }
     }
     public void logout() {
         Sessione.ottieniIstanza().setClienteLoggato(null);

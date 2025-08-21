@@ -24,7 +24,7 @@ public class SceneManager extends GraphicController {
             stage.show();
 
         } catch (IOException ex) {
-            throw new GuiException("Errore caricamento ProfiloLibraioView");
+            showAlert("Errore caricamento ProfiloLibraioView");
         }
     }
 }

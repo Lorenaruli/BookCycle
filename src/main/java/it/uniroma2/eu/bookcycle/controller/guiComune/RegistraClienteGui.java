@@ -52,11 +52,15 @@ public abstract class RegistraClienteGui extends GraphicController {
 
             switch (ruoloCliente) {
                 case UTENTE -> {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
-                    Parent root = loader.load();
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+                        Parent root = loader.load();
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    } catch (IOException e) {
+                        showAlert("Errore caricamento schermata");
+                    }
                 }
                case LIBRAIO ->  {goToLibraio();}
             }
@@ -67,9 +71,7 @@ public abstract class RegistraClienteGui extends GraphicController {
             showAlert("Errore: username già registrato, scegline un altro.");
         } catch (PersistenzaException e) {
             showAlert("Errore tecnico: impossibile salvare i dati, riprova più tardi.");
-        } catch (IOException e) {
-            throw new GuiException("Errore caricamento Schermata Profilo");
-        }
+       }
 
 
     }

@@ -12,7 +12,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.List;
 
 public class LibriMiei2ViewController extends CaricaLibroGui {
@@ -55,6 +61,22 @@ public class LibriMiei2ViewController extends CaricaLibroGui {
                         cellData.getValue().getTitolo() + " di " + cellData.getValue().getAutore()
                 )
         );
+    }
+
+    @Override
+    protected void goToLogin() {
+        try {
+            String path = "/it/uniroma2/eu/bookcycle/gui2/Login2View.fxml";
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Parent root = loader.load();
+            Stage stage = (Stage) tornaIndietroButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            showAlert("Errore nel caricamento della schermata di login.");
+        }
+
     }
 
     @FXML

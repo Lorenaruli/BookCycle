@@ -1,19 +1,16 @@
 package it.uniroma2.eu.bookcycle.controller.guiComune;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaAnnuncioBean;
-import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
 import it.uniroma2.eu.bookcycle.controller.CaricaAnnuncioController;
-import it.uniroma2.eu.bookcycle.controller.CaricaLibroController;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
-import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonLoggatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.RuoloClienteException;
 import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
-import static it.uniroma2.eu.bookcycle.model.domain.RuoloCliente.LIBRAIO;
-import static it.uniroma2.eu.bookcycle.model.domain.RuoloCliente.UTENTE;
-import static it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio.ANNUNCIONOLEGGIO;
-import static it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio.ANNUNCIOVENDITA;
 
 public abstract class CaricaAnnuncioGui extends GraphicController {
     protected void aggiungi(ActionEvent event, TextField titoloField, TextField autoreField, TextField prezzoField, CheckBox check) {
@@ -39,10 +36,25 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
 
         if(check.isSelected()){
             goToNoleggio(caricaAnnuncioBean);
-            return;}
+            return;
+        }
 
-        CaricaAnnuncioController caricaAnnuncioController = new CaricaAnnuncioController();
-        caricaAnnuncioController.AggiungiAnnuncio(caricaAnnuncioBean);
+        CaricaAnnuncioController caricaAnnuncioController=null;
+        try {
+            caricaAnnuncioController = new CaricaAnnuncioController();
+        } catch (ClienteNonLoggatoException e) {
+            showAlert("Devi prima loggarti");
+        }
+        try {
+            caricaAnnuncioController.AggiungiAnnuncio(caricaAnnuncioBean);
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico: impossibile accedere ai dati. Riprova più tardi.");
+        } catch (RuoloClienteException e) {
+            showAlert("Ruolo non valido per questa operazione.");
+        } catch (OggettoInvalidoException e) {
+            showAlert("Dati non validi: verifica i campi inseriti.");
+        }
+
         showAlert("Annuncio caricato con successo");
 
     }
@@ -57,7 +69,6 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
     private Double ottieniPrezzo(TextField prezzo) {
         String s = prezzo.getText();
         if (s == null) return null;
-
         try {
             double value = Double.parseDouble(s);
             return value;

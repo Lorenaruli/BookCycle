@@ -1,13 +1,14 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
@@ -16,22 +17,25 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
     private final File file;
     private List<Annuncio> annunci;
 
-    public AnnuncioDaoFile()   {
+    public AnnuncioDaoFile() throws PersistenzaException  {
         this.file = inizializzaPercorsoDaProperties(ANNUNCI_PATH);
         this.annunci = caricaAnnunci();
         aggiornaIdCounter();
     }
 
     @Override
-    protected void inizializzaFileVuoto(File file) throws IOException {
+    protected void inizializzaFileVuoto(File file) throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
                     oos.writeObject(new ArrayList<Annuncio>());
                 }
+    catch (IOException e) {
+        throw new PersistenzaException("Errore inizializzazione file annunci");
+     }
     }
 
 
 
-    private List<Annuncio> caricaAnnunci() throws DaoException {
+    private List<Annuncio> caricaAnnunci() throws PersistenzaException {
         if (!file.exists()) return new ArrayList<>();
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
@@ -39,18 +43,18 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
             if (obj instanceof List<?>) {
                 return (List<Annuncio>) obj;
             } else {
-                throw new DaoException("Formato file non valido");
+                throw new PersistenzaException("Formato file non valido");
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new DaoException("Errore lettura annunci: " + e.getMessage());
+            throw new PersistenzaException("Errore lettura annunci: ");
         }
     }
 
-    private void salvaAnnunci() throws DaoException {
+    private void salvaAnnunci() throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(annunci);
         } catch (IOException e) {
-            throw new DaoException("Errore scrittura annunci: " + e.getMessage());
+            throw new PersistenzaException("Errore scrittura annunci: " );
         }
     }
 
@@ -66,21 +70,23 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
     }
 
     @Override
-    public void salvaAnnuncio(Annuncio annuncio) throws DaoException {
-        if (annuncio == null) throw new DaoException("Annuncio nullo");
+    public void salvaAnnuncio(Annuncio annuncio) throws OggettoInvalidoException, PersistenzaException {
+        if (annuncio == null) throw new OggettoInvalidoException("Annuncio nullo");
         annunci.add(annuncio);
-        salvaAnnunci();
+
+            salvaAnnunci();
+
     }
 
     @Override
-    public List<Annuncio> cercaPerProprietario(String username) throws DaoException {
+    public List<Annuncio> cercaPerProprietario(String username) {
         return annunci.stream()
                 .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(username))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void rimuoviAnnuncio(long idAnnuncio) throws DaoException {
+    public void rimuoviAnnuncio(long idAnnuncio) throws OggettoInvalidoException, PersistenzaException {
         Annuncio daRimuovere = null;
 
         for (Annuncio a : annunci) {
@@ -91,7 +97,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         }
 
         if (daRimuovere == null) {
-            throw new DaoException("Annuncio non trovato");
+            throw new OggettoInvalidoException("Annuncio non trovato");
         }
 
         annunci.remove(daRimuovere);
@@ -99,45 +105,47 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
     }
 
     @Override
-    public List<Annuncio> ottieniTuttiAnnunci() throws DaoException {
+    public List<Annuncio> ottieniTuttiAnnunci() {
         return new ArrayList<>(annunci);
     }
 
     @Override
-    public List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) throws DaoException {
-        if (usernameLibraio == null) throw new DaoException("Username nullo");
+    public List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) {
+        if (usernameLibraio == null) {
+            return Collections.emptyList();
+        }
         return annunci.stream()
                 .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(usernameLibraio))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Annuncio> cercaPerTitolo(String titolo) throws DaoException {
-        if (titolo == null) throw new DaoException("Titolo nullo");
+    public List<Annuncio> cercaPerTitolo(String titolo) {
+        if (titolo == null)  return Collections.emptyList();
         return annunci.stream()
                 .filter(a -> a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Annuncio> cercaPerAutore(String autore) throws DaoException {
-        if (autore == null) throw new DaoException("Autore nullo");
+    public List<Annuncio> cercaPerAutore(String autore)  {
+        if (autore == null) return Collections.emptyList();
         return annunci.stream()
                 .filter(a -> a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Annuncio> cercaPerGenere(String genere) throws DaoException {
-        if (genere == null) throw new DaoException("Genere nullo");
+    public List<Annuncio> cercaPerGenere(String genere)  {
+        if (genere == null) return Collections.emptyList();
         return annunci.stream()
                 .filter(a -> a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) throws DaoException {
-        if (tipo == null) throw new DaoException("Tipo nullo");
+    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo)  {
+        if (tipo == null) return Collections.emptyList();
         return annunci.stream()
                 .filter(a -> a.getTipo() == tipo)
                 .collect(Collectors.toList());

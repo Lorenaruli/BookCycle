@@ -1,11 +1,13 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
 import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,9 +33,9 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
 
 
     @Override
-    public void salvaAnnuncio(Annuncio annuncio) throws DaoException {
+    public void salvaAnnuncio(Annuncio annuncio) throws OggettoInvalidoException {
         if (annuncio == null) {
-            throw new DaoException("Annuncio nullo");
+            throw new OggettoInvalidoException("Annuncio nullo");
         }
         annunci.add(annuncio);
     }
@@ -55,17 +57,17 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     }
 
     @Override
-    public List<Annuncio> cercaPerProprietario(String username) throws DaoException {
+    public List<Annuncio> cercaPerProprietario(String username) {
         return annunci.stream()
                 .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(username))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void rimuoviAnnuncio(long idAnnuncio) throws DaoException {
+    public void rimuoviAnnuncio(long idAnnuncio) throws OggettoInvalidoException {
         boolean removed = annunci.removeIf(a -> a.getIdAnnuncio() == idAnnuncio);
         if (!removed) {
-            throw new DaoException("Annuncio non trovato");
+            throw new OggettoInvalidoException("Annuncio non trovato");
         }
     }
 
@@ -75,9 +77,9 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     }
 
     @Override
-    public List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) throws DaoException {
+    public List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) {
         if (usernameLibraio == null) {
-            throw new DaoException("Username nullo");
+            return Collections.emptyList();
         }
         return annunci.stream()
                 .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(usernameLibraio))
@@ -85,9 +87,9 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     }
 
     @Override
-    public List<Annuncio> cercaPerTitolo(String titolo) throws DaoException {
+    public List<Annuncio> cercaPerTitolo(String titolo)  {
         if (titolo == null) {
-            throw new DaoException("Titolo nullo");
+            return Collections.emptyList();
         }
         return annunci.stream()
                 .filter(a -> a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase()))
@@ -95,9 +97,9 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     }
 
     @Override
-    public List<Annuncio> cercaPerAutore(String autore) throws DaoException {
+    public List<Annuncio> cercaPerAutore(String autore){
         if (autore == null) {
-            throw new DaoException("Autore nullo");
+            return Collections.emptyList();
         }
         return annunci.stream()
                 .filter(a -> a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase()))
@@ -105,9 +107,9 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     }
 
     @Override
-    public List<Annuncio> cercaPerGenere(String genere) throws DaoException {
+    public List<Annuncio> cercaPerGenere(String genere) {
         if (genere == null) {
-            throw new DaoException("Genere nullo");
+            return Collections.emptyList();
         }
         return annunci.stream()
                 .filter(a -> a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase()))
@@ -115,9 +117,9 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     }
 
     @Override
-    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) throws DaoException {
+    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo)  {
         if (tipo == null) {
-            throw new DaoException("Tipo nullo");
+            return Collections.emptyList();
         }
         return annunci.stream()
                 .filter(a -> a.getTipo() == tipo)

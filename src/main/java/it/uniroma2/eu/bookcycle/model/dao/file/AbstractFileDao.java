@@ -1,5 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 
 
@@ -12,7 +13,7 @@ public abstract class AbstractFileDao {
 
     private static final String PROPERTIES_PATH = "proprieta.properties";
 
-    protected File inizializzaPercorsoDaProperties(String key) throws DaoException {
+    protected File inizializzaPercorsoDaProperties(String key) throws PersistenzaException {
         Properties props = new Properties();
 
         try (InputStream input = AbstractFileDao.class.getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
@@ -50,5 +51,5 @@ public abstract class AbstractFileDao {
         }
     }
 
-    protected abstract void inizializzaFileVuoto(File file) throws IOException;
+    protected abstract void inizializzaFileVuoto(File file) throws PersistenzaException;
 }

@@ -11,7 +11,6 @@ public class Libro implements Serializable {
     private String autore;
     private String genere;
     private long idLibro;
-    private TipoLibro tipologia;
     private String usernameProprietario;
 
 
@@ -73,12 +72,6 @@ public class Libro implements Serializable {
         Libro.idCounter = idCounter;
     }
 
-
-
-    public TipoLibro getTipologia() {
-
-        return tipologia;
-    }
 
     public String getUsernameProprietario() {
 

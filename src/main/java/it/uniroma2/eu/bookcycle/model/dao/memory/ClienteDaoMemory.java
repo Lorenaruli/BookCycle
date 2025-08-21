@@ -1,7 +1,11 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.dao.file.ClienteDaoFile;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
@@ -20,9 +24,9 @@ public class ClienteDaoMemory implements ClienteDao {
     }
 
 
- public void aggiornaCliente(Cliente cliente){
+ public void aggiornaCliente(Cliente cliente) throws OggettoInvalidoException {
      if (cliente == null) {
-         throw new DaoException("Cliente nullo");
+         throw new OggettoInvalidoException("Cliente nullo");
      }
 
      for (int i = 0; i < clienti.size(); i++) {
@@ -49,36 +53,46 @@ public class ClienteDaoMemory implements ClienteDao {
 
 
     @Override
-    public void aggiungiUtente(String username, String password, String telefono, String email) throws DaoException {
+    public void aggiungiUtente(String username, String password, String telefono, String email) throws OggettoEsistenteException {
         if (datiClienti.containsKey(username)) {
-            throw new DaoException("Username già esistente: " + username);
+            throw new OggettoEsistenteException("Username già esistente: " + username);
         }
-        Utente utente = new Utente(username); // la tua entity
+        Utente utente = new Utente(username);
         datiClienti.put(username, new DatiClienteM(utente, password, telefono, email));
         clienti.add(utente);
     }
 
     @Override
-    public void aggiungiLibraio(String username, String password, String telefono, String email) throws DaoException {
+    public void aggiungiLibraio(String username, String password, String telefono, String email) throws OggettoEsistenteException {
         if (datiClienti.containsKey(username)) {
-            throw new DaoException("Username già esistente: " + username);
+            throw new OggettoEsistenteException("Username già esistente: " + username);
         }
-        Libraio libraio = new Libraio(username); // la tua entity
+        Libraio libraio = new Libraio(username);
         datiClienti.put(username, new DatiClienteM(libraio, password, telefono, email));
         clienti.add(libraio);
     }
 
     @Override
-    public String trovaEmail(String username) {
+    public String trovaEmail(String username) throws ClienteNonTrovatoException {
         DatiClienteM d = datiClienti.get(username);
-        return (d != null) ? d.getEmail() : null;
+        if (d == null) {
+            throw new ClienteNonTrovatoException("Cliente con username " + username + " non trovato");
+        }
+
+        return d.getEmail();
+
     }
 
     @Override
-    public String trovaTelefono(String username) {
+    public String trovaTelefono(String username) throws ClienteNonTrovatoException {
         DatiClienteM d = datiClienti.get(username);
-        return (d != null) ? d.getTelefono() : null;
+        if (d == null) {
+            throw new ClienteNonTrovatoException("Cliente con username " + username + " non trovato");
+        }
+
+        return d.getTelefono();
     }
+
 
     @Override
     public boolean esisteCliente(String username) {
@@ -112,21 +126,23 @@ public class ClienteDaoMemory implements ClienteDao {
     }
 
     @Override
-    public Cliente ottieniCliente(String username) throws DaoException {
+    public Cliente ottieniCliente(String username) throws ClienteNonTrovatoException {
         DatiClienteM dati = datiClienti.get(username);
         if (dati == null) {
-            throw new DaoException("Cliente non trovato: " + username);
+            throw new ClienteNonTrovatoException("Cliente non trovato: " + username);
         }
         return dati.getCliente();
 
     }
     @Override
-    public Cliente trovaPerUsername(String username) {
-        return clienti.stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst()
-                .orElse(null);
+    public Cliente trovaPerUsername(String username) throws ClienteNonTrovatoException {
+        DatiClienteM dati = datiClienti.get(username);
+        if (dati == null) {
+            throw new ClienteNonTrovatoException("Cliente con username " + username + " non trovato");
+        }
+        return dati.getCliente();
     }
+
 
 
     private static class DatiClienteM {

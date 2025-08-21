@@ -25,5 +25,6 @@ module it.uniroma2.eu.bookcycle {
     exports it.uniroma2.eu.bookcycle.model.domain;
     exports it.uniroma2.eu.bookcycle.controller;
     exports it.uniroma2.eu.bookcycle.bean;
+    exports it.uniroma2.eu.bookcycle.model.Eccezioni;
 
 }

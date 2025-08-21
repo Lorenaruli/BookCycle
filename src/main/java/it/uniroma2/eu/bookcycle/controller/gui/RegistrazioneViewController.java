@@ -3,10 +3,10 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.guiComune.RegistraClienteGui;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.GuiException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -45,7 +45,6 @@ public class RegistrazioneViewController extends RegistraClienteGui {
     @FXML
     void registra(ActionEvent event) {
         String path = "/it/uniroma2/eu/bookcycle/gui/ProfiloUtenteView.fxml";
-
         registraCliente(event, usernameLabel, passwordField, emailLabel, telephoneLabel, path);
     }
 
@@ -64,7 +63,7 @@ public class RegistrazioneViewController extends RegistraClienteGui {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new GuiException("Errore caricamento ProfiloLibraioView");
         }
     }
 

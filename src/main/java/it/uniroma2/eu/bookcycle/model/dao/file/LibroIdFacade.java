@@ -25,7 +25,6 @@ public class LibroIdFacade {
                 max = l.getIdLibro();
             }
         }
-        long id=max+1;
-        return id;
+        return max + 1;
     }
 }

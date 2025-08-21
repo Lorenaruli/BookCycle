@@ -1,6 +1,6 @@
 package it.uniroma2.eu.bookcycle.controller.gui2;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
-import it.uniroma2.eu.bookcycle.bean2.SchermataAccessoBean;
+import it.uniroma2.eu.bookcycle.bean.SchermataAccessoBean;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 
 import it.uniroma2.eu.bookcycle.controller.guiComune.RegistraClienteGui;

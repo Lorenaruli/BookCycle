@@ -1,4 +1,4 @@
-package it.uniroma2.eu.bookcycle.bean2;
+package it.uniroma2.eu.bookcycle.bean;
 
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 

@@ -1,8 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
 import it.uniroma2.eu.bookcycle.bean.AnnuncioBean;
-import it.uniroma2.eu.bookcycle.bean.ContattiBean;
-import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
 import java.util.Collections;

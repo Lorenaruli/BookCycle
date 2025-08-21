@@ -1,7 +1,10 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
@@ -17,16 +20,18 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
     private File file;
     private Map<String, DatiClienteF> datiClienti;
 
-    public ClienteDaoFile() throws DaoException {
+    public ClienteDaoFile() throws PersistenzaException {
         this.file = inizializzaPercorsoDaProperties(CLIENTI_PATH);
         this.datiClienti = new HashMap<>();
         leggiClienti();
     }
 
     @Override
-    protected void inizializzaFileVuoto(File file) throws IOException {
+    protected void inizializzaFileVuoto(File file) throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(new ArrayList<DatiClienteF>());
+            oos.writeObject(new ArrayList<DatiClienteF>());}
+            catch (IOException e) {
+                throw new PersistenzaException("Errore inizializzazione file clienti");
 
         }
     }
@@ -40,9 +45,9 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
         }
     }
 
-    public void aggiornaCliente(Cliente cliente) {
+    public void aggiornaCliente(Cliente cliente) throws OggettoInvalidoException, PersistenzaException{
         if (cliente == null) {
-            throw new DaoException("Cliente nullo");
+            throw new OggettoInvalidoException("Cliente nullo");
         }
 
         for (int i = 0; i < clienti.size(); i++) {
@@ -57,31 +62,31 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
 
 
 
-        private List<DatiClienteF> leggiClienti() throws DaoException {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-            List<DatiClienteF> lista = (List<DatiClienteF>) ois.readObject();
-            caricaDati(lista);
-            this.clienti = lista.stream()
-                    .map(DatiClienteF::getCliente)
-                    .collect(Collectors.toList());  // <- AGGIUNGI QUESTO
-            return lista;
-        } catch (IOException | ClassNotFoundException e) {
-            throw new DaoException("Errore nella lettura del file clienti");
-        }
+    private List<DatiClienteF> leggiClienti() throws PersistenzaException {
+    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+        List<DatiClienteF> lista = (List<DatiClienteF>) ois.readObject();
+        caricaDati(lista);
+        this.clienti = lista.stream()
+                .map(DatiClienteF::getCliente)
+                .collect(Collectors.toList());
+        return lista;
+    } catch (IOException | ClassNotFoundException e) {
+        throw new PersistenzaException("Errore nella lettura del file clienti");
     }
+}
 
-    private void salvaClienti() throws DaoException {
+    private void salvaClienti() throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(new ArrayList<>(datiClienti.values()));
         } catch (IOException e) {
-            throw new DaoException("Errore scrittura clienti");
+            throw new PersistenzaException("Errore scrittura clienti");
         }
     }
 
     @Override
-    public void aggiungiLibraio(String username, String password, String telefono, String email) throws DaoException {
+    public void aggiungiLibraio(String username, String password, String telefono, String email) throws OggettoEsistenteException, PersistenzaException {
         if (esisteCliente(username)) {
-            throw new DaoException("Username già esistente: " + username);
+            throw new OggettoEsistenteException("Username già esistente: " + username);
         }
         List<DatiClienteF> clienti = leggiClienti();
         Cliente libraio = new Libraio(username);
@@ -92,9 +97,9 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
     }
 
     @Override
-    public void aggiungiUtente(String username, String password, String telefono, String email) throws DaoException {
+    public void aggiungiUtente(String username, String password, String telefono, String email) throws OggettoEsistenteException, PersistenzaException {
         if (esisteCliente(username)) {
-            throw new DaoException("Username già esistente: " + username);
+            throw new OggettoEsistenteException("Username già esistente: " + username);
         }
         List<DatiClienteF> clienti = leggiClienti();
         Cliente utente = new Utente(username);
@@ -104,31 +109,42 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
         salvaClienti();
     }
     @Override
-    public String trovaEmail(String username) {
+    public String trovaEmail(String username) throws PersistenzaException, ClienteNonTrovatoException {
         DatiClienteF d = datiClienti.get(username);
         if (d == null) {
-            try { leggiClienti(); } catch (DaoException e) { e.printStackTrace(); return null; }
+            leggiClienti();
             d = datiClienti.get(username);
         }
-        return (d != null) ? d.getEmail() : null;
+        if (d == null) {
+            throw new ClienteNonTrovatoException("Cliente con username " + username + " non trovato");
+        }
+
+        return d.getEmail();
     }
 
     @Override
-    public String trovaTelefono(String username) {
+    public String trovaTelefono(String username) throws PersistenzaException, ClienteNonTrovatoException {
         DatiClienteF d = datiClienti.get(username);
         if (d == null) {
-            try { leggiClienti(); } catch (DaoException e) { e.printStackTrace(); return null; }
+            leggiClienti();
             d = datiClienti.get(username);
         }
-        return (d != null) ? d.getTelefono() : null;
+        if (d == null) {
+            throw new ClienteNonTrovatoException("Cliente con username " + username + " non trovato");
+        }
+
+        return d.getEmail();
     }
 
 
 
     @Override
-    public Cliente trovaPerUsername(String username) {
+    public Cliente trovaPerUsername(String username) throws ClienteNonTrovatoException {
         DatiClienteF dati = datiClienti.get(username);
-        return (dati != null) ? dati.getCliente() : null;
+        if (dati == null) {
+            throw new ClienteNonTrovatoException("Cliente con username " + username + " non trovato");
+        }
+        return dati.getCliente();
     }
 
     @Override
@@ -137,10 +153,10 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
     }
 
     @Override
-    public Cliente ottieniCliente(String username) throws DaoException {
+    public Cliente ottieniCliente(String username) throws ClienteNonTrovatoException {
         DatiClienteF dati = datiClienti.get(username);
         if (dati == null) {
-            throw new DaoException("Cliente non trovato: " + username);
+            throw new ClienteNonTrovatoException("Cliente non trovato: " + username);
         }
         return dati.getCliente();
     }

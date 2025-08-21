@@ -1,6 +1,7 @@
 package it.uniroma2.eu.bookcycle.controller;
 
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.GuiException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -23,8 +24,7 @@ public class SceneManager extends GraphicController {
             stage.show();
 
         } catch (IOException ex) {
-            showAlert("Impossibile caricare la schermata.");
-            ex.printStackTrace();
+            throw new GuiException("Errore caricamento ProfiloLibraioView");
         }
     }
 }

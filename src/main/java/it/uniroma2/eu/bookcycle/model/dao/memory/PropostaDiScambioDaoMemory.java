@@ -1,5 +1,7 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PropostaNonTrovataException;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
@@ -29,9 +31,9 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     }
 
     @Override
-    public void aggiungiProposta(PropostaDiScambio proposta) throws DaoException {
+    public void aggiungiProposta(PropostaDiScambio proposta) throws OggettoInvalidoException {
         if (proposta == null) {
-            throw new DaoException("Proposta nulla");
+            throw new OggettoInvalidoException("Proposta nulla");
         }
         for (int i = 0; i < proposteTotali.size(); i++) {
             if (proposteTotali.get(i).getIdProposta() == proposta.getIdProposta()) {
@@ -60,7 +62,7 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     }
 
     @Override
-    public void rimuoviProposta(long idProposta) throws DaoException {
+    public void rimuoviProposta(long idProposta) throws PropostaNonTrovataException {
         PropostaDiScambio daRimuovere = null;
 
         for (PropostaDiScambio p : proposteTotali) {
@@ -71,21 +73,21 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
         }
 
         if (daRimuovere == null) {
-            throw new DaoException("Proposta non trovata");
+            throw new PropostaNonTrovataException("Proposta non trovata");
         }
 
         proposteTotali.remove(daRimuovere);
     }
 
     @Override
-    public List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) throws DaoException {
+    public List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) {
         return proposteTotali.stream()
                 .filter(p -> p.getDestinatario().getUsername().equalsIgnoreCase(usernameDestinatario))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<PropostaDiScambio> getProposteInviate(String usernameMittente) throws DaoException {
+    public List<PropostaDiScambio> getProposteInviate(String usernameMittente){
         return proposteTotali.stream()
                 .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
                 .collect(Collectors.toList());
@@ -112,11 +114,12 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     }
 
     @Override
-    public PropostaDiScambio cercaPropostaId(long idProposta) {
+    public PropostaDiScambio cercaPropostaId(long idProposta) throws PropostaNonTrovataException {
         return proposteTotali.stream()
                 .filter(p -> p.getIdProposta() == idProposta)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() ->
+                        new PropostaNonTrovataException("Nessuna proposta trovata con id: " + idProposta));
 
     }
 }

@@ -1,11 +1,16 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.LibroNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PropostaNonTrovataException;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,16 +19,19 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
     private final File file;
     private List<PropostaDiScambio> proposteTotali;
 
-    public PropostaDiScambioDaoFile() throws DaoException {
+    public PropostaDiScambioDaoFile() throws PersistenzaException {
         this.file = inizializzaPercorsoDaProperties(SCAMBI_PATH);
         this.proposteTotali = caricaProposte();
         aggiornaIdCounter();
     }
 
     @Override
-    protected void inizializzaFileVuoto(File file) throws IOException {
+    protected void inizializzaFileVuoto(File file) throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(new ArrayList<PropostaDiScambio>());
+        }
+            catch (IOException e) {
+                throw new PersistenzaException("Errore inizializzazione file clienti");
 
         }
     }
@@ -40,7 +48,7 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         return (max + 1);
     }
 
-    private List<PropostaDiScambio> caricaProposte() throws DaoException {
+    private List<PropostaDiScambio> caricaProposte() throws PersistenzaException {
         if (!file.exists()) return new ArrayList<>();
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
@@ -48,25 +56,25 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
             if (obj instanceof List<?>) {
                 return (List<PropostaDiScambio>) obj;
             } else {
-                throw new DaoException("Formato file non valido");
+                throw new PersistenzaException("Formato file non valido");
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new DaoException("Errore lettura file: " + e.getMessage());
+            throw new PersistenzaException("Errore lettura file: " + e.getMessage());
         }
     }
 
-    private void salvaProposte() throws DaoException {
+    private void salvaProposte() throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(proposteTotali);
         } catch (IOException e) {
-            throw new DaoException("Errore scrittura file: " + e.getMessage());
+            throw new PersistenzaException("Errore scrittura file: " + e.getMessage());
         }
     }
 
     @Override
-    public void aggiungiProposta(PropostaDiScambio proposta) throws DaoException {
+    public void aggiungiProposta(PropostaDiScambio proposta) throws OggettoInvalidoException, PersistenzaException {
         if (proposta == null) {
-            throw new DaoException("Proposta nulla");
+            throw new OggettoInvalidoException("Proposta nulla");
         }
         for (int i = 0; i < proposteTotali.size(); i++) {
             if (proposteTotali.get(i).getIdProposta() == proposta.getIdProposta()) {
@@ -82,7 +90,7 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
 
 
     @Override
-    public void rimuoviProposta(long idProposta) throws DaoException {
+    public void rimuoviProposta(long idProposta) throws PropostaNonTrovataException, PersistenzaException {
         PropostaDiScambio daRimuovere = null;
 
         for (PropostaDiScambio p : proposteTotali) {
@@ -93,7 +101,7 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         }
 
         if (daRimuovere == null) {
-            throw new DaoException("Proposta non trovata");
+            throw new PropostaNonTrovataException("Proposta non trovata");
         }
 
         proposteTotali.remove(daRimuovere);
@@ -101,17 +109,25 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
     }
 
     @Override
-    public List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) throws DaoException {
+    public List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) {
+        if (usernameDestinatario == null) {
+            return Collections.emptyList();
+        }
         return proposteTotali.stream()
                 .filter(p -> p.getDestinatario().getUsername().equalsIgnoreCase(usernameDestinatario))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<PropostaDiScambio> getProposteInviate(String usernameMittente) throws DaoException {
-        return proposteTotali.stream()
-                .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
-                .collect(Collectors.toList());
+    public List<PropostaDiScambio> getProposteInviate(String usernameMittente) {
+        if (usernameMittente == null) {
+            return Collections.emptyList();
+        }
+        {
+            return proposteTotali.stream()
+                    .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -134,11 +150,12 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
     }
 
     @Override
-    public PropostaDiScambio cercaPropostaId(long idProposta) {
+    public PropostaDiScambio cercaPropostaId(long idProposta) throws PropostaNonTrovataException {
         return proposteTotali.stream()
                 .filter(p -> p.getIdProposta() == idProposta)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() ->
+                        new PropostaNonTrovataException("Nessuna proposta trovata con id: " + idProposta));
 
     }
 }

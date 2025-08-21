@@ -1,33 +1,53 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.*;
 
 public class FileFactoryDao extends FactoryDao {
     @Override
     public AnnuncioDao ottieniAnnuncioDao() {
-
-        return new AnnuncioDaoFile();
+        try {
+            return new AnnuncioDaoFile();
+        } catch (PersistenzaException e) {
+            throw new IllegalStateException("Impossibile creare AnnuncioDaoFile");
+        }
     }
 
     @Override
     public LibroScambioDao ottieniLibroScambioDao() {
 
-        return new LibroScambioDaoFile();
+        try {
+            return new LibroScambioDaoFile();
+        } catch (PersistenzaException e) {
+            throw new IllegalStateException("Impossibile creare LibroScambioDaoFile");
+        }
     }
 
     @Override
     public LIbroVenNolDao ottieniLibroVeNolDao() {
-        return new LibroVenNolDaoFile();
+        try {
+            return new LibroVenNolDaoFile();
+        } catch (PersistenzaException e) {
+            throw new IllegalStateException("Impossibile creare LibroVenditaDaoFile");
+        }
     }
 
     @Override
     public ClienteDao ottieniClienteDao() {
 
-        return new ClienteDaoFile();
+        try {
+            return new ClienteDaoFile();
+        } catch (PersistenzaException e) {
+            throw new IllegalStateException("Impossibile creare AnnuncioDaoFile");
+        }
     }
 
     @Override
     public PropostaDiScambioDao ottieniPropostaDiScambioDao() {
-        return new PropostaDiScambioDaoFile();
+        try {
+            return new PropostaDiScambioDaoFile();
+        } catch (PersistenzaException e) {
+            throw new IllegalStateException("Impossibile creare PropostaDaoFile");
+        }
     }
 }

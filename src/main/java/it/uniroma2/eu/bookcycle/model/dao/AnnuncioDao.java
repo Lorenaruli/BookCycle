@@ -1,5 +1,7 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
 import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 
@@ -8,26 +10,26 @@ import java.util.List;
 public interface AnnuncioDao {
 
      void aggiornaIdCounter();
-    void salvaAnnuncio(Annuncio annuncio) throws DaoException;
+    void salvaAnnuncio(Annuncio annuncio) throws OggettoInvalidoException, PersistenzaException;
 
-    void rimuoviAnnuncio(long idAnnuncio) throws DaoException;
-     List<Annuncio> cercaPerProprietario(String username) throws DaoException;
-
-
-    List<Annuncio> ottieniTuttiAnnunci() throws DaoException;
+    void rimuoviAnnuncio(long idAnnuncio) throws OggettoInvalidoException, PersistenzaException;
+     List<Annuncio> cercaPerProprietario(String username) ;
 
 
-    List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) throws DaoException;
+    List<Annuncio> ottieniTuttiAnnunci() ;
 
 
-    List<Annuncio> cercaPerTitolo(String titolo) throws DaoException;
+    List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio);
 
 
-    List<Annuncio> cercaPerAutore(String autore) throws DaoException;
+    List<Annuncio> cercaPerTitolo(String titolo);
 
 
-    List<Annuncio> cercaPerGenere(String genere) throws DaoException;
+    List<Annuncio> cercaPerAutore(String autore);
 
 
-    List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) throws DaoException;
+    List<Annuncio> cercaPerGenere(String genere);
+
+
+    List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo);
 }

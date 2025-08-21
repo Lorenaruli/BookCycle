@@ -2,9 +2,12 @@ package it.uniroma2.eu.bookcycle.controller.guiComune;
 
 import it.uniroma2.eu.bookcycle.bean.ClienteBean;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
-import it.uniroma2.eu.bookcycle.controller.BeanInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.BeanInvalidoException;
 import it.uniroma2.eu.bookcycle.controller.RegistrazioneController;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.GuiException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -56,14 +59,16 @@ public abstract class RegistraClienteGui extends GraphicController {
                     stage.show();
                 }
                case LIBRAIO ->  {goToLibraio();}
-//                default -> showAlert("Ruolo non riconosciuto.");
             }
 
         } catch (BeanInvalidoException e) {
-            showAlert("Errore nel caricamento della schermata");
+            showAlert("Ci sono dei campi vuoti");
+        } catch (OggettoEsistenteException e) {
+            showAlert("Errore: username già registrato, scegline un altro.");
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico: impossibile salvare i dati, riprova più tardi.");
         } catch (IOException e) {
-            showAlert("Errore nel caricamento della schermata");
-            e.printStackTrace();
+            throw new GuiException("Errore caricamento Schermata Profilo");
         }
 
 

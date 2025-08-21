@@ -1,5 +1,5 @@
 package it.uniroma2.eu.bookcycle.controller.gui2;
-import it.uniroma2.eu.bookcycle.bean2.SchermataAccessoBean;
+import it.uniroma2.eu.bookcycle.bean.SchermataAccessoBean;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;

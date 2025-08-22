@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface PropostaDiScambioDao {
 
+    void eliminaProposteUtente(String username) throws PersistenzaException;
+
     void aggiungiProposta(PropostaDiScambio proposta) throws OggettoInvalidoException, PersistenzaException;
 
     void rimuoviProposta(long idProposta) throws PropostaNonTrovataException, PersistenzaException;

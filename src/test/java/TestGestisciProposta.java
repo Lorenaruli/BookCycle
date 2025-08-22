@@ -15,19 +15,12 @@ public class TestGestisciProposta {
 
 
     @Test
-    public void testGestisciPropostaRifiutataAggiornaStato() throws PersistenzaException, OggettoInvalidoException {
+    public void testPropostaAggiornaStato() throws PersistenzaException, OggettoInvalidoException {
         FactoryDao factory = new MemoryFactoryDao();
-        PropostaDiScambioDao propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
-        ClienteDao clienteDao = FactoryDao.getIstance().ottieniClienteDao();
+        PropostaDiScambioDao propostaDao = factory.ottieniPropostaDiScambioDao();
+        ClienteDao clienteDao = factory.ottieniClienteDao();
 
 
-//
-
-//
-////        Utente mittente = (Utente) clienteDao.trovaPerUsername("mario");
-////        Utente destinatario = (Utente) clienteDao.trovaPerUsername("luca");
-//        Utente mittente=new Utente("diego");
-//        Utente destinatario=new Utente("franco");
 
         clienteDao.aggiungiUtente("diego", "pass", "123", "diego03");
         clienteDao.aggiungiUtente("franco", "pass", "987", "franco03");
@@ -39,21 +32,17 @@ public class TestGestisciProposta {
 
         PropostaDiScambio proposta = new PropostaDiScambio(mittente, destinatario,
                 new Libro("Titolo1", "Autore1", "Genere1", "diego"),
-                new Libro("Titolo2", "Autore2", "Genere2","franco"),0, StatoProposta.IN_ATTESA);
-        propostaDao.aggiungiProposta(proposta);
-        GestisciPropostaController controller =
-                new GestisciPropostaController();
+                new Libro("Titolo2", "Autore2", "Genere2","franco"),0, StatoProposta.RIFIUTATA);
 
-        Proposta3Bean bean = new Proposta3Bean();
-        bean.setIdProposta(0);
-        bean.setStato(StatoProposta.RIFIUTATA);
-        controller.gestisci(bean);
-        PropostaDiScambio aggiornata = propostaDao.cercaPropostaId(bean.getIdProposta());
-        //assertEquals("luca", proposta.getDestinatario().getUsername());
-        assertEquals(bean.getStato(), aggiornata.getStato());
+
+
+        propostaDao.aggiungiProposta(proposta);
+        PropostaDiScambio propostaAggiornata=propostaDao.cercaPropostaId(0);
+
+        assertEquals(StatoProposta.RIFIUTATA, propostaAggiornata.getStato());
         propostaDao.rimuoviProposta(0);
         clienteDao.rimuoviCliente(mittente.getUsername());
-        clienteDao.rimuoviCliente(mittente.getUsername());
-        //assertEquals("Titolo1", aggiornata.getLibroOfferto().getTitolo());
+        clienteDao.rimuoviCliente(destinatario.getUsername());
+
     }
     }

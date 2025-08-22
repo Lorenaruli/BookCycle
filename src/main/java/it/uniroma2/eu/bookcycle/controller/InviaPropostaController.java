@@ -2,10 +2,7 @@ package it.uniroma2.eu.bookcycle.controller;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.BeanInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.RuoloClienteException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreLibroScambio;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
@@ -52,7 +49,22 @@ public class InviaPropostaController {
         if ((!(mittente instanceof Utente)) || (!(destinatario instanceof Utente)) ){
             throw new RuoloClienteException("Entrambi i clienti devono essere utenti");
        }
-        Libro libroOfferto= gestoreLibroScambio.restituisciLibro(bean.getLibroOfferto());
+
+        //gestisco seconda eccezione
+        Libro libroOfferto= null;
+        try {
+            libroOfferto = gestoreLibroScambio.restituisciLibro(bean.getLibroOfferto());
+        } catch (LibroNonTrovatoException e) {
+
+                List<Libro> simili = gestoreLibroScambio.restituisciSimili(bean.getMittente(), bean.getLibroOfferto());
+
+                if (!simili.isEmpty()) {
+                    libroOfferto = simili.get(0);
+                } else {
+                    throw e;
+                }
+            }
+
         Libro libroRichiesto=gestoreLibroScambio.restituisciLibro(bean.getLibroRichiesto());
         PropostaDiScambio proposta = new PropostaDiScambio(
                 (Utente)mittente,

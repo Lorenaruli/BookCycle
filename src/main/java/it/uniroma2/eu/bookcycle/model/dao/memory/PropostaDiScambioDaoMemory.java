@@ -96,6 +96,13 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
                 .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
                 .collect(Collectors.toList());
     }
+    @Override
+    public void eliminaProposteUtente(String username) {
+        proposteTotali.removeIf(p ->
+                p.getMittente().getUsername().equalsIgnoreCase(username) ||
+                        p.getDestinatario().getUsername().equalsIgnoreCase(username)
+        );
+    }
 
     @Override
     public List<PropostaDiScambio> cercaPropostaLibroOfferto(long idLibro) {

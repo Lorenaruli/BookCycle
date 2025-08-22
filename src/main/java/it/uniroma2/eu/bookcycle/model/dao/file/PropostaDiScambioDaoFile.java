@@ -26,6 +26,16 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
     }
 
     @Override
+    public void eliminaProposteUtente(String username) throws PersistenzaException {
+        proposteTotali.removeIf(p ->
+                p.getMittente().getUsername().equalsIgnoreCase(username) ||
+                        p.getDestinatario().getUsername().equalsIgnoreCase(username)
+
+        );
+        salvaProposte();
+    }
+
+    @Override
     protected void inizializzaFileVuoto(File file) throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(new ArrayList<PropostaDiScambio>());

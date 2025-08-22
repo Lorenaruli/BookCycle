@@ -18,7 +18,7 @@ public class GestoreUtente {
     private PropostaDiScambioDao propostaDao;
     Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
 
-    public GestoreUtente() throws PersistenzaException{
+    public GestoreUtente() throws PersistenzaException {
         this.libroScambioDao = FactoryDao.getIstance().ottieniLibroScambioDao();
         this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
         this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
@@ -31,7 +31,7 @@ public class GestoreUtente {
         this.libroScambioDao = libroScambioDAO;
     }
 
-    public GestoreUtente(ClienteDao clienteDAO, PropostaDiScambioDao propostaDao) throws PersistenzaException{
+    public GestoreUtente(ClienteDao clienteDAO, PropostaDiScambioDao propostaDao) throws PersistenzaException {
         this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
         this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
     }
@@ -51,7 +51,6 @@ public class GestoreUtente {
     }
 
 
-
     public List<LibroBean> caricaLibriTutti() {
         String usernameCorrente = clienteAttuale.getUsername();
         return libroScambioDao.getTuttiLibri().stream()
@@ -60,13 +59,26 @@ public class GestoreUtente {
                 .toList();
     }
 
-    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) throws ClienteNonTrovatoException {
-    Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
-        List<PropostaDiScambio> proposteInviate = propostaDao.getProposteInviate(usernameCliente);
-    return proposteInviate;
-}
 
-    public List<PropostaDiScambio> caricaProposteUtenteDestinatario(String usernameCliente) throws ClienteNonTrovatoException {
+    // eccezione gestita numero 1
+    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) throws  PersistenzaException {
+            try {
+                Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
+                return propostaDao.getProposteInviate(usernameCliente);
+            } catch (ClienteNonTrovatoException e) {
+
+                List<PropostaDiScambio> sbagliate1 = propostaDao.getProposteInviate(usernameCliente);
+                List<PropostaDiScambio> sbagliate2 = propostaDao.getProposteRicevute(usernameCliente);
+                if (!sbagliate1.isEmpty() || !sbagliate2.isEmpty()) {
+                    propostaDao.eliminaProposteUtente(usernameCliente);
+                }
+                return Collections.emptyList();
+            }
+        }
+
+
+
+        public List<PropostaDiScambio> caricaProposteUtenteDestinatario(String usernameCliente) throws ClienteNonTrovatoException {
         Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
 
         List<PropostaDiScambio> proposteRicevute = propostaDao.getProposteRicevute(usernameCliente);

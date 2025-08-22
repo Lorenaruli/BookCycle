@@ -14,7 +14,7 @@ public class CaricaLibroController {
 
 
 
-    public CaricaLibroController() throws ClienteNonLoggatoException{
+    public CaricaLibroController() throws ClienteNonLoggatoException, PersistenzaException{
         if (clienteAttuale == null){
             throw new ClienteNonLoggatoException("non ti sei loggato");
         }

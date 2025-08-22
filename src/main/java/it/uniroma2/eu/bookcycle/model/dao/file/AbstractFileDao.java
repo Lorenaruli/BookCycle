@@ -33,13 +33,13 @@ public abstract class AbstractFileDao {
             File parent = file.getParentFile();
             if (parent != null && !parent.exists()) {
                 if (!parent.mkdirs() && !parent.exists()) {
-                    throw new DaoException("Impossibile creare la directory: " + parent.getAbsolutePath());
+                    throw new PersistenzaException("Impossibile creare la directory: " + parent.getAbsolutePath());
                 }
             }
 
             if (!file.exists()) {
                 if (!file.createNewFile()) {
-                    throw new DaoException("Impossibile creare il file: " + file.getAbsolutePath());
+                    throw new PersistenzaException("Impossibile creare il file: " + file.getAbsolutePath());
                 }
                 inizializzaFileVuoto(file);
             }
@@ -47,7 +47,7 @@ public abstract class AbstractFileDao {
             return file;
 
         } catch (IOException e) {
-            throw new DaoException("Errore nel caricamento del percorso dal file di proprietà");
+            throw new PersistenzaException("Errore nel caricamento del percorso dal file di proprietà");
         }
     }
 

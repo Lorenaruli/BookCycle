@@ -6,6 +6,8 @@ import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.InviaPropostaController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
@@ -59,9 +61,20 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
     public void caricaLibri() {
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
-        GestoreUtente gestore = new GestoreUtente();
+        GestoreUtente gestore = null;
+        try {
+            gestore = new GestoreUtente();
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi");
+        }
 
-        List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
+        List<LibroBean> libriUtente = null;
+        try {
+            libriUtente = gestore.caricaLibriUtente(username);
+        } catch (ClienteNonTrovatoException e) {
+            showAlert("Cliente non trovato, riprovare.");
+            return;
+        }
         List<LibroBean> libriDisponibili = libriUtente.stream()
                 .collect(Collectors.toList());
 

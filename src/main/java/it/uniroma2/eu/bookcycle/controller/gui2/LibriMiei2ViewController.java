@@ -1,10 +1,9 @@
 package it.uniroma2.eu.bookcycle.controller.gui2;
-import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
-import it.uniroma2.eu.bookcycle.controller.CaricaLibroController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
-import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
 import it.uniroma2.eu.bookcycle.controller.guiComune.CaricaLibroGui;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.beans.property.SimpleStringProperty;
@@ -49,8 +48,20 @@ public class LibriMiei2ViewController extends CaricaLibroGui {
 
     public void initialize() {
         String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
-        GestoreUtente gestore = new GestoreUtente();
-        List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
+        GestoreUtente gestore = null;
+        try {
+            gestore = new GestoreUtente();
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi.");
+            return;
+        }
+        List<LibroBean> libriUtente = null;
+        try {
+            libriUtente = gestore.caricaLibriUtente(username);
+        } catch (ClienteNonTrovatoException e) {
+            showAlert("Utente non trovato. RIporvare.");
+            return;
+        }
 
         listaLibri = FXCollections.observableArrayList(libriUtente);
         table.setItems(listaLibri);

@@ -3,6 +3,7 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 import it.uniroma2.eu.bookcycle.bean.Proposta2Bean;
 import it.uniroma2.eu.bookcycle.controller.GestisciPropostaController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -37,7 +38,7 @@ public class GestisciProposteViewController extends GraphicController{
     @FXML
     private Button tornaIndietroButton;
 
-    private  GestisciPropostaController app = new GestisciPropostaController();
+    private  GestisciPropostaController app;
 
 
     String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
@@ -69,6 +70,11 @@ public class GestisciProposteViewController extends GraphicController{
     }
 
     public void caricaDati(String usernameDestinatario) {
+        try {
+            app=new GestisciPropostaController();
+        } catch (PersistenzaException e) {
+           showAlert("Errore tecnico. Riprovare più tardi.");
+        }
         var beans = app.creaListaBeanProposteRicevute(usernameDestinatario);
         proposteTable.setItems(FXCollections.observableArrayList(beans));
     }
@@ -86,7 +92,7 @@ public class GestisciProposteViewController extends GraphicController{
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            showAlert("Impossibile caricare la schermata.");
         }
     }
 

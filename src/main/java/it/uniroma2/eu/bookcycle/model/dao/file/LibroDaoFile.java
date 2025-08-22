@@ -30,7 +30,7 @@ public abstract class LibroDaoFile extends AbstractFileDao implements LibroDao {
                 throw new PersistenzaException("Errore inizializzazione file " + file.getAbsolutePath());
             }
         }
-        caricaLibri(propertiesKey);
+        caricaLibri();
     }
     protected abstract void inizializzaFileVuoto(File file) throws PersistenzaException;
 
@@ -80,8 +80,7 @@ public List<Libro> getTuttiLibri() {
 }
 
 
-public void caricaLibri(String propertiesKey) throws PersistenzaException {
-    File file = inizializzaPercorsoDaProperties(propertiesKey);
+public void caricaLibri() throws PersistenzaException {
     if (!file.exists() || file.length() == 0) {
         this.libri = new ArrayList<>();
         return;
@@ -93,15 +92,13 @@ public void caricaLibri(String propertiesKey) throws PersistenzaException {
     }
 }
 
-public void salvaLibri(String propertiesKey) throws PersistenzaException {
-    File file = inizializzaPercorsoDaProperties(propertiesKey);
+public void salvaLibri() throws PersistenzaException {
     try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
         oos.writeObject(libri);
     } catch (IOException e) {
-        throw new PersistenzaException("Errore durante il salvataggio dei libri di vendita e noleggio");
+        throw new PersistenzaException("Errore durante il salvataggio dei libri");
     }
 }
-
 
 
 
@@ -113,19 +110,18 @@ public void rimuoviLibro(long idLibro) throws PersistenzaException, LibroNonTrov
         throw new LibroNonTrovatoException("Nessun libro trovato con ID " + idLibro);
     }
 
-    salvaLibri(propertiesKey);
+    salvaLibri();
 }
-@Override
-public void aggiungiLibro(Libro libro) throws PersistenzaException, OggettoInvalidoException{
-    if (libri == null) {
-        caricaLibri(propertiesKey);
+    @Override
+    public void aggiungiLibro(Libro libro) throws PersistenzaException, OggettoInvalidoException {
+        if (libri == null) {
+            caricaLibri();
+        }
+        if (libro == null) throw new OggettoInvalidoException("Libro nullo");
+
+        libri.add(libro);
+        salvaLibri();
     }
-
-    if (libro == null) throw new OggettoInvalidoException("Libro nullo");
-
-    libri.add(libro);
-    salvaLibri(propertiesKey);
-}
 
 
     @Override

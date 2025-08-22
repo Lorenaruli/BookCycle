@@ -40,6 +40,7 @@ public class CaricaAnnuncioViewController extends CaricaAnnuncioGui {
 
     @FXML
     void caricaAnnuncio(ActionEvent event) {
+
         aggiungi(event, titoloField, autoreField,prezzoField, checkButton);
     }
 
@@ -50,12 +51,12 @@ public class CaricaAnnuncioViewController extends CaricaAnnuncioGui {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
             InserisciPeriodoViewController controller = loader.getController();
-            controller.beanModificato(bean);
+            controller.setBean(bean);
             Stage stage = (Stage) checkButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            showAlert("Impossibile caricare la schermata.");
         }
 
     }

@@ -49,7 +49,7 @@ public class SchermataAccessoViewController extends GraphicController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAlert("Impossibile caricare la schermata.");
         }
     }
 

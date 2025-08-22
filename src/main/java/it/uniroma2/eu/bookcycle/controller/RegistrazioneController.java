@@ -13,7 +13,7 @@ import it.uniroma2.eu.bookcycle.model.domain.*;
 public class RegistrazioneController {
     private ClienteDao clienteDao;
 
-    public RegistrazioneController() {
+    public RegistrazioneController() throws PersistenzaException{
         this.clienteDao = FactoryDao.getIstance().ottieniClienteDao();
     }
 

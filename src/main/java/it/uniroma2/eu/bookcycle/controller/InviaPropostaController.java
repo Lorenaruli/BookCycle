@@ -2,6 +2,10 @@ package it.uniroma2.eu.bookcycle.controller;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.BeanInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.RuoloClienteException;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreLibroScambio;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
@@ -15,10 +19,11 @@ import static it.uniroma2.eu.bookcycle.model.domain.StatoProposta.IN_ATTESA;
 public class InviaPropostaController {
     private PropostaDiScambioDao propostaDiScambioDao;
 
-    public InviaPropostaController() {
+    public InviaPropostaController() throws PersistenzaException {
         this.propostaDiScambioDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
     }
-    public List<Proposta4Bean> creaListaBeanProposteInviate(String usernameMittente) {
+    public List<Proposta4Bean> creaListaBeanProposteInviate() {
+        String usernameMittente = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
         return propostaDiScambioDao.getProposteInviate(usernameMittente).stream()
                 .map(p -> {
                     Proposta4Bean bean = new Proposta4Bean();
@@ -31,10 +36,10 @@ public class InviaPropostaController {
                 .toList();
     }
 
-    public void inviaProposta(PropostaBean bean) {
+    public void inviaProposta(PropostaBean bean) throws BeanInvalidoException, RuoloClienteException, OggettoInvalidoException, PersistenzaException {
 
         if (!bean.completo()) {
-            throw new RuntimeException("Non sono state fornite abbastanza informazioni");
+            throw new BeanInvalidoException("Non sono state fornite abbastanza informazioni");
         }
         GestoreUtente gestoreUtente= new GestoreUtente();
         GestoreLibroScambio gestoreLibroScambio= new GestoreLibroScambio();
@@ -45,7 +50,7 @@ public class InviaPropostaController {
 
 
         if ((!(mittente instanceof Utente)) || (!(destinatario instanceof Utente)) ){
-            throw new RuntimeException("Entrambi i clienti devono essere utenti");
+            throw new RuoloClienteException("Entrambi i clienti devono essere utenti");
        }
         Libro libroOfferto= gestoreLibroScambio.restituisciLibro(bean.getLibroOfferto());
         Libro libroRichiesto=gestoreLibroScambio.restituisciLibro(bean.getLibroRichiesto());

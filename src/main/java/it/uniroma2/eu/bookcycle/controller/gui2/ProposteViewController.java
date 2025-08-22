@@ -6,6 +6,9 @@ import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.controller.GestisciPropostaController;
 import it.uniroma2.eu.bookcycle.controller.InviaPropostaController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -23,7 +26,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ProposteViewController {
+public class ProposteViewController extends GraphicController {
 
 
     @FXML private TableView<Proposta4Bean> proposteInviate;
@@ -36,8 +39,8 @@ public class ProposteViewController {
 
     @FXML private Button tornaIndietroButton;
 
-    private final GestisciPropostaController gestisciCtrl = new GestisciPropostaController();
-    private final InviaPropostaController inviaCtrl = new InviaPropostaController();
+    private  GestisciPropostaController gestisciCtrl;
+    private InviaPropostaController inviaCtrl;
 
     private static final String CONTATTI_LABEL = "Contatti";
 
@@ -51,7 +54,7 @@ public class ProposteViewController {
                 new SimpleStringProperty(cellData.getValue().getStato().toString()));
 
         aggiungiColonnaContatti();
-        caricaInviate(username);
+        caricaInviate();
 
         proposteRIcevuteColonna.setCellValueFactory(cellData ->
                 new SimpleStringProperty(
@@ -63,7 +66,7 @@ public class ProposteViewController {
             {
                 btn.setOnAction(e -> {
                     Proposta2Bean row = getTableView().getItems().get(getIndex());
-                    apriAccettaRifiuta(row, e);   // <-- ora passo l'intero bean
+                    apriAccettaRifiuta(row, e);
                 });
             }
             @Override
@@ -75,12 +78,22 @@ public class ProposteViewController {
         caricaRicevute(username);
     }
 
-    private void caricaInviate(String username) {
-        var beans = inviaCtrl.creaListaBeanProposteInviate(username);
+    private void caricaInviate() {
+        try {
+            inviaCtrl= new InviaPropostaController();
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi");
+        }
+        var beans = inviaCtrl.creaListaBeanProposteInviate();
         proposteInviate.setItems(FXCollections.observableArrayList(beans));
     }
 
     private void caricaRicevute(String username) {
+        try {
+            gestisciCtrl= new GestisciPropostaController();
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. RIprovare più tardi.");
+        }
         var beans = gestisciCtrl.creaListaBeanProposteRicevute(username);
         proposteRicevute.setItems(FXCollections.observableArrayList(beans));
     }
@@ -103,7 +116,7 @@ public class ProposteViewController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            showAlert("Errore nel caricamento della schermata.");
         }
     }
 
@@ -136,7 +149,16 @@ public class ProposteViewController {
 
     private void mostraContatti(Proposta4Bean bean) {
         String altroUsername = bean.getUsernameDestinatario();
-        ContattiBean c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
+        ContattiBean c = null;
+        try {
+            c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
+        } catch (ClienteNonTrovatoException e) {
+            showAlert("Utente non trovato, riprovare");
+            return;
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi.");
+            return;
+        }
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         if (c != null) {
             a.setHeaderText("CONTATTI_LABEL");

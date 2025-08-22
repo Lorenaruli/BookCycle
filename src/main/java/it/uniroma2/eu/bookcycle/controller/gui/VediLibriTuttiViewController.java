@@ -47,7 +47,6 @@ public class VediLibriTuttiViewController extends GraphicController{
 
     private ObservableList<LibroBean> listaLibriDisponibili;
 
-    //private final GestoreLibri gestoreLibri = new GestoreLibri();
 
     @FXML
     public void initialize() {
@@ -69,9 +68,8 @@ public class VediLibriTuttiViewController extends GraphicController{
             libriTable.setItems(listaLibriDisponibili);
         } catch (Exception e) {
             showAlert("Errore durante il caricamento dei libri.");
-            e.printStackTrace();
-            LibroBean libroBean= new LibroBean();
-            libroBean.getIdLibro();
+//            LibroBean libroBean= new LibroBean();
+//            libroBean.getIdLibro();
         }
     }
 
@@ -111,14 +109,13 @@ public class VediLibriTuttiViewController extends GraphicController{
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/uniroma2/eu/bookcycle/gui/ScegliLibriMieiView.fxml"));
                         Parent root = loader.load();
 
-                         ScegliLibriMieiViewController controller=loader.getController();
+                        ScegliLibriMieiViewController controller=loader.getController();
                         controller.creaBeanProposta(propostaParzialeBean);;
 
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         stage.setScene(new Scene(root));
                         stage.show();
                     } catch (IOException e) {
-                        e.printStackTrace();
                         showAlert("Errore durante il caricamento della schermata di selezione.");
                     }
                 });

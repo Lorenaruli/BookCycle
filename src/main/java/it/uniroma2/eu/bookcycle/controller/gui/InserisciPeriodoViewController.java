@@ -1,16 +1,23 @@
 package it.uniroma2.eu.bookcycle.controller.gui;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaAnnuncioBean;
+import it.uniroma2.eu.bookcycle.controller.CaricaAnnuncioController;
+import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
-public class InserisciPeriodoViewController {
+public class InserisciPeriodoViewController extends GraphicController {
 
     @FXML
     private ComboBox<String> durataCombo;
 
     private String scelta;
+    private CaricaAnnuncioBean bean;
+
+    public void setBean(CaricaAnnuncioBean bean) {
+        this.bean = bean;
+    }
 
     @FXML
     public void initialize() {
@@ -20,8 +27,27 @@ public class InserisciPeriodoViewController {
 
     @FXML
     void confermaDurata(ActionEvent event) {
+
         String scelta = durataCombo.getValue();
+        if (scelta == null || scelta.isBlank()) {
+            showAlert("Seleziona una durata valida");
+            return;
+        }
+        int durata = restituisciIntero(scelta);
+        bean.setDurata(durata);
+
+
+        try {
+            CaricaAnnuncioController caricaAnnuncioController = new CaricaAnnuncioController();
+            caricaAnnuncioController.AggiungiAnnuncio(bean);
+
+            showAlert("Annuncio di noleggio caricato con successo.");
+            SceneManager.cambiaScena(event,"/it/uniroma2/eu/bookcycle/gui/ProfiloLibraioView.fxml");
+        } catch (Exception e) {
+            showAlert("Errore durante il caricamento: " + e.getMessage());
+        }
     }
+
     public int restituisciIntero(String string) {
         String numeroStr = string.split(" ")[0];
 
@@ -32,10 +58,21 @@ public class InserisciPeriodoViewController {
         }
     }
 
-        public void beanModificato(CaricaAnnuncioBean bean){
-            bean.setDurata(restituisciIntero(scelta));
+    public void beanModificato(CaricaAnnuncioBean bean) {
+        String scelta = durataCombo.getValue();
+
+        if (scelta == null || scelta.isBlank()) {
+            showAlert("Seleziona una durata prima di confermare.");
+            return;
         }
 
+        try {
+            int durata = restituisciIntero(scelta);
+            bean.setDurata(durata);
+        } catch (IllegalArgumentException e) {
+            showAlert("Durata non valida: " + scelta);
+        }
+    }
     }
 
 

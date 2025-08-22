@@ -15,7 +15,7 @@ public class CaricaAnnuncioController {
     private AnnuncioDao annuncioDao;
     Cliente clienteAttuale= Sessione.ottieniIstanza().getClienteLoggato();
 
-    public CaricaAnnuncioController()throws ClienteNonLoggatoException {
+    public CaricaAnnuncioController()throws ClienteNonLoggatoException, PersistenzaException{
         this.libroVen = FactoryDao.getIstance().ottieniLibroVeNolDao();
         this.annuncioDao = FactoryDao.getIstance().ottieniAnnuncioDao();
         if (clienteAttuale == null) {
@@ -58,9 +58,6 @@ public class CaricaAnnuncioController {
             annuncioDao.salvaAnnuncio(annuncio);
         }
 
-
-        else
-            throw new RuoloClienteException("il cliente non è libraio");
     }
         }
 

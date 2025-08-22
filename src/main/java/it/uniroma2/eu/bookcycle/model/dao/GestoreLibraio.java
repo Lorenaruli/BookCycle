@@ -1,6 +1,8 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
 import it.uniroma2.eu.bookcycle.bean.AnnuncioBean;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
 import java.util.Collections;
@@ -13,7 +15,7 @@ public class GestoreLibraio {
     private AnnuncioDao annuncioDao;
     Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
 
-    public GestoreLibraio() {
+    public GestoreLibraio() throws PersistenzaException {
         this.annuncioDao = FactoryDao.getIstance().ottieniAnnuncioDao();
         this.libraioDao = FactoryDao.getIstance().ottieniClienteDao();
 
@@ -22,7 +24,7 @@ public class GestoreLibraio {
 
 
 
-    public List<AnnuncioBean> caricaAnnunciLibraio(String usernameCliente) {
+    public List<AnnuncioBean> caricaAnnunciLibraio(String usernameCliente) throws ClienteNonTrovatoException {
         if (clienteAttuale instanceof Libraio) {
 
             Cliente cliente = libraioDao.ottieniCliente(usernameCliente);
@@ -46,7 +48,7 @@ public class GestoreLibraio {
 
 
 
-    public Libraio restituisciLibraio(String username) {
+    public Libraio restituisciLibraio(String username) throws ClienteNonTrovatoException {
         Cliente cliente = libraioDao.trovaPerUsername(username);
         return (Libraio) (libraioDao.trovaPerUsername(username));
 

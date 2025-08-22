@@ -4,8 +4,9 @@ import it.uniroma2.eu.bookcycle.bean.ContattiBean;
 import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.controller.InviaPropostaController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
-import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,7 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
 
-public class VediProposteInviateViewController {
+public class VediProposteInviateViewController extends GraphicController {
 
     @FXML
     private TableColumn<Proposta4Bean, String> statiColonna;
@@ -47,9 +48,13 @@ public class VediProposteInviateViewController {
     }
 
     void caricaLibriProposte(){
-        String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
-        InviaPropostaController app = new InviaPropostaController();
-        List<Proposta4Bean> beans = app.creaListaBeanProposteInviate(username);
+        InviaPropostaController app = null;
+        try {
+            app = new InviaPropostaController();
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi.");
+        }
+        List<Proposta4Bean> beans = app.creaListaBeanProposteInviate();
         ObservableList<Proposta4Bean> obs = FXCollections.observableArrayList(beans);
         proposteTable.setItems(obs);
     }
@@ -102,7 +107,16 @@ public class VediProposteInviateViewController {
         if (!"ACCETTATA".equalsIgnoreCase(bean.getStato().toString())) return;
 
         String altroUsername = bean.getUsernameDestinatario();
-        ContattiBean c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
+        ContattiBean c = null;
+        try {
+            c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
+        } catch (ClienteNonTrovatoException e) {
+            showAlert("Cliente non trovato. Riprovare.");
+            return;
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi.");
+            return;
+        }
 
         if (c != null) {
             Alert a = new Alert(Alert.AlertType.INFORMATION);

@@ -3,7 +3,7 @@ package it.uniroma2.eu.bookcycle.bean;
 public class Proposta2Bean extends PropostaBean {
     private long idProposta;
     private String titoloRichiesto;
-    private String titoloOfferto;
+   private String titoloOfferto;
 
 
     public long getIdProposta() {

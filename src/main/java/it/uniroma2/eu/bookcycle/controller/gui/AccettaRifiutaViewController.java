@@ -3,6 +3,8 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 import it.uniroma2.eu.bookcycle.bean.Proposta3Bean;
 import it.uniroma2.eu.bookcycle.controller.GestisciPropostaController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.StatoProposta;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +21,7 @@ public class AccettaRifiutaViewController extends GraphicController{
     @FXML
     private Button rifiutaButton;
 
-    private final GestisciPropostaController app = new GestisciPropostaController();
+    private  GestisciPropostaController app;
 
     private long idProposta;
 
@@ -46,7 +48,16 @@ public class AccettaRifiutaViewController extends GraphicController{
         bean.setIdProposta(idProposta);
         bean.setStato(stato);
 
-        app.gestisci(bean);
+        try {
+            app= new GestisciPropostaController();
+            app.gestisci(bean);
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico, riprovare più tardi.");
+            return;
+        } catch (OggettoInvalidoException e) {
+            showAlert("Proposta non trovata, riprovare.");
+            return;
+        }
     }
 
     @FXML

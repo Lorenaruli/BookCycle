@@ -74,9 +74,9 @@ public class LibriScambioViewController extends GraphicController {
             tabella.setItems(listaLibriDisponibili);
         } catch (Exception e) {
             showAlert("Errore durante il caricamento dei libri.");
-            e.printStackTrace();
-            LibroBean libroBean= new LibroBean();
-            libroBean.getIdLibro();
+
+//            LibroBean libroBean= new LibroBean();
+//            libroBean.getIdLibro();
         }
     }
 
@@ -105,7 +105,6 @@ public class LibriScambioViewController extends GraphicController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             showAlert("Errore durante il caricamento della schermata di selezione.");
         }
     }

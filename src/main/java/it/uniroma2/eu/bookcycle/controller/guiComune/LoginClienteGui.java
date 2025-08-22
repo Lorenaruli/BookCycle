@@ -22,7 +22,13 @@ public abstract class LoginClienteGui extends GraphicController {
         LoginBean loginBean = new LoginBean();
         loginBean.setUsername(usernameLabel.getText());
         loginBean.setPassword(passwordField.getText());
-        LoginController loginController = new LoginController();
+        LoginController loginController = null;
+        try {
+            loginController = new LoginController();
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi");
+            return;
+        }
 
         RuoloCliente ruoloCliente;
         try {

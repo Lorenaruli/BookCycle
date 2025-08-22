@@ -18,9 +18,9 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     private List<Annuncio> annunci;
 
     private AnnuncioDaoMemory() {
-        aggiornaIdCounter();
 
         this.annunci = new ArrayList<>();
+        aggiornaIdCounter();
     }
 
     public static AnnuncioDaoMemory ottieniIstanza(){

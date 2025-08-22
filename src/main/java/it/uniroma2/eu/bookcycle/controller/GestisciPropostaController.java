@@ -2,6 +2,8 @@ package it.uniroma2.eu.bookcycle.controller;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta2Bean;
 import it.uniroma2.eu.bookcycle.bean.Proposta3Bean;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
@@ -16,9 +18,15 @@ import java.util.List;
 import java.util.Set;
 
 public class GestisciPropostaController {
-    PropostaDiScambioDao propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
-    ClienteDao clienteDao = FactoryDao.getIstance().ottieniClienteDao();
-    LibroDao libroDao= FactoryDao.getIstance().ottieniLibroScambioDao();
+    private PropostaDiScambioDao propostaDao;
+    private ClienteDao clienteDao;
+    private LibroDao libroDao;
+
+    public GestisciPropostaController() throws PersistenzaException {
+        propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
+        clienteDao = FactoryDao.getIstance().ottieniClienteDao();
+        libroDao = FactoryDao.getIstance().ottieniLibroScambioDao();
+    }
 
 
     public List<Proposta2Bean> creaListaBeanProposteRicevute(String usernameDestinatario) {
@@ -39,9 +47,8 @@ public class GestisciPropostaController {
                 .toList();
     }
 
-    public void gestisci(Proposta3Bean propostaBean) {
+    public void gestisci(Proposta3Bean propostaBean) throws PersistenzaException, OggettoInvalidoException {
         PropostaDiScambio proposta = propostaDao.cercaPropostaId(propostaBean.getIdProposta());
-        proposta.setStato(propostaBean.getStato());
         if (propostaBean.getStato() == StatoProposta.RIFIUTATA) {
             proposta.setStato(StatoProposta.RIFIUTATA);
             proposta.getDestinatario().rimuoviPropostaRicevuta(propostaBean.getIdProposta());

@@ -43,7 +43,12 @@ public abstract class RegistraClienteGui extends GraphicController {
         registrazioneBean.setTelefono(telephoneLabel.getText());
         setRuolo(registrazioneBean);
 
-        RegistrazioneController registrazioneController = new RegistrazioneController();
+        RegistrazioneController registrazioneController = null;
+        try {
+            registrazioneController = new RegistrazioneController();
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi.");
+        }
 
         try {
             ClienteBean clienteBean = registrazioneController.registra(registrazioneBean);
@@ -60,6 +65,7 @@ public abstract class RegistraClienteGui extends GraphicController {
                         stage.show();
                     } catch (IOException e) {
                         showAlert("Errore caricamento schermata");
+                        return;
                     }
                 }
                case LIBRAIO ->  {goToLibraio();}

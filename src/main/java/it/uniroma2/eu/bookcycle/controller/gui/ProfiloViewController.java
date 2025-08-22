@@ -4,6 +4,7 @@ package it.uniroma2.eu.bookcycle.controller.gui;
 import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.guiComune.LogoutGui;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,7 +47,11 @@ public class ProfiloViewController extends LogoutGui {
     @FXML
     void Logout(ActionEvent event) {
         String path="/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml";
-        logoutCliente(event,path);
+        try {
+            logoutCliente(event,path);
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi.");
+        }
 
     }
 
@@ -79,7 +84,6 @@ public class ProfiloViewController extends LogoutGui {
             stage.show();
         } catch (IOException e) {
             showAlert("Impossibile caricare la schermata del profilo.");
-            e.printStackTrace();
         }
     }
 
@@ -93,7 +97,7 @@ public class ProfiloViewController extends LogoutGui {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+           showAlert("Impossibile caricare la schermata.");
         }
 
     }

@@ -5,6 +5,7 @@ import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.InviaPropostaController;
 import it.uniroma2.eu.bookcycle.controller.SceneManager;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +29,6 @@ public class ScegliLibriMieiViewController extends GraphicController {
 
     private PropostaParzialeBean propostaParzialeBean;
 
-    private GestoreUtente gestore = new GestoreUtente();
-
 
     public void creaBeanProposta(PropostaParzialeBean propostaParzialeBean) {
         this.propostaParzialeBean = propostaParzialeBean;
@@ -40,15 +40,27 @@ public class ScegliLibriMieiViewController extends GraphicController {
         String username = cliente.getUsername();
 
         if (cliente instanceof Utente) {
-            List<LibroBean> libriUtente = gestore.caricaLibriUtente(username);
-            List<LibroBean> libriDisponibili = libriUtente.stream()
+            List<LibroBean> libriUtente = null;
+            try {
+                GestoreUtente gestore = null;
+                try {
+                    gestore = new GestoreUtente();
+                } catch (PersistenzaException e) {
+                    showAlert("Errore tecnico. Riprovare più tardi");
+                }
+                libriUtente = gestore.caricaLibriUtente(username);
+            } catch (ClienteNonTrovatoException e) {
+                showAlert("Cliente non trovato.");
+                libriUtente = Collections.emptyList();
+            }
+            List<LibroBean> libri = libriUtente.stream()
                     .collect(Collectors.toList());
 
-            if (libriDisponibili.isEmpty()) {
+            if (libri.isEmpty()) {
                 Label messaggio = new Label("Non puoi effettuare lo scambio perché non hai libri disponibili.");
                 contenitoreLibri.getChildren().add(messaggio);
             } else {
-                for (LibroBean libro : libriDisponibili) {
+                for (LibroBean libro : libri) {
                     HBox riga = new HBox();
                     riga.setSpacing(10);
 
@@ -65,8 +77,22 @@ public class ScegliLibriMieiViewController extends GraphicController {
                         propostaBean.setLibroRichiesto(libroRichiesto);
                         propostaBean.setLibroOfferto(libro.getIdLibro());
 
-                        InviaPropostaController controller = new InviaPropostaController();
-                        controller.inviaProposta(propostaBean);
+                        try {
+                            InviaPropostaController controller = new InviaPropostaController();
+                            controller.inviaProposta(propostaBean);
+                        } catch (BeanInvalidoException ex) {
+                            showAlert("Non sono state fornite abbastanza informazioni");
+                            return;
+                        } catch (RuoloClienteException ex) {
+                            showAlert("Ruolo cliente sbagliato, rieffettuare il login");
+                            return;
+                        } catch (OggettoInvalidoException ex) {
+                            showAlert("Dati non validi: verifica i campi inseriti.");
+                            return;
+                        } catch (PersistenzaException ex) {
+                            showAlert("Errore tecnico, riprovare più tardi.");
+                            return;
+                        }
 
                         showAlert("Proposta inviata");
                     });
@@ -75,6 +101,8 @@ public class ScegliLibriMieiViewController extends GraphicController {
                     contenitoreLibri.getChildren().add(riga);
                 }
             }
+        }else{
+            showAlert("Il ruolo è sbagliato. Rieffettuare il login");
         }
     }
 

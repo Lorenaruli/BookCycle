@@ -3,10 +3,7 @@ package it.uniroma2.eu.bookcycle.controller.guiComune;
 import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
 import it.uniroma2.eu.bookcycle.controller.CaricaLibroController;
 import it.uniroma2.eu.bookcycle.controller.gui.GraphicController;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.BeanInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonLoggatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
 import javafx.event.ActionEvent;
 
 import javafx.scene.control.TextField;
@@ -37,7 +34,8 @@ public abstract class CaricaLibroGui extends GraphicController {
         }catch (ClienteNonLoggatoException e){
             showAlert("Devi Prima loggarti.");
             goToLogin();
-
+        }catch(RuoloClienteException e){
+            showAlert("Cliente con ruolo sbagliato. Rieffettuare il login");
         }
         showAlert("Libro caricato con successo");
 

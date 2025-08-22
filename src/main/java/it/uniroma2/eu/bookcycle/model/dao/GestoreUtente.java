@@ -2,6 +2,8 @@ package it.uniroma2.eu.bookcycle.model.dao;
 
 import it.uniroma2.eu.bookcycle.bean.ContattiBean;
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
 import java.util.Collections;
@@ -16,7 +18,7 @@ public class GestoreUtente {
     private PropostaDiScambioDao propostaDao;
     Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
 
-    public GestoreUtente() {
+    public GestoreUtente() throws PersistenzaException{
         this.libroScambioDao = FactoryDao.getIstance().ottieniLibroScambioDao();
         this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
         this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
@@ -29,12 +31,12 @@ public class GestoreUtente {
         this.libroScambioDao = libroScambioDAO;
     }
 
-    public GestoreUtente(ClienteDao clienteDAO, PropostaDiScambioDao propostaDao) {
+    public GestoreUtente(ClienteDao clienteDAO, PropostaDiScambioDao propostaDao) throws PersistenzaException{
         this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
         this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
     }
 
-    public List<LibroBean> caricaLibriUtente(String usernameCliente) {
+    public List<LibroBean> caricaLibriUtente(String usernameCliente) throws ClienteNonTrovatoException {
         if (clienteAttuale instanceof Utente) {
 
             Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
@@ -58,13 +60,13 @@ public class GestoreUtente {
                 .toList();
     }
 
-    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) {
+    public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) throws ClienteNonTrovatoException {
     Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
         List<PropostaDiScambio> proposteInviate = propostaDao.getProposteInviate(usernameCliente);
     return proposteInviate;
 }
 
-    public List<PropostaDiScambio> caricaProposteUtenteDestinatario(String usernameCliente) {
+    public List<PropostaDiScambio> caricaProposteUtenteDestinatario(String usernameCliente) throws ClienteNonTrovatoException {
         Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
 
         List<PropostaDiScambio> proposteRicevute = propostaDao.getProposteRicevute(usernameCliente);
@@ -72,13 +74,13 @@ public class GestoreUtente {
 
 
     }
-    public Utente restituisciUtente(String username) {
+    public Utente restituisciUtente(String username) throws ClienteNonTrovatoException {
         Cliente cliente = utenteDao.trovaPerUsername(username);
         return (Utente) (utenteDao.trovaPerUsername(username));
 
     }
 
-    public ContattiBean trovaContattiDaUsername(String username) {
+    public ContattiBean trovaContattiDaUsername(String username) throws ClienteNonTrovatoException, PersistenzaException {
         String email = utenteDao.trovaEmail(username);
         String tel = utenteDao.trovaTelefono(username);
         if (email == null && tel == null) return null;

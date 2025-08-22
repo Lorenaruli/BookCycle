@@ -1,5 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.file.FileFactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.memory.MemoryFactoryDao;
 
@@ -41,10 +42,10 @@ public abstract class FactoryDao {
 
 
 
-    public abstract AnnuncioDao ottieniAnnuncioDao();
-    public abstract LibroScambioDao ottieniLibroScambioDao();
-    public abstract LIbroVenNolDao ottieniLibroVeNolDao();
-    public abstract ClienteDao ottieniClienteDao();
-    public abstract PropostaDiScambioDao ottieniPropostaDiScambioDao();
+    public abstract AnnuncioDao ottieniAnnuncioDao() throws PersistenzaException;
+    public abstract LibroScambioDao ottieniLibroScambioDao() throws PersistenzaException;
+    public abstract LIbroVenNolDao ottieniLibroVeNolDao() throws PersistenzaException;
+    public abstract ClienteDao ottieniClienteDao() throws PersistenzaException;
+    public abstract PropostaDiScambioDao ottieniPropostaDiScambioDao() throws PersistenzaException;
 }
 

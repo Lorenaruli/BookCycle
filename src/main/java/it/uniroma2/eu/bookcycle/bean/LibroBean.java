@@ -9,8 +9,6 @@ public class LibroBean extends CaricaLibroBean {
         super(titolo, autore, genere);
         this.id = id;
         this.usernameProprietario=username;
-
-
     }
 
   public LibroBean() {

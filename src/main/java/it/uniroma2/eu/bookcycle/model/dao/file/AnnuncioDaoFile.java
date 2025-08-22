@@ -36,7 +36,9 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
 
 
     private List<Annuncio> caricaAnnunci() throws PersistenzaException {
-        if (!file.exists()) return new ArrayList<>();
+        if (!file.exists()) {
+            return new ArrayList<>(); // nessun file = nessun annuncio
+        }
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             Object obj = ois.readObject();
@@ -46,15 +48,23 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
                 throw new PersistenzaException("Formato file non valido");
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new PersistenzaException("Errore lettura annunci: ");
+            // fallback: file vuoto o corrotto → lista vuota
+            return new ArrayList<>();
         }
     }
 
     private void salvaAnnunci() throws PersistenzaException {
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            if (!parentDir.mkdirs()) {
+                throw new PersistenzaException("Impossibile creare directory: " + parentDir.getAbsolutePath());
+            }
+        }
+
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(annunci);
         } catch (IOException e) {
-            throw new PersistenzaException("Errore scrittura annunci: " );
+            throw new PersistenzaException("Errore scrittura annunci su " + file.getAbsolutePath());
         }
     }
 

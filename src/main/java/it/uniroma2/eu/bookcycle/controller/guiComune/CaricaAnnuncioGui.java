@@ -44,15 +44,22 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
             caricaAnnuncioController = new CaricaAnnuncioController();
         } catch (ClienteNonLoggatoException e) {
             showAlert("Devi prima loggarti");
+            return;
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi.");
+            return;
         }
         try {
             caricaAnnuncioController.AggiungiAnnuncio(caricaAnnuncioBean);
         } catch (PersistenzaException e) {
             showAlert("Errore tecnico: impossibile accedere ai dati. Riprova più tardi.");
+            return;
         } catch (RuoloClienteException e) {
             showAlert("Ruolo non valido per questa operazione.");
+            return;
         } catch (OggettoInvalidoException e) {
             showAlert("Dati non validi: verifica i campi inseriti.");
+            return;
         }
 
         showAlert("Annuncio caricato con successo");
@@ -66,13 +73,10 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
 
 
 
-    private Double ottieniPrezzo(TextField prezzo) {
-        String s = prezzo.getText();
-        if (s == null) return null;
+    private Double ottieniPrezzo(TextField prezzoField) {
         try {
-            double value = Double.parseDouble(s);
-            return value;
-        } catch (NumberFormatException e) {
+            return Double.valueOf(prezzoField.getText());
+        } catch (NumberFormatException | NullPointerException e) {
             return null;
         }
     }

@@ -43,6 +43,10 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
         }
         proposteTotali.add(proposta);
     }
+    //l'ho aggiunto per il test1
+    public void clear() {
+        proposteTotali.clear();
+    }
 
 
 

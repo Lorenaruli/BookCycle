@@ -3,11 +3,13 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.PropostaNonTrovataException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.dao.file.ClienteDaoFile;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
+import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 import java.util.*;
@@ -21,6 +23,24 @@ public class ClienteDaoMemory implements ClienteDao {
 
         this.datiClienti = new HashMap<>();
         this.clienti = new ArrayList<>();
+    }
+
+    @Override
+    public void rimuoviCliente(String username) throws ClienteNonTrovatoException {
+        Cliente daRimuovere = null;
+
+        for (Cliente c : clienti) {
+            if (c.getUsername() == username) {
+                daRimuovere = c;
+                break;
+            }
+        }
+
+        if (daRimuovere == null) {
+            throw new ClienteNonTrovatoException("Cliente non trovata");
+        }
+
+        clienti.remove(daRimuovere);
     }
 
 
@@ -104,6 +124,11 @@ public class ClienteDaoMemory implements ClienteDao {
     public boolean confrontaCredenziali(String username, String password) {
         DatiClienteM dati = datiClienti.get(username);
         return dati != null && dati.getPassword().equals(password);
+    }
+    //l'ho aggiunto per il test1
+    public void clear() {
+        clienti.clear();
+        datiClienti.clear();
     }
 
 

@@ -108,6 +108,26 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
         datiClienti.put(username, dati);
         salvaClienti();
     }
+
+    @Override
+    public void rimuoviCliente(String username) throws ClienteNonTrovatoException, PersistenzaException {
+        Cliente daRimuovere = null;
+
+        for (Cliente c : clienti) {
+            if (c.getUsername() == username) {
+                daRimuovere = c;
+                break;
+            }
+        }
+
+        if (daRimuovere == null) {
+            throw new ClienteNonTrovatoException("Cliente non trovata");
+        }
+
+        clienti.remove(daRimuovere);
+        salvaClienti();
+    }
+
     @Override
     public String trovaEmail(String username) throws PersistenzaException, ClienteNonTrovatoException {
         DatiClienteF d = datiClienti.get(username);

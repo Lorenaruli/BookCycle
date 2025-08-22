@@ -109,7 +109,6 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
             showAlert("Proposta inviata");
             tornaIndietro(event);
         } catch (Exception e) {
-            e.printStackTrace();
             showAlert("Errore durante l'invio della proposta.");
         }
     }

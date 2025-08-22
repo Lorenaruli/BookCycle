@@ -8,6 +8,7 @@ import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 
 
 public interface ClienteDao {
+    void rimuoviCliente(String username) throws ClienteNonTrovatoException, PersistenzaException;
     void aggiungiLibraio(String username, String password, String telefono, String email) throws OggettoEsistenteException, PersistenzaException;
     void aggiungiUtente(String username, String password, String telefono, String email) throws OggettoEsistenteException, PersistenzaException;
     boolean esisteCliente(String username);

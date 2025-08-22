@@ -13,19 +13,21 @@ public class TestRegistrazione {
     @Test
     void testRegistrazioneUtente() throws Exception {
         ClienteDaoMemory clienteDao = ClienteDaoMemory.ottieniIstanza();
-        clienteDao.aggiungiUtente("luca", "password", "43574387", "mario03");
+        clienteDao.aggiungiUtente("silvio", "password", "43574387", "silvio03");
 
-        assertNotNull(clienteDao.ottieniCliente("luca"));
-        assertEquals("luca", clienteDao.ottieniCliente("luca").getUsername());
+        assertNotNull(clienteDao.ottieniCliente("silvio"));
+        assertEquals("silvio", clienteDao.ottieniCliente("silvio").getUsername());
 
     }
     @Test
     void testRegistrazioneDuplicata() throws Exception {
         ClienteDaoMemory clienteDao = ClienteDaoMemory.ottieniIstanza();
-        clienteDao.aggiungiUtente("mario", "password", "4735457", "mario03");
+        clienteDao.aggiungiUtente("fra", "password", "4735457", "fra03");
 
         assertThrows(OggettoEsistenteException.class, () -> {
-            clienteDao.aggiungiUtente("mario", "altraPassword", "8859868", "mario04");
+            clienteDao.aggiungiUtente("fra", "altraPassword", "8859868", "fra04");
         });
+        clienteDao.rimuoviCliente("fra");
     }
+
 }

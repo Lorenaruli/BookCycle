@@ -24,7 +24,7 @@ public class GestoreLibraio {
 
 
 
-    public List<AnnuncioBean> caricaAnnunciLibraio(String usernameCliente) throws ClienteNonTrovatoException {
+    public List<AnnuncioBean> caricaAnnunciLibraio(String usernameCliente){
         if (clienteAttuale instanceof Libraio) {
 
             List<Annuncio> annunciLibraio = annuncioDao.cercaPerProprietario(usernameCliente);

@@ -15,7 +15,7 @@ public class TestGestisciProposta {
 
 
     @Test
-    public void testPropostaAggiornaStato() throws PersistenzaException, OggettoInvalidoException {
+     void testPropostaAggiornaStato() throws PersistenzaException, OggettoInvalidoException {
         FactoryDao factory = new MemoryFactoryDao();
         PropostaDiScambioDao propostaDao = factory.ottieniPropostaDiScambioDao();
         ClienteDao clienteDao = factory.ottieniClienteDao();

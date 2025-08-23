@@ -35,7 +35,6 @@ public class GestoreUtente {
     public List<LibroBean> caricaLibriUtente(String usernameCliente) throws ClienteNonTrovatoException {
         if (clienteAttuale instanceof Utente) {
 
-            Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
 
 
             List<Libro> libriUtente = libroScambioDao.cercaPerProprietario(usernameCliente);
@@ -77,7 +76,7 @@ public class GestoreUtente {
 
 
 
-        public List<PropostaDiScambio> caricaProposteUtenteDestinatario(String usernameCliente) throws ClienteNonTrovatoException {
+        public List<PropostaDiScambio> caricaProposteUtenteDestinatario(String usernameCliente) {
 
         return propostaDao.getProposteRicevute(usernameCliente);
 

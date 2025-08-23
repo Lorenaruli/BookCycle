@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TestLibroDao {
     @Test
-    public void testSalvataggioLibro() throws PersistenzaException, OggettoInvalidoException {
+     void testSalvataggioLibro() throws PersistenzaException, OggettoInvalidoException {
 
         FactoryDao factory = new MemoryFactoryDao();
         LibroScambioDao dao = factory.ottieniLibroScambioDao();

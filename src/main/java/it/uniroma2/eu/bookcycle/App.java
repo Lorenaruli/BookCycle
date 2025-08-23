@@ -18,11 +18,12 @@ public class App extends Application {
     private static final Logger logger = Logger.getLogger(App.class.getName());
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage)  {
         InputStream input = FactoryDao.class.getClassLoader().getResourceAsStream("proprieta.properties");
         logger.log(Level.INFO, "Trovato file: {0}", (input != null));
 
-        // Per la Gui2 Partire con ViewPath.SCHERMATA_ACCESSO_VIEW;
+        // Per la Gui2 Partire con "SCHERMATA_ACCESSO_VIEW"
+        // Per la Gui1 Partire con "REGISTRAZIONE_VIEW"
         try {
             String path = ViewPath.REGISTRAZIONE_VIEW;
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));

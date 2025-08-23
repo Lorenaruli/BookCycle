@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AnnuncioDao {
 
-     void aggiornaIdCounter();
+    void aggiornaIdCounter();
     void salvaAnnuncio(Annuncio annuncio) throws OggettoInvalidoException, PersistenzaException;
 
     void rimuoviAnnuncio(long idAnnuncio) throws OggettoInvalidoException, PersistenzaException;

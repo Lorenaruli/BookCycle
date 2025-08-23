@@ -13,7 +13,7 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
 
     private  List<PropostaDiScambio> proposteTotali;
     private static PropostaDiScambioDaoMemory instanza;
-    static boolean idCounterInizializzato = false;
+    boolean idCounterInizializzato = false;
 
     private PropostaDiScambioDaoMemory(){
         this.proposteTotali=new ArrayList<>();

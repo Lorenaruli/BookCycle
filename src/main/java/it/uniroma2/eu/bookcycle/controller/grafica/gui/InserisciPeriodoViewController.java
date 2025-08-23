@@ -30,7 +30,7 @@ public class InserisciPeriodoViewController extends GraphicController {
     @FXML
     void confermaDurata(ActionEvent event) {
 
-        String scelta = durataCombo.getValue();
+         scelta = durataCombo.getValue();
         if (scelta == null || scelta.isBlank()) {
             showAlert("Seleziona una durata valida");
             return;

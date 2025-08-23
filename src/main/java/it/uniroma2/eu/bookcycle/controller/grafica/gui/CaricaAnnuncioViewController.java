@@ -42,7 +42,7 @@ public class CaricaAnnuncioViewController extends CaricaAnnuncioGui {
     @FXML
     void caricaAnnuncio(ActionEvent event) {
 
-        aggiungi(event, titoloField, autoreField,prezzoField, checkButton);
+        aggiungi( titoloField, autoreField,prezzoField, checkButton);
     }
 
     @Override

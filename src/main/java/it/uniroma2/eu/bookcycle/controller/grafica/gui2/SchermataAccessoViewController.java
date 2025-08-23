@@ -28,7 +28,7 @@ public class SchermataAccessoViewController extends GraphicController {
     void accessoLibraio(ActionEvent event){
         bean=new SchermataAccessoBean();
         bean.setRuolo(RuoloCliente.LIBRAIO);
-        apriRegistrazione(event, RuoloCliente.LIBRAIO);
+        apriRegistrazione(event);
 
 
     }
@@ -37,10 +37,10 @@ public class SchermataAccessoViewController extends GraphicController {
     void accessoUtente(ActionEvent event) {
         bean = new SchermataAccessoBean();
         bean.setRuolo(RuoloCliente.UTENTE);
-        apriRegistrazione(event, RuoloCliente.UTENTE);
+        apriRegistrazione(event);
     }
 
-    private void apriRegistrazione(ActionEvent event, RuoloCliente ruolo) {
+    private void apriRegistrazione(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(ViewPath.REGISTRAZIONE2_VIEW));
             Parent root = loader.load();

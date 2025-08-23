@@ -53,16 +53,17 @@ public class GestisciProposteViewController extends GraphicController {
         caricaDati(username);
 
         gestisciCol.setCellFactory(col -> new TableCell<Proposta2Bean, Void>() {
-            private final Button btn = new Button("Gestisci");
+            private final Button btn = creaBottone();
 
-            {
-                btn.setOnAction(e -> {
+            private Button creaBottone() {
+                Button b = new Button("Gestisci");
+                b.setOnAction(e -> {
                     Proposta2Bean row = getTableView().getItems().get(getIndex());
                     long id = row.getIdProposta();
                     apriAccettaRifiuta(id, e);
                 });
+                return b;
             }
-
             @Override
             protected void updateItem(Void v, boolean empty) {
                 super.updateItem(v, empty);

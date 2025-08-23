@@ -76,8 +76,7 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
             showAlert("Cliente non trovato, riprovare.");
             return;
         }
-        List<LibroBean> libriDisponibili = libriUtente.stream()
-                .collect(Collectors.toList());
+        List<LibroBean> libriDisponibili = libriUtente.stream().toList();
 
         listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);
         tabella.setItems(listaLibriDisponibili);

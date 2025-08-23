@@ -5,14 +5,12 @@ import it.uniroma2.eu.bookcycle.controller.applicativo.CaricaAnnuncioController;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonLoggatoException;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.RuoloClienteException;
-import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 
 public abstract class CaricaAnnuncioGui extends GraphicController {
-    protected void aggiungi(ActionEvent event, TextField titoloField, TextField autoreField, TextField prezzoField, CheckBox check) {
+    protected void aggiungi( TextField titoloField, TextField autoreField, TextField prezzoField, CheckBox check) {
         if (titoloField.getText().isBlank() ||
                 autoreField.getText().isBlank() ||
                 prezzoField.getText().isBlank()) {
@@ -53,9 +51,7 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
         } catch (PersistenzaException e) {
             showAlert("Errore tecnico: impossibile accedere ai dati. Riprova più tardi.");
             return;
-        } catch (RuoloClienteException e) {
-            showAlert("Ruolo non valido per questa operazione.");
-            return;
+
         } catch (OggettoInvalidoException e) {
             showAlert("Dati non validi: verifica i campi inseriti.");
             return;

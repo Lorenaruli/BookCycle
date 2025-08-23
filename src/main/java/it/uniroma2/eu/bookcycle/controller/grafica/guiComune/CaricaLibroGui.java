@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 
 public abstract class CaricaLibroGui extends GraphicController {
 
-    protected void carica(ActionEvent event, TextField titoloField, TextField autoreField, TextField genereField) {
+    protected void carica( TextField titoloField, TextField autoreField, TextField genereField) {
         if (titoloField.getText().isBlank() ||
                 autoreField.getText().isBlank() ||
                 genereField.getText().isBlank()) {

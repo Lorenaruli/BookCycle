@@ -62,14 +62,18 @@ public class ProposteViewController extends GraphicController {
                         cellData.getValue().getTitoloOfferto() + " per " + cellData.getValue().getTitoloRichiesto()
                 )
         );
-        gestisciColonna.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("Gestisci");
-            {
-                btn.setOnAction(e -> {
+        gestisciColonna.setCellFactory(col -> new TableCell<Proposta2Bean, Void>() {
+            private final Button btn = creaBottone();
+
+            private Button creaBottone() {
+                Button b = new Button("Gestisci");
+                b.setOnAction(e -> {
                     Proposta2Bean row = getTableView().getItems().get(getIndex());
                     apriAccettaRifiuta(row, e);
                 });
+                return b;
             }
+
             @Override
             protected void updateItem(Void v, boolean empty) {
                 super.updateItem(v, empty);
@@ -124,16 +128,20 @@ public class ProposteViewController extends GraphicController {
     private void aggiungiColonnaContatti() {
         TableColumn<Proposta4Bean, Proposta4Bean> contattiCol = new TableColumn<>(CONTATTI_LABEL);
         contattiCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-        contattiCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("CONTATTI_LABEL");
-            {
-                btn.setOnAction(e -> {
+        contattiCol.setCellFactory(col -> new TableCell<Proposta4Bean, Proposta4Bean>() {
+            private final Button btn = creaBottone();
+
+            private Button creaBottone() {
+                Button b = new Button("CONTATTI_LABEL");
+                b.setOnAction(e -> {
                     Proposta4Bean bean = getItem();
                     if (bean != null && "ACCETTATA".equalsIgnoreCase(bean.getStato().toString())) {
                         mostraContatti(bean);
                     }
                 });
+                return b;
             }
+
             @Override
             protected void updateItem(Proposta4Bean bean, boolean empty) {
                 super.updateItem(bean, empty);

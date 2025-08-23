@@ -93,7 +93,7 @@ public class LibriMiei2ViewController extends CaricaLibroGui {
 
     @FXML
     void caricaLibro(ActionEvent event) {
-            carica(event, titoloField, autoreField, genereField);
+            carica( titoloField, autoreField, genereField);
 
 
     }

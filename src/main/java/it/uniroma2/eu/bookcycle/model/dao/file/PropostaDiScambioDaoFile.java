@@ -125,7 +125,7 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         }
         return proposteTotali.stream()
                 .filter(p -> p.getDestinatario().getUsername().equalsIgnoreCase(usernameDestinatario))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -136,7 +136,7 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         {
             return proposteTotali.stream()
                     .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
-                    .collect(Collectors.toList());
+                    .toList();
         }
     }
 

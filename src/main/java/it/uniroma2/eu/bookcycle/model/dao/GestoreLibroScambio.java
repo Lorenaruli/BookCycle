@@ -40,7 +40,7 @@ public class GestoreLibroScambio {
                 tutti.stream()
                         .filter(l -> l.getIdLibro() != riferimento.getIdLibro())
                         .filter(l -> l.getTitolo().equalsIgnoreCase(riferimento.getTitolo()))
-                        .collect(Collectors.toList())
+                        .toList()
         );
 
         simili.addAll(
@@ -48,7 +48,7 @@ public class GestoreLibroScambio {
                         .filter(l -> l.getIdLibro() != riferimento.getIdLibro())
                         .filter(l -> !l.getTitolo().equalsIgnoreCase(riferimento.getTitolo()))
                         .filter(l -> l.getAutore().equalsIgnoreCase(riferimento.getAutore()))
-                        .collect(Collectors.toList())
+                        .toList()
         );
 
         return simili;

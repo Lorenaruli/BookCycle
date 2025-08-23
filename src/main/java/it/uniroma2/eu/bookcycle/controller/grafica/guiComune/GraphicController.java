@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 
 public abstract class GraphicController {
 
-    public GraphicController() {
+    protected GraphicController() {
     }
 
     public static void showAlert(String msg){

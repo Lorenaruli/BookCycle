@@ -39,7 +39,7 @@ public class LibroDaoMemory implements LibroDao {
     public List<Libro> cercaPerTitolo(String titolo)  {
         return libri.stream()
                 .filter(l -> l.getTitolo().equalsIgnoreCase(titolo))
-                .collect(Collectors.toList());
+                .toList();
 
     }
 
@@ -47,7 +47,7 @@ public class LibroDaoMemory implements LibroDao {
     public List<Libro> cercaPerAutore(String autore) {
        return libri.stream()
                 .filter(l -> l.getAutore().equalsIgnoreCase(autore))
-                .collect(Collectors.toList());
+               .toList();
 
     }
 
@@ -55,14 +55,14 @@ public class LibroDaoMemory implements LibroDao {
     public List<Libro> cercaPerGenere(String genere){
         return libri.stream()
                 .filter(l -> l.getGenere().equalsIgnoreCase(genere))
-                .collect(Collectors.toList());
+                .toList();
 
     }
     @Override
     public List<Libro> cercaPerProprietario(String username)  {
         return libri.stream()
                 .filter(l -> l.getUsernameProprietario().equalsIgnoreCase(username))
-                .collect(Collectors.toList());
+                .toList();
 
     }
     @Override

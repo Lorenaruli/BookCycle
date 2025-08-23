@@ -12,7 +12,7 @@ public abstract class Annuncio implements Serializable  {
     private Libraio libraio;
     private long idAnnuncio;
 
-    public Annuncio(Libro libro, double prezzo, Libraio libraio) {
+    protected Annuncio(Libro libro, double prezzo, Libraio libraio) {
         this.libro = libro;
         this.prezzo = prezzo;
         this.libraio= libraio;

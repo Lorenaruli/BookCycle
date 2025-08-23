@@ -31,11 +31,10 @@ public abstract class AbstractFileDao {
             File file = new File(path);
 
             File parent = file.getParentFile();
-            if (parent != null && !parent.exists()) {
-                if (!parent.mkdirs() && !parent.exists()) {
-                    throw new PersistenzaException("Impossibile creare la directory: " + parent.getAbsolutePath());
-                }
-            }
+            if (parent != null && !parent.exists() && !(parent.mkdirs() || parent.exists()))
+                throw new PersistenzaException("Impossibile creare la directory: " + parent.getAbsolutePath());
+
+
 
             if (!file.exists()) {
                 if (!file.createNewFile()) {

@@ -17,7 +17,7 @@ public class Utente extends Cliente {
         libri=new ArrayList<>();
     }
 
-    public Utente(String username, List<PropostaDiScambio> proposteInviate,List<PropostaDiScambio> proposteRicevute, List<Libro> libri) {
+    public Utente(String username, List<PropostaDiScambio> proposteInviate,List<PropostaDiScambio> proposteRicevute) {
         super(username);
         this.proposteInviate = proposteInviate;
         this.proposteRicevute= proposteRicevute;
@@ -63,15 +63,6 @@ public class Utente extends Cliente {
         return (proposteRicevute);
     }
 
-    public void vediListaLibri() {
-        if (libri.isEmpty()) {
-            System.out.println("Nessun libro disponibile.");
-        } else {
-            for (Libro libro : libri) {
-                System.out.println(" " + libro.getTitolo() + " di " + libro.getAutore());
-            }
-        }
-    }
 
     public List<Libro> getLibri() {
         return libri;

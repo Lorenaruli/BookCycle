@@ -88,11 +88,11 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
         if (esisteCliente(username)) {
             throw new OggettoEsistenteException("Username già esistente: " + username);
         }
-        List<DatiClienteF> clienti = leggiClienti();
+        List<DatiClienteF> datiClienti = leggiClienti();
         Cliente libraio = new Libraio(username);
         DatiClienteF dati = new DatiClienteF(libraio, password, telefono, email);
-        clienti.add(dati);
-        datiClienti.put(username,dati);
+        datiClienti.add(dati);
+        this.datiClienti.put(username,dati);
         salvaClienti();
     }
 
@@ -101,11 +101,11 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
         if (esisteCliente(username)) {
             throw new OggettoEsistenteException("Username già esistente: " + username);
         }
-        List<DatiClienteF> clienti = leggiClienti();
+        List<DatiClienteF> datiClienti = leggiClienti();
         Cliente utente = new Utente(username);
         DatiClienteF dati = new DatiClienteF(utente, password, telefono, email);
-        clienti.add(dati);
-        datiClienti.put(username, dati);
+        datiClienti.add(dati);
+        this.datiClienti.put(username, dati);
         salvaClienti();
     }
 
@@ -114,7 +114,7 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
         Cliente daRimuovere = null;
 
         for (Cliente c : clienti) {
-            if (c.getUsername() == username) {
+            if (c.getUsername().equals(username)) {
                 daRimuovere = c;
                 break;
             }
@@ -153,7 +153,7 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
             throw new ClienteNonTrovatoException("Cliente con username " + username + " non trovato");
         }
 
-        return d.getEmail();
+        return d.getTelefono();
     }
 
 

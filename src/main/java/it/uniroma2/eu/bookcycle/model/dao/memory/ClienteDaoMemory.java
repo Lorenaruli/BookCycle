@@ -30,7 +30,7 @@ public class ClienteDaoMemory implements ClienteDao {
         Cliente daRimuovere = null;
 
         for (Cliente c : clienti) {
-            if (c.getUsername() == username) {
+            if (c.getUsername().equals(username)) {
                 daRimuovere = c;
                 break;
             }

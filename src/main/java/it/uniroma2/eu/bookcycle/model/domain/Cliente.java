@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class Cliente implements Serializable {
     private String username;
 
-    public Cliente(String username) {
+    protected Cliente(String username) {
         this.username = username;
     }
 

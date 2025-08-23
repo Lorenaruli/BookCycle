@@ -60,7 +60,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     public List<Annuncio> cercaPerProprietario(String username) {
         return annunci.stream()
                 .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(username))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         }
         return annunci.stream()
                 .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(usernameLibraio))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         }
         return annunci.stream()
                 .filter(a -> a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         }
         return annunci.stream()
                 .filter(a -> a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         }
         return annunci.stream()
                 .filter(a -> a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -123,6 +123,6 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         }
         return annunci.stream()
                 .filter(a -> a.getTipo() == tipo)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

@@ -2,6 +2,10 @@ package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
 
 public class ViewPath {
 
+    private ViewPath(){
+
+    }
+
     public static final String REGISTRAZIONE_VIEW = "/it/uniroma2/eu/bookcycle/gui/RegistrazioneView.fxml";
     public static final String ACCETTA_RIFIUTA_VIEW = "/it/uniroma2/eu/bookcycle/gui/AccettaRifiutaView.fxml";
     public static final String CARICA_ANNUNCIO_VIEW = "/it/uniroma2/eu/bookcycle/gui/CaricaAnnuncioView.fxml";

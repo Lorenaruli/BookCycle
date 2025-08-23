@@ -22,7 +22,7 @@ public class Libraio  extends Cliente {
     {
         annunci.add(annuncio);
     }
-    public void eliminaAnnuncio(Libro libro, long idAnnuncio){
+    public void eliminaAnnuncio(long idAnnuncio){
         annunci.removeIf(annuncio->annuncio.getIdAnnuncio()==idAnnuncio);
     }
 }

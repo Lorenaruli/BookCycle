@@ -55,10 +55,9 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
 
     private void salvaAnnunci() throws PersistenzaException {
         File parentDir = file.getParentFile();
-        if (parentDir != null && !parentDir.exists()) {
-            if (!parentDir.mkdirs()) {
+        if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
                 throw new PersistenzaException("Impossibile creare directory: " + parentDir.getAbsolutePath());
-            }
+
         }
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
@@ -92,7 +91,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
     public List<Annuncio> cercaPerProprietario(String username) {
         return annunci.stream()
                 .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(username))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -126,7 +125,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         }
         return annunci.stream()
                 .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(usernameLibraio))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -134,7 +133,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         if (titolo == null)  return Collections.emptyList();
         return annunci.stream()
                 .filter(a -> a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -142,7 +141,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         if (autore == null) return Collections.emptyList();
         return annunci.stream()
                 .filter(a -> a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -150,7 +149,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         if (genere == null) return Collections.emptyList();
         return annunci.stream()
                 .filter(a -> a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -158,7 +157,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         if (tipo == null) return Collections.emptyList();
         return annunci.stream()
                 .filter(a -> a.getTipo() == tipo)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
 

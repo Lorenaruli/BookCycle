@@ -60,18 +60,7 @@ public abstract class RegistraClienteGui extends GraphicController {
             showAlert("Registrazione avvenuta");
 
             switch (ruoloCliente) {
-                case UTENTE -> {
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
-                        Parent root = loader.load();
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(new Scene(root));
-                        stage.show();
-                    } catch (IOException e) {
-                        showAlert("Errore caricamento schermata");
-                        return;
-                    }
-                }
+                case UTENTE -> apriSchermata(path, event);
                case LIBRAIO ->  {goToLibraio();}
             }
 
@@ -84,6 +73,18 @@ public abstract class RegistraClienteGui extends GraphicController {
        }
 
 
+    }
+
+    private void apriSchermata(String path, ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Errore caricamento schermata");
+        }
     }
     protected abstract void setRuolo(RegistrazioneBean registrazioneBean);
     protected abstract void goToLibraio();

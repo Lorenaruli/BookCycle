@@ -87,14 +87,14 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
     public List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) {
         return proposteTotali.stream()
                 .filter(p -> p.getDestinatario().getUsername().equalsIgnoreCase(usernameDestinatario))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public List<PropostaDiScambio> getProposteInviate(String usernameMittente){
         return proposteTotali.stream()
                 .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
-                .collect(Collectors.toList());
+                .toList();
     }
     @Override
     public void eliminaProposteUtente(String username) {

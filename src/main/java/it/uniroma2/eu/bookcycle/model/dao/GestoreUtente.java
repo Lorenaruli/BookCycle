@@ -31,10 +31,6 @@ public class GestoreUtente {
         this.libroScambioDao = libroScambioDAO;
     }
 
-    public GestoreUtente(ClienteDao clienteDAO, PropostaDiScambioDao propostaDao) throws PersistenzaException {
-        this.utenteDao = FactoryDao.getIstance().ottieniClienteDao();
-        this.propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
-    }
 
     public List<LibroBean> caricaLibriUtente(String usernameCliente) throws ClienteNonTrovatoException {
         if (clienteAttuale instanceof Utente) {

@@ -39,75 +39,82 @@ public class ScegliLibriMieiViewController extends GraphicController {
 
     public void inizializzaConBean() {
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
-        String username = cliente.getUsername();
 
-        if (cliente instanceof Utente) {
-            List<LibroBean> libriUtente = null;
-            try {
-                GestoreUtente gestore = null;
-                try {
-                    gestore = new GestoreUtente();
-                } catch (PersistenzaException e) {
-                    showAlert("Errore tecnico. Riprovare più tardi");
-                }
-                libriUtente = gestore.caricaLibriUtente(username);
-            } catch (ClienteNonTrovatoException e) {
-                showAlert("Cliente non trovato.");
-                libriUtente = Collections.emptyList();
-            }
-            List<LibroBean> libri = libriUtente.stream()
-                    .collect(Collectors.toList());
-
-            if (libri.isEmpty()) {
-                Label messaggio = new Label("Non puoi effettuare lo scambio perché non hai libri disponibili.");
-                contenitoreLibri.getChildren().add(messaggio);
-            } else {
-                for (LibroBean libro : libri) {
-                    HBox riga = new HBox();
-                    riga.setSpacing(10);
-
-                    Label titoloLabel = new Label(libro.getTitolo());
-                    Button scambiaButton = new Button("Scambia con questo");
-
-                    scambiaButton.setOnAction(e -> {
-                        String destinatario = propostaParzialeBean.getMittente();
-                        long libroRichiesto = propostaParzialeBean.getLibroOfferto();
-
-                        PropostaBean propostaBean = new PropostaBean();
-                        propostaBean.setMittente(username);
-                        propostaBean.setDestinatario(destinatario);
-                        propostaBean.setLibroRichiesto(libroRichiesto);
-                        propostaBean.setLibroOfferto(libro.getIdLibro());
-
-                        try {
-                            InviaPropostaController controller = new InviaPropostaController();
-                            controller.inviaProposta(propostaBean);
-                        } catch (BeanInvalidoException ex) {
-                            showAlert("Non sono state fornite abbastanza informazioni");
-                            return;
-                        } catch (RuoloClienteException ex) {
-                            showAlert("Ruolo cliente sbagliato, rieffettuare il login");
-                            return;
-                        } catch (OggettoInvalidoException ex) {
-                            showAlert("Dati non validi: verifica i campi inseriti.");
-                            return;
-                        } catch (PersistenzaException ex) {
-                            showAlert("Errore tecnico, riprovare più tardi.");
-                            return;
-                        }
-
-                        showAlert("Proposta inviata");
-                    });
-
-                    riga.getChildren().addAll(titoloLabel, scambiaButton);
-                    contenitoreLibri.getChildren().add(riga);
-                }
-            }
-        }else{
+        if (!(cliente instanceof Utente)) {
             showAlert("Il ruolo è sbagliato. Rieffettuare il login");
+            return;
+        }
+
+        String username = cliente.getUsername();
+        List<LibroBean> libri = caricaLibriUtente(username);
+
+        if (libri.isEmpty()) {
+            mostraMessaggioNessunLibro();
+        } else {
+            mostraLibriConBottone(username, libri);
         }
     }
 
+    private List<LibroBean> caricaLibriUtente(String username) {
+        try {
+            GestoreUtente gestore = new GestoreUtente();
+            return gestore.caricaLibriUtente(username);
+        } catch (PersistenzaException e) {
+            showAlert("Errore tecnico. Riprovare più tardi");
+        } catch (ClienteNonTrovatoException e) {
+            showAlert("Cliente non trovato.");
+        }
+        return Collections.emptyList();
+    }
+
+    private void mostraMessaggioNessunLibro() {
+        Label messaggio = new Label("Non puoi effettuare lo scambio perché non hai libri disponibili.");
+        contenitoreLibri.getChildren().add(messaggio);
+    }
+
+    private void mostraLibriConBottone(String username, List<LibroBean> libri) {
+        for (LibroBean libro : libri) {
+            HBox riga = new HBox();
+            riga.setSpacing(10);
+
+            Label titoloLabel = new Label(libro.getTitolo());
+            Button scambiaButton = creaBottoneScambio(username, libro);
+
+            riga.getChildren().addAll(titoloLabel, scambiaButton);
+            contenitoreLibri.getChildren().add(riga);
+        }
+    }
+
+    private Button creaBottoneScambio(String username, LibroBean libro) {
+        Button scambiaButton = new Button("Scambia con questo");
+        scambiaButton.setOnAction(e -> inviaProposta(username, libro));
+        return scambiaButton;
+    }
+
+    private void inviaProposta(String username, LibroBean libro) {
+        String destinatario = propostaParzialeBean.getMittente();
+        long libroRichiesto = propostaParzialeBean.getLibroOfferto();
+
+        PropostaBean propostaBean = new PropostaBean();
+        propostaBean.setMittente(username);
+        propostaBean.setDestinatario(destinatario);
+        propostaBean.setLibroRichiesto(libroRichiesto);
+        propostaBean.setLibroOfferto(libro.getIdLibro());
+
+        try {
+            InviaPropostaController controller = new InviaPropostaController();
+            controller.inviaProposta(propostaBean);
+            showAlert("Proposta inviata");
+        } catch (BeanInvalidoException ex) {
+            showAlert("Non sono state fornite abbastanza informazioni");
+        } catch (RuoloClienteException ex) {
+            showAlert("Ruolo cliente sbagliato, rieffettuare il login");
+        } catch (OggettoInvalidoException ex) {
+            showAlert("Dati non validi: verifica i campi inseriti.");
+        } catch (PersistenzaException ex) {
+            showAlert("Errore tecnico, riprovare più tardi.");
+        }
+    }
 
     @FXML
     private void tornaIndietro(ActionEvent event) {

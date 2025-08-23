@@ -9,6 +9,11 @@ public class CaricaAnnuncioBean {
     TipoAnnuncio tipo;
     int durata;
 
+    /**
+     * Mi serve costruttore di default i CaricaAnnuncioGui
+     */
+    public CaricaAnnuncioBean() {
+    }
 
     public CaricaAnnuncioBean(String titolo, String autore, double prezzo, TipoAnnuncio tipo) {
         this.titolo = titolo;
@@ -28,7 +33,6 @@ public class CaricaAnnuncioBean {
 
 
 
-    public CaricaAnnuncioBean(){};
 
     public String getTitolo() {
         return titolo;

@@ -5,6 +5,7 @@ import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.BeanInvalidoException;
 import it.uniroma2.eu.bookcycle.controller.applicativo.RegistrazioneController;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
@@ -35,7 +36,12 @@ public abstract class RegistraClienteGui extends GraphicController {
         }
 
         RegistrazioneBean registrazioneBean = new RegistrazioneBean();
-        registrazioneBean.setUsername(usernameLabel.getText());
+        try {
+            registrazioneBean.setUsername(usernameLabel.getText());
+        } catch (OggettoInvalidoException e) {
+            showAlert("Username non valido. Riprovare");
+            return;
+        }
         registrazioneBean.setPassword(passwordField.getText());
         registrazioneBean.setEmail(emailLabel.getText());
         registrazioneBean.setTelefono(telephoneLabel.getText());

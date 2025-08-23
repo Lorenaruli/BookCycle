@@ -2,7 +2,6 @@ package it.uniroma2.eu.bookcycle.model.domain;
 
 import java.io.Serializable;
 
-import static it.uniroma2.eu.bookcycle.model.domain.StatoLibro.DISPONIBILE;
 
 
 public class Libro implements Serializable {

@@ -10,7 +10,6 @@ public class AnnuncioBean extends CaricaAnnuncioBean{
         this.idAnnuncio = idAnnuncio;
     }
 
-    public AnnuncioBean(){};
 
     public long getIdAnnuncio() {
         return idAnnuncio;

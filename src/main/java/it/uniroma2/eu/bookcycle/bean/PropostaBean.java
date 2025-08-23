@@ -1,15 +1,16 @@
 package it.uniroma2.eu.bookcycle.bean;
 
-import it.uniroma2.eu.bookcycle.model.domain.Libro;
-import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 public class PropostaBean extends PropostaParzialeBean{
 
     private String usernameDestinatario;
     private long idLibroD;
 
-    public boolean completo(){
-       return usernameDestinatario != null|| idLibroD != 0;
+    @Override
+    public boolean completo() {
+        return super.completo()
+                && usernameDestinatario != null
+                && idLibroD != 0;
     }
 
 

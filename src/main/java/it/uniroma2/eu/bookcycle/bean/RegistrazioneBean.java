@@ -1,5 +1,6 @@
 package it.uniroma2.eu.bookcycle.bean;
 
+import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 
 public class RegistrazioneBean {
@@ -18,9 +19,9 @@ public class RegistrazioneBean {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username) throws OggettoInvalidoException {
         if (username == null || username.isEmpty()){
-            throw new RuntimeException("l' username deve avere almeno un carattere");
+            throw new OggettoInvalidoException("l' username deve avere almeno un carattere");
         }
         this.username = username;
     }

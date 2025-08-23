@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="256.0" prefWidth="379.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.eu.bookcycle.controller.gui.InserisciPeriodoViewController">
+<AnchorPane prefHeight="256.0" prefWidth="379.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.uniroma2.eu.bookcycle.controller.grafica.gui.InserisciPeriodoViewController">
    <children>
       <ComboBox fx:id="durataCombo" layoutX="98.0" layoutY="73.0" onAction="#confermaDurata" prefHeight="25.0" prefWidth="183.0" promptText="Durata Noleggio" />
    </children>

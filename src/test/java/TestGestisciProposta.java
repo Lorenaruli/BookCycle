@@ -1,5 +1,3 @@
-import it.uniroma2.eu.bookcycle.bean.Proposta3Bean;
-import it.uniroma2.eu.bookcycle.controller.GestisciPropostaController;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;

@@ -1,9 +1,5 @@
-import it.uniroma2.eu.bookcycle.bean.LoginBean;
-import it.uniroma2.eu.bookcycle.controller.LoginController;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
 import it.uniroma2.eu.bookcycle.model.dao.memory.ClienteDaoMemory;
-import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
-import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -37,11 +37,9 @@ public class LibriMieiViewController extends GraphicController {
             return;
         }
         List<LibroBean> libriUtente = null;
-        try {
+
             libriUtente = gestore.caricaLibriUtente(username);
-        } catch (ClienteNonTrovatoException _) {
-            showAlert("Utente non trovato. Riprovare");
-        }
+
 
         ObservableList<LibroBean> lista = FXCollections.observableArrayList(libriUtente);
         libriList.setItems(lista);

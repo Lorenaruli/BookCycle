@@ -57,12 +57,10 @@ public class LibriMiei2ViewController extends CaricaLibroGui {
             return;
         }
         List<LibroBean> libriUtente = null;
-        try {
+
             libriUtente = gestore.caricaLibriUtente(username);
-        } catch (ClienteNonTrovatoException _) {
-            showAlert("Utente non trovato. RIporvare.");
-            return;
-        }
+
+
 
         listaLibri = FXCollections.observableArrayList(libriUtente);
         table.setItems(listaLibri);

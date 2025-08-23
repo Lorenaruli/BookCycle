@@ -69,12 +69,9 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
         }
 
         List<LibroBean> libriUtente = null;
-        try {
             libriUtente = gestore.caricaLibriUtente(username);
-        } catch (ClienteNonTrovatoException _) {
-            showAlert("Cliente non trovato, riprovare.");
-            return;
-        }
+
+
         List<LibroBean> libriDisponibili = libriUtente.stream().toList();
 
         listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);

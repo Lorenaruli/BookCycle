@@ -60,8 +60,7 @@ public class ScegliLibriMieiViewController extends GraphicController {
             return gestore.caricaLibriUtente(username);
         } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi");
-        } catch (ClienteNonTrovatoException _) {
-            showAlert("Cliente non trovato.");
+
         }
         return Collections.emptyList();
     }

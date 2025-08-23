@@ -24,6 +24,16 @@ import static it.uniroma2.eu.bookcycle.model.domain.RuoloCliente.UTENTE;
 
 public abstract class RegistraClienteGui extends GraphicController {
 
+    private  RegistrazioneController registrazioneController;
+
+    public RegistraClienteGui() {
+        try {
+            this.registrazioneController = new RegistrazioneController();
+        } catch (PersistenzaException e) {
+            throw new RuntimeException("Errore creazione controller registrazione", e);
+        }
+    }
+
 
     public void registraCliente(ActionEvent event, TextField usernameLabel, PasswordField passwordField, TextField emailLabel, TextField telephoneLabel, String path) {
         if (usernameLabel.getText().isBlank() ||
@@ -47,16 +57,11 @@ public abstract class RegistraClienteGui extends GraphicController {
         registrazioneBean.setTelefono(telephoneLabel.getText());
         setRuolo(registrazioneBean);
 
-        RegistrazioneController registrazioneController = null;
-        try {
-            registrazioneController = new RegistrazioneController();
-        } catch (PersistenzaException _) {
-            showAlert("Errore tecnico. Riprovare più tardi.");
-        }
+
 
         try {
             ClienteBean clienteBean = registrazioneController.registra(registrazioneBean);
-            RuoloCliente ruoloCliente = (clienteBean.getRuoloCliente())== UTENTE ? UTENTE : LIBRAIO;
+            RuoloCliente ruoloCliente = clienteBean.getRuoloCliente();
             showAlert("Registrazione avvenuta");
 
             if (ruoloCliente == UTENTE) {

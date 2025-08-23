@@ -32,7 +32,7 @@ public class GestoreUtente {
     }
 
 
-    public List<LibroBean> caricaLibriUtente(String usernameCliente) throws ClienteNonTrovatoException {
+    public List<LibroBean> caricaLibriUtente(String usernameCliente) {
         if (clienteAttuale instanceof Utente) {
 
 

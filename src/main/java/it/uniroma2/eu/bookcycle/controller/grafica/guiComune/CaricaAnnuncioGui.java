@@ -49,7 +49,7 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
             return;
         }
         try {
-            caricaAnnuncioController.AggiungiAnnuncio(caricaAnnuncioBean);
+            caricaAnnuncioController.aggiungiAnnuncio(caricaAnnuncioBean);
         } catch (PersistenzaException e) {
             showAlert("Errore tecnico: impossibile accedere ai dati. Riprova più tardi.");
             return;

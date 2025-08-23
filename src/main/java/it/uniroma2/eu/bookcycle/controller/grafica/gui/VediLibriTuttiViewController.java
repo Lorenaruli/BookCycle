@@ -68,7 +68,7 @@ public class VediLibriTuttiViewController extends GraphicController {
             List<LibroBean> libriDisponibili = gestoreUtente.caricaLibriTutti();
             listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);
             libriTable.setItems(listaLibriDisponibili);
-        } catch (Exception e) {
+        } catch (Exception _) {
             showAlert("Errore durante il caricamento dei libri.");
         }
     }
@@ -95,42 +95,46 @@ public class VediLibriTuttiViewController extends GraphicController {
     }
 
     private void aggiungiColonnaSeleziona() {
-        azioneColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button btn = new Button("Scegli");
+        azioneColumn.setCellFactory(col -> new SelezionaCell());
+    }
 
-            {
-                btn.setOnAction(event -> {
-                    LibroBean libroSelezionato = getTableView().getItems().get(getIndex());
-                    PropostaParzialeBean propostaParzialeBean= new PropostaParzialeBean();
-                    propostaParzialeBean.setLibroOfferto(libroSelezionato.getIdLibro());
-                    propostaParzialeBean.setMittente(libroSelezionato.getUsernameProprietario());
+    private class SelezionaCell extends TableCell<LibroBean, Void> {
+        private final Button btn = new Button("Scegli");
 
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(ViewPath.SCEGLI_LIBRI_MIEI_VIEW));
-                        Parent root = loader.load();
 
-                        ScegliLibriMieiViewController controller=loader.getController();
-                        controller.creaBeanProposta(propostaParzialeBean);;
+        public SelezionaCell() {
+            btn.setOnAction(event -> {
+                LibroBean libroSelezionato = getTableView().getItems().get(getIndex());
+                PropostaParzialeBean propostaParzialeBean = new PropostaParzialeBean();
+                propostaParzialeBean.setLibroOfferto(libroSelezionato.getIdLibro());
+                propostaParzialeBean.setMittente(libroSelezionato.getUsernameProprietario());
 
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(new Scene(root));
-                        stage.show();
-                    } catch (IOException e) {
-                        showAlert("Errore durante il caricamento della schermata di selezione.");
-                    }
-                });
-            }
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(ViewPath.SCEGLI_LIBRI_MIEI_VIEW));
+                    Parent root = loader.load();
+                    ScegliLibriMieiViewController controller = loader.getController();
+                    controller.creaBeanProposta(propostaParzialeBean);
 
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : btn);
-            }
-        });
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException e) {
+                    showAlert("Errore durante il caricamento della schermata di selezione.");
+                }
+            });
+        }
+
+        @Override
+        protected void updateItem(Void v, boolean empty) {
+            super.updateItem(v, empty);
+            setGraphic(empty ? null : btn);
+        }
     }
 
 
 
 
-    }
+
+
+}
 

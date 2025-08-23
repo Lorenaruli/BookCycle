@@ -31,7 +31,7 @@ public class ProfiloLibraioViewController extends LogoutGui {
         String path=ViewPath.REGISTRAZIONE_VIEW;
         try {
             logoutCliente(event, path);
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert(("Errore tecnico. Riprovare più tardi."));
         }
     }

@@ -32,14 +32,14 @@ public class LibriMieiViewController extends GraphicController {
         GestoreUtente gestore = null;
         try {
             gestore = new GestoreUtente();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
             return;
         }
         List<LibroBean> libriUtente = null;
         try {
             libriUtente = gestore.caricaLibriUtente(username);
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             showAlert("Utente non trovato. Riprovare");
         }
 

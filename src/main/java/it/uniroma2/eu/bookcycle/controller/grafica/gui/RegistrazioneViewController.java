@@ -37,10 +37,10 @@ public class RegistrazioneViewController extends RegistraClienteGui {
     @FXML
     private TextField usernameLabel;
     @FXML
-    private Button PrecedentRegistratoButton;
+    private Button precedentRegistratoButton;
 
     @FXML
-    private Button RegistratiButton;
+    private Button registratiButton;
 
     @FXML
     void registra(ActionEvent event) {
@@ -62,7 +62,7 @@ public class RegistrazioneViewController extends RegistraClienteGui {
             Stage stage = (Stage) libraioCheck.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException _) {
             showAlert("Errore caricamento ProfiloLibraioView");
         }
     }

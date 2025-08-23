@@ -9,7 +9,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="logoutButton" layoutX="455.0" layoutY="44.0" mnemonicParsing="false" onAction="#Logout" text="Logout" />
+            <Button fx:id="logoutButton" layoutX="455.0" layoutY="44.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
             <Label fx:id="usernameLabel" alignment="CENTER" layoutX="105.0" layoutY="34.0" prefHeight="17.0" prefWidth="371.0" text="Bentornato ">
                <font>
                   <Font size="15.0" />

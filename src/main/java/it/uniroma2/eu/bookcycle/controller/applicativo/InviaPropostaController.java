@@ -50,7 +50,7 @@ public class InviaPropostaController {
             throw new RuoloClienteException("Entrambi i clienti devono essere utenti");
        }
 
-        //gestisco seconda eccezione
+        //gestisco qui la  seconda eccezione
         Libro libroOfferto= null;
         try {
             libroOfferto = gestoreLibroScambio.restituisciLibro(bean.getLibroOfferto());
@@ -79,9 +79,6 @@ public class InviaPropostaController {
 
         propostaDiScambioDao.aggiungiProposta(proposta);
 
-
-        String destinatarioUsername = bean.getDestinatario();
-        String mittenteUsername = bean.getMittente();
 
 
         ((Utente)mittente).aggiungiPropostaInviata(proposta);

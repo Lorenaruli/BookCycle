@@ -57,7 +57,7 @@ public class LogInViewController extends LoginClienteGui {
             stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (IOException e) {
+        } catch (IOException _) {
             showAlert("Errore caricamento ProfiloLibraioView");
         }
     }

@@ -41,7 +41,7 @@ public class InserisciPeriodoViewController extends GraphicController {
 
         try {
             CaricaAnnuncioController caricaAnnuncioController = new CaricaAnnuncioController();
-            caricaAnnuncioController.AggiungiAnnuncio(bean);
+            caricaAnnuncioController.aggiungiAnnuncio(bean);
 
             showAlert("Annuncio di noleggio caricato con successo.");
             SceneManager.cambiaScena(event, ViewPath.PROFILO_LIBRAIO_VIEW);
@@ -61,7 +61,7 @@ public class InserisciPeriodoViewController extends GraphicController {
     }
 
     public void beanModificato(CaricaAnnuncioBean bean) {
-        String scelta = durataCombo.getValue();
+         scelta = durataCombo.getValue();
 
         if (scelta == null || scelta.isBlank()) {
             showAlert("Seleziona una durata prima di confermare.");
@@ -71,7 +71,7 @@ public class InserisciPeriodoViewController extends GraphicController {
         try {
             int durata = restituisciIntero(scelta);
             bean.setDurata(durata);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException _) {
             showAlert("Durata non valida: " + scelta);
         }
     }

@@ -59,9 +59,9 @@ public class ScegliLibriMieiViewController extends GraphicController {
         try {
             GestoreUtente gestore = new GestoreUtente();
             return gestore.caricaLibriUtente(username);
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi");
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             showAlert("Cliente non trovato.");
         }
         return Collections.emptyList();
@@ -105,13 +105,13 @@ public class ScegliLibriMieiViewController extends GraphicController {
             InviaPropostaController controller = new InviaPropostaController();
             controller.inviaProposta(propostaBean);
             showAlert("Proposta inviata");
-        } catch (BeanInvalidoException ex) {
+        } catch (BeanInvalidoException _) {
             showAlert("Non sono state fornite abbastanza informazioni");
-        } catch (RuoloClienteException ex) {
+        } catch (RuoloClienteException _) {
             showAlert("Ruolo cliente sbagliato, rieffettuare il login");
-        } catch (OggettoInvalidoException ex) {
+        } catch (OggettoInvalidoException _) {
             showAlert("Dati non validi: verifica i campi inseriti.");
-        } catch (PersistenzaException ex) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico, riprovare più tardi.");
         }
     }

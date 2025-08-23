@@ -22,8 +22,7 @@ public class CaricaLibroController {
     }
 
 
-    public void AggiungiLibro(CaricaLibroBean bean) throws BeanInvalidoException, OggettoInvalidoException, PersistenzaException, RuoloClienteException {
-        Cliente clienteAttuale=Sessione.ottieniIstanza().getClienteLoggato();
+    public void aggiungiLibro(CaricaLibroBean bean) throws BeanInvalidoException, OggettoInvalidoException, PersistenzaException, RuoloClienteException {
         LIbroVenNolDao libroVenditaDao = FactoryDao.getIstance().ottieniLibroVeNolDao();
 
         LibroIdFacade libroId= new LibroIdFacade();
@@ -40,8 +39,8 @@ public class CaricaLibroController {
                 nuovoId
         );
 
-        if (clienteAttuale instanceof Utente) {
-            ((Utente) clienteAttuale).aggiungiLibro(libro);
+        if (clienteAttuale instanceof Utente utente) {
+            utente.aggiungiLibro(libro);
             libroScambioDao.aggiungiLibro(libro);
 
         } else

@@ -56,7 +56,7 @@ public class CaricaAnnuncioViewController extends CaricaAnnuncioGui {
             Stage stage = (Stage) checkButton.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException _) {
             showAlert("Impossibile caricare la schermata.");
         }
 

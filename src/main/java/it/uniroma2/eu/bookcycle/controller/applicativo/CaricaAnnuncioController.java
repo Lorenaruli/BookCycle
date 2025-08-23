@@ -4,7 +4,6 @@ import it.uniroma2.eu.bookcycle.bean.CaricaAnnuncioBean;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonLoggatoException;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.RuoloClienteException;
 import it.uniroma2.eu.bookcycle.model.dao.*;
 import it.uniroma2.eu.bookcycle.model.dao.file.LibroIdFacade;
 import it.uniroma2.eu.bookcycle.model.domain.*;
@@ -24,9 +23,8 @@ public class CaricaAnnuncioController {
     }
 
 
-    public void AggiungiAnnuncio(CaricaAnnuncioBean bean) throws PersistenzaException, RuoloClienteException, OggettoInvalidoException {
+    public void aggiungiAnnuncio(CaricaAnnuncioBean bean) throws PersistenzaException, OggettoInvalidoException {
 
-        Cliente clienteAttuale=Sessione.ottieniIstanza().getClienteLoggato();
         LibroScambioDao libroScambio = FactoryDao.getIstance().ottieniLibroScambioDao();
 
         LibroIdFacade libroId= new LibroIdFacade();

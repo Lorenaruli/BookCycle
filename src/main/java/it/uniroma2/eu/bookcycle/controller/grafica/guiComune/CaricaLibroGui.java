@@ -23,7 +23,7 @@ public abstract class CaricaLibroGui extends GraphicController {
             caricaLibroBean.setAutore(autoreField.getText());
             caricaLibroBean.setGenere(genereField.getText());
             CaricaLibroController caricaLibroController = new CaricaLibroController();
-            caricaLibroController.AggiungiLibro(caricaLibroBean);
+            caricaLibroController.aggiungiLibro(caricaLibroBean);
         } catch (BeanInvalidoException e) {
             showAlert("Devi completare tutti i campi");
         } catch (OggettoInvalidoException e) {

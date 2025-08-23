@@ -88,25 +88,24 @@ public class GestisciPropostaController {
             conflitti.removeIf(p -> !idsVisti.add(p.getIdProposta()));
 
             for (PropostaDiScambio p : conflitti) {
-                if (p.getIdProposta() == proposta.getIdProposta()) continue;
-                if (p.getStato() != StatoProposta.IN_ATTESA) continue;
+                if (p.getIdProposta() != proposta.getIdProposta()
+                        && p.getStato() == StatoProposta.IN_ATTESA) {
 
+                    p.setStato(StatoProposta.RIFIUTATA);
+                    propostaDao.aggiungiProposta(p);
 
-                p.setStato(StatoProposta.RIFIUTATA);
-                propostaDao.aggiungiProposta(p);
+                    Utente m = (Utente) clienteDao.trovaPerUsername(p.getMittente().getUsername());
+                    m.getProposteInviate().stream()
+                            .filter(px -> px.getIdProposta() == p.getIdProposta())
+                            .findFirst()
+                            .ifPresent(px -> px.setStato(StatoProposta.RIFIUTATA));
+                    clienteDao.aggiornaCliente(m);
 
+                    Utente d = (Utente) clienteDao.trovaPerUsername(p.getDestinatario().getUsername());
+                    d.getProposteRicevute().removeIf(px -> px.getIdProposta() == p.getIdProposta());
+                    clienteDao.aggiornaCliente(d);
+                }
 
-                Utente m = (Utente) clienteDao.trovaPerUsername(p.getMittente().getUsername());
-                m.getProposteInviate().stream()
-                        .filter(px -> px.getIdProposta() == p.getIdProposta())
-                        .findFirst()
-                        .ifPresent(px -> px.setStato(StatoProposta.RIFIUTATA));
-                clienteDao.aggiornaCliente(m);
-
-
-                Utente d = (Utente) clienteDao.trovaPerUsername(p.getDestinatario().getUsername());
-                d.getProposteRicevute().removeIf(px -> px.getIdProposta() == p.getIdProposta());
-                clienteDao.aggiornaCliente(d);
             }
         }
         }

@@ -53,12 +53,10 @@ public class AccettaRifiutaViewController extends GraphicController {
         try {
             app= new GestisciPropostaController();
             app.gestisci(bean);
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico, riprovare più tardi.");
-            return;
-        } catch (OggettoInvalidoException e) {
+        } catch (OggettoInvalidoException _) {
             showAlert("Proposta non trovata, riprovare.");
-            return;
         }
     }
 

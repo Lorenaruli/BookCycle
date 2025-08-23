@@ -53,7 +53,7 @@ public class VediProposteInviateViewController extends GraphicController {
         InviaPropostaController app = null;
         try {
             app = new InviaPropostaController();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
         }
         List<Proposta4Bean> beans = app.creaListaBeanProposteInviate();
@@ -75,15 +75,17 @@ public class VediProposteInviateViewController extends GraphicController {
         TableColumn<Proposta4Bean, Proposta4Bean> contattiCol = new TableColumn<>(CONTATTI_LABEL);
         contattiCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         contattiCol.setCellFactory(col -> new TableCell<Proposta4Bean, Proposta4Bean>() {
-            private final Button btn = new Button("CONTATTI_LABEL");
+            private final Button btn = creaBottone();
 
-            {
-                btn.setOnAction(e -> {
+            private Button creaBottone() {
+                Button b = new Button("CONTATTI_LABEL");
+                b.setOnAction(e -> {
                     Proposta4Bean bean = getItem();
                     if (bean != null) {
                         mostraContatti(bean);
                     }
                 });
+                return b;
             }
 
             @Override
@@ -112,10 +114,10 @@ public class VediProposteInviateViewController extends GraphicController {
         ContattiBean c = null;
         try {
             c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             showAlert("Cliente non trovato. Riprovare.");
             return;
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
             return;
         }

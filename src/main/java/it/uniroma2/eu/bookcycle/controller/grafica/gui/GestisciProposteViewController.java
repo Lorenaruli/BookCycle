@@ -52,7 +52,7 @@ public class GestisciProposteViewController extends GraphicController {
 
         caricaDati(username);
 
-        gestisciCol.setCellFactory(col -> new TableCell<>() {
+        gestisciCol.setCellFactory(col -> new TableCell<Proposta2Bean, Void>() {
             private final Button btn = new Button("Gestisci");
 
             {
@@ -74,7 +74,7 @@ public class GestisciProposteViewController extends GraphicController {
     public void caricaDati(String usernameDestinatario) {
         try {
             app=new GestisciPropostaController();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
            showAlert("Errore tecnico. Riprovare più tardi.");
         }
         var beans = app.creaListaBeanProposteRicevute(usernameDestinatario);
@@ -93,7 +93,7 @@ public class GestisciProposteViewController extends GraphicController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException ex) {
+        } catch (IOException _) {
             showAlert("Impossibile caricare la schermata.");
         }
     }

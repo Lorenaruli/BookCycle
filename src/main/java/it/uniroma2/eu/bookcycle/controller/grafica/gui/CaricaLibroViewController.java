@@ -55,7 +55,7 @@ public class CaricaLibroViewController extends CaricaLibroGui {
                         stage.setScene(new Scene(root));
                         stage.show();
 
-                } catch (IOException e) {
+                } catch (IOException _) {
                         showAlert("Errore nel caricamento della schermata di login.");
                 }
 

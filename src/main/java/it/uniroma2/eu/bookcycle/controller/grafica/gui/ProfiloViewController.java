@@ -45,11 +45,11 @@ public class ProfiloViewController extends LogoutGui {
     private Label usernameLabel;
 
     @FXML
-    void Logout(ActionEvent event) {
+    void logout(ActionEvent event) {
         String path= ViewPath.REGISTRAZIONE_VIEW;
         try {
             logoutCliente(event,path);
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
         }
 
@@ -78,11 +78,10 @@ public class ProfiloViewController extends LogoutGui {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(ViewPath.GESTISCI_PROPOSTE_VIEW));
             Parent root = loader.load();
-            GestisciProposteViewController ctrl = loader.getController();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException _) {
             showAlert("Impossibile caricare la schermata del profilo.");
         }
     }
@@ -96,7 +95,7 @@ public class ProfiloViewController extends LogoutGui {
             stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (IOException e) {
+        } catch (IOException _) {
            showAlert("Impossibile caricare la schermata.");
         }
 

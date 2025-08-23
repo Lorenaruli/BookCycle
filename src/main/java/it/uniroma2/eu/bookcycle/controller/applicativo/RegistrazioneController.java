@@ -20,7 +20,6 @@ public class RegistrazioneController {
         if (!registrazioneBean.completo()) {
             throw new BeanInvalidoException("non sono state fornite abbastanza informazioni");
         }
-        boolean risultato;
         if (clienteDao.esisteCliente(registrazioneBean.getUsername())) {
             throw new OggettoEsistenteException("Username già registrato: " + registrazioneBean.getUsername());
         }

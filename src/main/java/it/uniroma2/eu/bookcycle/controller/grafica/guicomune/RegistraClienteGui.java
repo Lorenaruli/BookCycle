@@ -26,11 +26,11 @@ public abstract class RegistraClienteGui extends GraphicController {
 
     private  RegistrazioneController registrazioneController;
 
-    public RegistraClienteGui() {
+    protected RegistraClienteGui() {
         try {
             this.registrazioneController = new RegistrazioneController();
         } catch (PersistenzaException e) {
-            throw new RuntimeException("Errore creazione controller registrazione", e);
+            showAlert("Errore tecnico. Riprovare più tardi");
         }
     }
 

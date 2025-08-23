@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-
-            String path = ViewPath.REGISTRAZIONE_VIEW;  //ViewPath.SCHERMATA_ACCESSO_VIEW;
+        // Per la Gui2 Partire con ViewPath.SCHERMATA_ACCESSO_VIEW;
+            String path = ViewPath.REGISTRAZIONE_VIEW;
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
             Scene scene = new Scene(root);

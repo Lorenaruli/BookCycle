@@ -29,7 +29,7 @@ public abstract class RegistraClienteGui extends GraphicController {
     protected RegistraClienteGui() {
         try {
             this.registrazioneController = new RegistrazioneController();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi");
         }
     }

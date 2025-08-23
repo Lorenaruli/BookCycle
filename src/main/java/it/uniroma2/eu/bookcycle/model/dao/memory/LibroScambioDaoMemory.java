@@ -12,5 +12,5 @@ public class LibroScambioDaoMemory extends LibroDaoMemory implements LibroScambi
         }
         return instanza;
     }
-};
+}
 

@@ -1,10 +1,8 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.LibroNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PropostaNonTrovataException;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PropostaNonTrovataException;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 
@@ -12,7 +10,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PropostaDiScambioDaoFile extends AbstractFileDao implements PropostaDiScambioDao {
     private static final String SCAMBI_PATH = "SCAMBI_PATH";
@@ -40,7 +37,7 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(new ArrayList<PropostaDiScambio>());
         }
-            catch (IOException e) {
+            catch (IOException _) {
                 throw new PersistenzaException("Errore inizializzazione file clienti");
 
         }
@@ -68,16 +65,16 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
             } else {
                 throw new PersistenzaException("Formato file non valido");
             }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new PersistenzaException("Errore lettura file: " + e.getMessage());
+        } catch (IOException | ClassNotFoundException _) {
+            throw new PersistenzaException("Errore lettura file.");
         }
     }
 
     private void salvaProposte() throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(proposteTotali);
-        } catch (IOException e) {
-            throw new PersistenzaException("Errore scrittura file: " + e.getMessage());
+        } catch (IOException _) {
+            throw new PersistenzaException("Errore scrittura file.");
         }
     }
 
@@ -131,13 +128,13 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
     @Override
     public List<PropostaDiScambio> getProposteInviate(String usernameMittente) {
         if (usernameMittente == null) {
-            return Collections.emptyList();
-        }
-        {
+            return Collections.emptyList();}
+
+
             return proposteTotali.stream()
                     .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
                     .toList();
-        }
+
     }
 
     @Override

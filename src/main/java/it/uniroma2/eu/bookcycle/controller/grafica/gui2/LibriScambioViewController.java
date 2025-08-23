@@ -2,9 +2,9 @@ package it.uniroma2.eu.bookcycle.controller.grafica.gui2;
 
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.SceneManager;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.GraphicController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,7 +73,7 @@ public class LibriScambioViewController extends GraphicController {
             List<LibroBean> libriDisponibili = gestoreUtente.caricaLibriTutti();
             listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);
             tabella.setItems(listaLibriDisponibili);
-        } catch (Exception e) {
+        } catch (Exception _) {
             showAlert("Errore durante il caricamento dei libri.");
 
         }
@@ -103,7 +103,7 @@ public class LibriScambioViewController extends GraphicController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException _) {
             showAlert("Errore durante il caricamento della schermata di selezione.");
         }
     }

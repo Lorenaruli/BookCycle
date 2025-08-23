@@ -1,7 +1,7 @@
 package it.uniroma2.eu.bookcycle.controller.grafica.gui2;
 import it.uniroma2.eu.bookcycle.bean.SchermataAccessoBean;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.GraphicController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,7 +49,7 @@ public class SchermataAccessoViewController extends GraphicController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException _) {
             showAlert("Impossibile caricare la schermata.");
         }
     }

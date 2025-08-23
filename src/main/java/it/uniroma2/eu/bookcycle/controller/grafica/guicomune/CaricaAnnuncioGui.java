@@ -1,10 +1,10 @@
-package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
+package it.uniroma2.eu.bookcycle.controller.grafica.guicomune;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaAnnuncioBean;
 import it.uniroma2.eu.bookcycle.controller.applicativo.CaricaAnnuncioController;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonLoggatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonLoggatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
@@ -39,20 +39,20 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
         CaricaAnnuncioController caricaAnnuncioController=null;
         try {
             caricaAnnuncioController = new CaricaAnnuncioController();
-        } catch (ClienteNonLoggatoException e) {
+        } catch (ClienteNonLoggatoException _) {
             showAlert("Devi prima loggarti");
             return;
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
             return;
         }
         try {
             caricaAnnuncioController.aggiungiAnnuncio(caricaAnnuncioBean);
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico: impossibile accedere ai dati. Riprova più tardi.");
             return;
 
-        } catch (OggettoInvalidoException e) {
+        } catch (OggettoInvalidoException _) {
             showAlert("Dati non validi: verifica i campi inseriti.");
             return;
         }
@@ -71,7 +71,7 @@ public abstract class CaricaAnnuncioGui extends GraphicController {
     private Double ottieniPrezzo(TextField prezzoField) {
         try {
             return Double.valueOf(prezzoField.getText());
-        } catch (NumberFormatException | NullPointerException e) {
+        } catch (NumberFormatException | NullPointerException _) {
             return null;
         }
     }

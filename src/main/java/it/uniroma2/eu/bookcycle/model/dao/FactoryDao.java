@@ -1,6 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.file.FileFactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.memory.MemoryFactoryDao;
 
@@ -33,7 +33,7 @@ public abstract class FactoryDao {
                     default:
                         System.exit(1);
                 }
-            } catch (IOException e) {
+            } catch (IOException _) {
                 System.exit(1);
             }
         }

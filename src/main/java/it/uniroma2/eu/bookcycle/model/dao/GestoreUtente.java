@@ -2,8 +2,8 @@ package it.uniroma2.eu.bookcycle.model.dao;
 
 import it.uniroma2.eu.bookcycle.bean.ContattiBean;
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
 import java.util.Collections;
@@ -60,8 +60,11 @@ public class GestoreUtente {
     public List<PropostaDiScambio> caricaProposteUtenteMitente(String usernameCliente) throws  PersistenzaException {
             try {
                 Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
-                return propostaDao.getProposteInviate(usernameCliente);
-            } catch (ClienteNonTrovatoException e) {
+                if (cliente.getUsername() == null || cliente.getUsername().isBlank()) {
+                    throw new ClienteNonTrovatoException("Cliente con username non valido");
+                }
+                return propostaDao.getProposteInviate(cliente.getUsername());
+            } catch (ClienteNonTrovatoException _) {
 
                 List<PropostaDiScambio> sbagliate1 = propostaDao.getProposteInviate(usernameCliente);
                 List<PropostaDiScambio> sbagliate2 = propostaDao.getProposteRicevute(usernameCliente);
@@ -75,15 +78,13 @@ public class GestoreUtente {
 
 
         public List<PropostaDiScambio> caricaProposteUtenteDestinatario(String usernameCliente) throws ClienteNonTrovatoException {
-        Cliente cliente = utenteDao.ottieniCliente(usernameCliente);
 
-        List<PropostaDiScambio> proposteRicevute = propostaDao.getProposteRicevute(usernameCliente);
-          return proposteRicevute;
+        return propostaDao.getProposteRicevute(usernameCliente);
+
 
 
     }
     public Utente restituisciUtente(String username) throws ClienteNonTrovatoException {
-        Cliente cliente = utenteDao.trovaPerUsername(username);
         return (Utente) (utenteDao.trovaPerUsername(username));
 
     }

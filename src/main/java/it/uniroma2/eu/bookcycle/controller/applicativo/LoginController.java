@@ -1,10 +1,10 @@
 package it.uniroma2.eu.bookcycle.controller.applicativo;
 
 import it.uniroma2.eu.bookcycle.bean.LoginBean;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.BeanInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.CredenzialiSbagliateException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.BeanInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.CredenzialiSbagliateException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;

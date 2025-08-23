@@ -1,7 +1,7 @@
-package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
+package it.uniroma2.eu.bookcycle.controller.grafica.guicomune;
 
 import it.uniroma2.eu.bookcycle.controller.applicativo.LoginController;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import javafx.event.ActionEvent;
 
 public class LogoutGui extends GraphicController {

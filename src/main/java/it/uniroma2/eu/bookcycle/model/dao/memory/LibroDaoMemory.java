@@ -1,15 +1,12 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.LibroNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.LibroNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
-import it.uniroma2.eu.bookcycle.model.domain.StatoLibro;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LibroDaoMemory implements LibroDao {
     private List<Libro> libri;

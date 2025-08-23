@@ -7,7 +7,7 @@
     <children>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Button fx:id="logoutButton" layoutX="473.0" layoutY="333.0" mnemonicParsing="false" onAction="#Logout" text="Esci" />
+                <Button fx:id="logoutButton" layoutX="473.0" layoutY="333.0" mnemonicParsing="false" onAction="#logout" text="Esci" />
                 <Button fx:id="cercaLibriButton" layoutX="28.0" layoutY="107.0" mnemonicParsing="false" onAction="#cercaLibri" prefHeight="159.0" prefWidth="142.0" text="CERCA LIBRI" />
                 <Button fx:id="gestisciProposteButton" layoutX="420.0" layoutY="107.0" mnemonicParsing="false" onAction="#gestisciProposte" prefHeight="159.0" prefWidth="142.0" text="GESTISCI PROPOSTE" />
                 <Button fx:id="vediLibriMieiButton" layoutX="220.0" layoutY="107.0" mnemonicParsing="false" onAction="#vediLibriMiei" prefHeight="159.0" prefWidth="142.0" text="LIBRI CARICATI" />

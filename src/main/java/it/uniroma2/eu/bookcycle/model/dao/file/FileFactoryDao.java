@@ -1,6 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.*;
 
 public class FileFactoryDao extends FactoryDao {

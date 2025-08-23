@@ -1,4 +1,4 @@
-package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
+package it.uniroma2.eu.bookcycle.controller.grafica.guicomune;
 
 public class ViewPath {
 

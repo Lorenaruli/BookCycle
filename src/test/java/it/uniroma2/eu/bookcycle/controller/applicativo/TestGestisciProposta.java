@@ -1,5 +1,7 @@
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+package it.uniroma2.eu.bookcycle.controller.applicativo;
+
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;

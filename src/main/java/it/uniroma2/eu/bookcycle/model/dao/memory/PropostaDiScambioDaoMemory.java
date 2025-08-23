@@ -1,14 +1,13 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PropostaNonTrovataException;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PropostaNonTrovataException;
 import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
 
     private  List<PropostaDiScambio> proposteTotali;

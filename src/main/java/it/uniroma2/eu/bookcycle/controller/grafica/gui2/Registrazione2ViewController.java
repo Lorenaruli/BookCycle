@@ -1,10 +1,10 @@
 package it.uniroma2.eu.bookcycle.controller.grafica.gui2;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
 import it.uniroma2.eu.bookcycle.bean.SchermataAccessoBean;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
 
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.RegistraClienteGui;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.RegistraClienteGui;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,10 +17,10 @@ import javafx.scene.control.TextField;
 public class Registrazione2ViewController extends RegistraClienteGui {
 
     @FXML
-    private Button PrecedentRegistratoButton;
+    private Button precedentRegistratoButton;
 
     @FXML
-    private Button RegistratiButton;
+    private Button registratiButton;
 
     @FXML
     private TextField emailLabel;

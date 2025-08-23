@@ -1,16 +1,14 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.LibroNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.LibroNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class LibroDaoFile extends AbstractFileDao implements LibroDao {
         private File file;
@@ -26,7 +24,7 @@ public abstract class LibroDaoFile extends AbstractFileDao implements LibroDao {
         if (this.file.length() == 0) {
             try {
                 inizializzaFileVuoto(file);
-            } catch (PersistenzaException e) {
+            } catch (PersistenzaException _) {
                 throw new PersistenzaException("Errore inizializzazione file " + file.getAbsolutePath());
             }
         }
@@ -87,7 +85,7 @@ public void caricaLibri() throws PersistenzaException {
     }
     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
         this.libri = (List<Libro>) ois.readObject();
-    } catch (IOException | ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException _) {
         throw new PersistenzaException("Errore durante il caricamento dei libri ");
     }
 }
@@ -95,7 +93,7 @@ public void caricaLibri() throws PersistenzaException {
 public void salvaLibri() throws PersistenzaException {
     try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
         oos.writeObject(libri);
-    } catch (IOException e) {
+    } catch (IOException _) {
         throw new PersistenzaException("Errore durante il salvataggio dei libri");
     }
 }

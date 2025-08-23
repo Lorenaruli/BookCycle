@@ -1,4 +1,4 @@
-package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
+package it.uniroma2.eu.bookcycle.controller.grafica.guicomune;
 
 import javafx.scene.control.Alert;
 

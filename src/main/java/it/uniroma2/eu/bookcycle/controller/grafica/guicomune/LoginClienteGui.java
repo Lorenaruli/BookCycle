@@ -1,8 +1,8 @@
-package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
+package it.uniroma2.eu.bookcycle.controller.grafica.guicomune;
 
 import it.uniroma2.eu.bookcycle.bean.LoginBean;
 import it.uniroma2.eu.bookcycle.controller.applicativo.LoginController;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
+import it.uniroma2.eu.bookcycle.model.eccezioni.*;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +24,7 @@ public abstract class LoginClienteGui extends GraphicController {
         LoginController loginController = null;
         try {
             loginController = new LoginController();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi");
             return;
         }
@@ -32,15 +32,15 @@ public abstract class LoginClienteGui extends GraphicController {
         RuoloCliente ruoloCliente;
         try {
             ruoloCliente = loginController.login(loginBean);
-        } catch (CredenzialiSbagliateException e) {
+        } catch (CredenzialiSbagliateException _) {
             showAlert("Credenziali errate");
             passwordField.clear();
             usernameLabel.clear();
             return;
-        } catch (BeanInvalidoException e) {
+        } catch (BeanInvalidoException _) {
             showAlert("Inserisci username e password");
             return;
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             showAlert("Utente non trovato. Registrati prima di fare il login.");
             return;
         }
@@ -54,14 +54,13 @@ public abstract class LoginClienteGui extends GraphicController {
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
                     stage.show();
-                } catch (IOException e) {
+                } catch (IOException _) {
                     showAlert("Errore tecnico: impossibile aprire la schermata utente.");
-                    return;
                 }
             }
-            case LIBRAIO -> {
+            case LIBRAIO ->
                     goToLibraio();
-            }
+
             default -> showAlert("Ruolo non riconosciuto.");
         }
     }

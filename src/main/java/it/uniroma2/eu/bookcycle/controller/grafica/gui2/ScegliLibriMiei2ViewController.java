@@ -4,11 +4,11 @@ import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.applicativo.InviaPropostaController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.SceneManager;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.GraphicController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
@@ -19,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ScegliLibriMiei2ViewController extends GraphicController {
 
@@ -65,14 +64,14 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
         GestoreUtente gestore = null;
         try {
             gestore = new GestoreUtente();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi");
         }
 
         List<LibroBean> libriUtente = null;
         try {
             libriUtente = gestore.caricaLibriUtente(username);
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             showAlert("Cliente non trovato, riprovare.");
             return;
         }
@@ -108,7 +107,7 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
             controller.inviaProposta(propostaBean);
             showAlert("Proposta inviata");
             tornaIndietro(event);
-        } catch (Exception e) {
+        } catch (Exception _) {
             showAlert("Errore durante l'invio della proposta.");
         }
     }

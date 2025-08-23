@@ -1,9 +1,9 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoEsistenteException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 
 

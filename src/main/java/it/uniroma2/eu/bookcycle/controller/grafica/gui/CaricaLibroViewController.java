@@ -1,8 +1,8 @@
 package it.uniroma2.eu.bookcycle.controller.grafica.gui;
 
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.SceneManager;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.CaricaLibroGui;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.CaricaLibroGui;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

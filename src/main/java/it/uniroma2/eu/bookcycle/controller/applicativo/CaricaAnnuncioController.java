@@ -1,9 +1,9 @@
 package it.uniroma2.eu.bookcycle.controller.applicativo;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaAnnuncioBean;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonLoggatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonLoggatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.*;
 import it.uniroma2.eu.bookcycle.model.dao.file.LibroIdFacade;
 import it.uniroma2.eu.bookcycle.model.domain.*;

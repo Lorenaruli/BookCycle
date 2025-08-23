@@ -1,15 +1,12 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PropostaNonTrovataException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoEsistenteException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
-import it.uniroma2.eu.bookcycle.model.dao.file.ClienteDaoFile;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
-import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 import java.util.*;

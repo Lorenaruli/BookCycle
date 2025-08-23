@@ -1,7 +1,7 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
@@ -9,7 +9,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
     private static final String PROPERTIES_PATH = "proprieta.properties";
@@ -28,7 +27,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
                     oos.writeObject(new ArrayList<Annuncio>());
                 }
-    catch (IOException e) {
+    catch (IOException _) {
         throw new PersistenzaException("Errore inizializzazione file annunci");
      }
     }
@@ -47,8 +46,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
             } else {
                 throw new PersistenzaException("Formato file non valido");
             }
-        } catch (IOException | ClassNotFoundException e) {
-            // fallback: file vuoto o corrotto → lista vuota
+        } catch (IOException | ClassNotFoundException _) {
             return new ArrayList<>();
         }
     }
@@ -62,7 +60,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(annunci);
-        } catch (IOException e) {
+        } catch (IOException _) {
             throw new PersistenzaException("Errore scrittura annunci su " + file.getAbsolutePath());
         }
     }

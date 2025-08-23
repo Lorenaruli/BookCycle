@@ -5,11 +5,11 @@ import it.uniroma2.eu.bookcycle.bean.Proposta2Bean;
 import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.controller.applicativo.GestisciPropostaController;
 import it.uniroma2.eu.bookcycle.controller.applicativo.InviaPropostaController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.SceneManager;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.GraphicController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -86,7 +86,7 @@ public class ProposteViewController extends GraphicController {
     private void caricaInviate() {
         try {
             inviaCtrl= new InviaPropostaController();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi");
         }
         var beans = inviaCtrl.creaListaBeanProposteInviate();
@@ -96,7 +96,7 @@ public class ProposteViewController extends GraphicController {
     private void caricaRicevute(String username) {
         try {
             gestisciCtrl= new GestisciPropostaController();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. RIprovare più tardi.");
         }
         var beans = gestisciCtrl.creaListaBeanProposteRicevute(username);
@@ -120,7 +120,7 @@ public class ProposteViewController extends GraphicController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException ex) {
+        } catch (IOException _) {
             showAlert("Errore nel caricamento della schermata.");
         }
     }
@@ -161,10 +161,10 @@ public class ProposteViewController extends GraphicController {
         ContattiBean c = null;
         try {
             c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             showAlert("Utente non trovato, riprovare");
             return;
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
             return;
         }

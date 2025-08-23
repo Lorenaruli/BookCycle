@@ -1,4 +1,6 @@
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
+package it.uniroma2.eu.bookcycle.controller.applicativo;
+
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoEsistenteException;
 import it.uniroma2.eu.bookcycle.model.dao.memory.ClienteDaoMemory;
 import org.junit.jupiter.api.Test;
 

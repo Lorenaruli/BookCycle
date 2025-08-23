@@ -1,4 +1,4 @@
-package it.uniroma2.eu.bookcycle.model.Eccezioni;
+package it.uniroma2.eu.bookcycle.model.eccezioni;
 
 public class PropostaNonTrovataException extends OggettoNonTrovatoException {
     public PropostaNonTrovataException(String message) {

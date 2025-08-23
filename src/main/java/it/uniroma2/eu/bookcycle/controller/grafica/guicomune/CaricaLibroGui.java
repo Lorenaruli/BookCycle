@@ -1,9 +1,8 @@
-package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
+package it.uniroma2.eu.bookcycle.controller.grafica.guicomune;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
 import it.uniroma2.eu.bookcycle.controller.applicativo.CaricaLibroController;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
-import javafx.event.ActionEvent;
+import it.uniroma2.eu.bookcycle.model.eccezioni.*;
 
 import javafx.scene.control.TextField;
 
@@ -24,16 +23,16 @@ public abstract class CaricaLibroGui extends GraphicController {
             caricaLibroBean.setGenere(genereField.getText());
             CaricaLibroController caricaLibroController = new CaricaLibroController();
             caricaLibroController.aggiungiLibro(caricaLibroBean);
-        } catch (BeanInvalidoException e) {
+        } catch (BeanInvalidoException _) {
             showAlert("Devi completare tutti i campi");
-        } catch (OggettoInvalidoException e) {
+        } catch (OggettoInvalidoException _) {
             showAlert("Libro non valido: ");
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico durante il salvataggio del libro. Riprova.");
-        }catch (ClienteNonLoggatoException e){
+        }catch (ClienteNonLoggatoException _){
             showAlert("Devi Prima loggarti.");
             goToLogin();
-        }catch(RuoloClienteException e){
+        }catch(RuoloClienteException _){
             showAlert("Cliente con ruolo sbagliato. Rieffettuare il login");
         }
         showAlert("Libro caricato con successo");

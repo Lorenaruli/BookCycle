@@ -1,11 +1,11 @@
 package it.uniroma2.eu.bookcycle.controller.grafica.gui2;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta3Bean;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.SceneManager;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.GraphicController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.StatoProposta;
 import it.uniroma2.eu.bookcycle.controller.applicativo.GestisciPropostaController;
 import javafx.event.ActionEvent;
@@ -34,7 +34,7 @@ public class AccettaRifiuta2ViewController extends GraphicController {
     public void initialize() {
         try {
             controller = new GestisciPropostaController();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
         }
     }
@@ -46,12 +46,10 @@ public class AccettaRifiuta2ViewController extends GraphicController {
         bean.setStato(StatoProposta.ACCETTATA);
         try {
             controller.gestisci(bean);
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riporvare più tardi.");
-            return;
-        } catch (OggettoInvalidoException e) {
+        } catch (OggettoInvalidoException _) {
             showAlert("Proposta non valida, riprovare.");
-            return;
         }
     }
 
@@ -62,12 +60,10 @@ public class AccettaRifiuta2ViewController extends GraphicController {
         bean.setStato(StatoProposta.RIFIUTATA);
         try {
             controller.gestisci(bean);
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riporvare più tardi.");
-            return;
-        } catch (OggettoInvalidoException e) {
+        } catch (OggettoInvalidoException _) {
             showAlert("Proposta non valida, riprovare.");
-            return;
         }
     }
 

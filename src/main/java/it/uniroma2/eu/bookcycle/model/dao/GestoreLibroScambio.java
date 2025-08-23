@@ -1,13 +1,12 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.LibroNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.LibroNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GestoreLibroScambio {
         private LibroScambioDao libroDao;
@@ -20,7 +19,7 @@ public class GestoreLibroScambio {
             return libroDao.cercaPerId(id);
         }
 
-    public List<Libro> restituisciSimili(String usernameCliente, long idRiferimento) throws PersistenzaException {
+    public List<Libro> restituisciSimili(String usernameCliente, long idRiferimento) {
         List<Libro> tutti = libroDao.cercaPerProprietario(usernameCliente);
 
 

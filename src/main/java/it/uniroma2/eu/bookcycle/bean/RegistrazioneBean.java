@@ -1,6 +1,6 @@
 package it.uniroma2.eu.bookcycle.bean;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 
 public class RegistrazioneBean {

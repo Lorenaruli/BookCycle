@@ -2,7 +2,7 @@ package it.uniroma2.eu.bookcycle.controller.applicativo;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
+import it.uniroma2.eu.bookcycle.model.eccezioni.*;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreLibroScambio;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;

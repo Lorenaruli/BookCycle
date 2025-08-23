@@ -1,13 +1,11 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class LibroScambioDaoFile extends LibroDaoFile implements LibroScambioDao {
@@ -22,7 +20,7 @@ public class LibroScambioDaoFile extends LibroDaoFile implements LibroScambioDao
     protected void inizializzaFileVuoto(File file) throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(new ArrayList<Libro>());
-        } catch (IOException e) {
+        } catch (IOException _) {
             throw new PersistenzaException("Errore inizializzazione file libri scambio");
         }
 

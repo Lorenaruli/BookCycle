@@ -1,9 +1,9 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoEsistenteException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
@@ -30,7 +30,7 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
     protected void inizializzaFileVuoto(File file) throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(new ArrayList<DatiClienteF>());}
-            catch (IOException e) {
+            catch (IOException _) {
                 throw new PersistenzaException("Errore inizializzazione file clienti");
 
         }
@@ -70,7 +70,7 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
                 .map(DatiClienteF::getCliente)
                 .collect(Collectors.toList());
         return lista;
-    } catch (IOException | ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException _) {
         throw new PersistenzaException("Errore nella lettura del file clienti");
     }
 }
@@ -78,7 +78,7 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
     private void salvaClienti() throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(new ArrayList<>(datiClienti.values()));
-        } catch (IOException e) {
+        } catch (IOException _) {
             throw new PersistenzaException("Errore scrittura clienti");
         }
     }

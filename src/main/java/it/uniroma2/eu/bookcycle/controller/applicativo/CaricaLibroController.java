@@ -1,7 +1,7 @@
 package it.uniroma2.eu.bookcycle.controller.applicativo;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
+import it.uniroma2.eu.bookcycle.model.eccezioni.*;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import it.uniroma2.eu.bookcycle.model.dao.LIbroVenNolDao;
 import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;

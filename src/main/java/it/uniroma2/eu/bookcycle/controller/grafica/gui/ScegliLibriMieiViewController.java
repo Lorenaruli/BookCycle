@@ -4,10 +4,10 @@ import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.applicativo.InviaPropostaController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.GraphicController;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.SceneManager;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.*;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
+import it.uniroma2.eu.bookcycle.model.eccezioni.*;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 import javafx.event.ActionEvent;
@@ -19,7 +19,6 @@ import javafx.scene.layout.VBox;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ScegliLibriMieiViewController extends GraphicController {
 

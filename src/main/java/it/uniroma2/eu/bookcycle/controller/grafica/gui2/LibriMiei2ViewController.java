@@ -1,10 +1,10 @@
 package it.uniroma2.eu.bookcycle.controller.grafica.gui2;
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.SceneManager;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.CaricaLibroGui;
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.CaricaLibroGui;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.beans.property.SimpleStringProperty;
@@ -52,14 +52,14 @@ public class LibriMiei2ViewController extends CaricaLibroGui {
         GestoreUtente gestore = null;
         try {
             gestore = new GestoreUtente();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
             return;
         }
         List<LibroBean> libriUtente = null;
         try {
             libriUtente = gestore.caricaLibriUtente(username);
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             showAlert("Utente non trovato. RIporvare.");
             return;
         }
@@ -85,7 +85,7 @@ public class LibriMiei2ViewController extends CaricaLibroGui {
             stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (IOException e) {
+        } catch (IOException _) {
             showAlert("Errore nel caricamento della schermata di login.");
         }
 

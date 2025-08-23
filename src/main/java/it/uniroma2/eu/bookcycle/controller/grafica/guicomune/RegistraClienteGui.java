@@ -1,12 +1,12 @@
-package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
+package it.uniroma2.eu.bookcycle.controller.grafica.guicomune;
 
 import it.uniroma2.eu.bookcycle.bean.ClienteBean;
 import it.uniroma2.eu.bookcycle.bean.RegistrazioneBean;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.BeanInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.BeanInvalidoException;
 import it.uniroma2.eu.bookcycle.controller.applicativo.RegistrazioneController;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoEsistenteException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoEsistenteException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.RuoloCliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +38,7 @@ public abstract class RegistraClienteGui extends GraphicController {
         RegistrazioneBean registrazioneBean = new RegistrazioneBean();
         try {
             registrazioneBean.setUsername(usernameLabel.getText());
-        } catch (OggettoInvalidoException e) {
+        } catch (OggettoInvalidoException _) {
             showAlert("Username non valido. Riprovare");
             return;
         }
@@ -50,7 +50,7 @@ public abstract class RegistraClienteGui extends GraphicController {
         RegistrazioneController registrazioneController = null;
         try {
             registrazioneController = new RegistrazioneController();
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi.");
         }
 
@@ -59,16 +59,17 @@ public abstract class RegistraClienteGui extends GraphicController {
             RuoloCliente ruoloCliente = (clienteBean.getRuoloCliente())== UTENTE ? UTENTE : LIBRAIO;
             showAlert("Registrazione avvenuta");
 
-            switch (ruoloCliente) {
-                case UTENTE -> apriSchermata(path, event);
-               case LIBRAIO ->  {goToLibraio();}
+            if (ruoloCliente == UTENTE) {
+                apriSchermata(path, event);
+            } else if (ruoloCliente == LIBRAIO) {
+                goToLibraio();
             }
 
-        } catch (BeanInvalidoException e) {
+        } catch (BeanInvalidoException _) {
             showAlert("Ci sono dei campi vuoti");
-        } catch (OggettoEsistenteException e) {
+        } catch (OggettoEsistenteException _) {
             showAlert("Errore: username già registrato, scegline un altro.");
-        } catch (PersistenzaException e) {
+        } catch (PersistenzaException _) {
             showAlert("Errore tecnico: impossibile salvare i dati, riprova più tardi.");
        }
 
@@ -82,7 +83,7 @@ public abstract class RegistraClienteGui extends GraphicController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException _) {
             showAlert("Errore caricamento schermata");
         }
     }

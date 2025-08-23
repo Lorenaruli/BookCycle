@@ -1,6 +1,6 @@
 package it.uniroma2.eu.bookcycle;
 
-import it.uniroma2.eu.bookcycle.controller.grafica.guiComune.ViewPath;
+import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

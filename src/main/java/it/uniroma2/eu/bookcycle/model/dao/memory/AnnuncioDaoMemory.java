@@ -1,6 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.OggettoInvalidoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
@@ -9,7 +9,6 @@ import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AnnuncioDaoMemory implements AnnuncioDao {
     private static AnnuncioDaoMemory instanza;

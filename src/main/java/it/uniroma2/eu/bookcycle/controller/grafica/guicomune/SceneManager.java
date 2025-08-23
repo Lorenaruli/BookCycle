@@ -1,4 +1,4 @@
-package it.uniroma2.eu.bookcycle.controller.grafica.guiComune;
+package it.uniroma2.eu.bookcycle.controller.grafica.guicomune;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +21,7 @@ public class SceneManager extends GraphicController {
             stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (IOException ex) {
+        } catch (IOException _) {
             showAlert("Errore caricamento Schermata");
         }
     }

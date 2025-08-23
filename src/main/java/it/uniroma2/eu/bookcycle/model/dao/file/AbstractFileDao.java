@@ -1,6 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
-import it.uniroma2.eu.bookcycle.model.Eccezioni.PersistenzaException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 
 
@@ -45,7 +45,7 @@ public abstract class AbstractFileDao {
 
             return file;
 
-        } catch (IOException e) {
+        } catch (IOException _) {
             throw new PersistenzaException("Errore nel caricamento del percorso dal file di proprietà");
         }
     }

@@ -4,7 +4,6 @@ import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoEsistenteException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Libraio;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
@@ -130,19 +129,20 @@ public class ClienteDaoMemory implements ClienteDao {
 
 
 
-    public String getEmail(String username) throws DaoException {
+    public String getEmail(String username)  {
         DatiClienteM dati = datiClienti.get(username);
         if (dati == null) {
-            throw new DaoException("Cliente non trovato: " + username);
+                return "";
+
         }
         return dati.getEmail();
     }
 
 
-    public String getTelefono(String username) throws DaoException {
+    public String getTelefono(String username)  {
         DatiClienteM dati = datiClienti.get(username);
         if (dati == null) {
-            throw new DaoException("Cliente non trovato: " + username);
+            return "";
         }
         return dati.getTelefono();
     }

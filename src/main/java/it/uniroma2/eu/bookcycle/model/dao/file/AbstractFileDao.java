@@ -1,7 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 
 
 import java.io.*;
@@ -18,14 +17,14 @@ public abstract class AbstractFileDao {
 
         try (InputStream input = AbstractFileDao.class.getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
             if (input == null) {
-                throw new DaoException("File di proprietà non trovato nel classpath: " + PROPERTIES_PATH);
+                throw new PersistenzaException("File di proprietà non trovato nel classpath: " + PROPERTIES_PATH);
             }
 
             props.load(input);
             String path = props.getProperty(key);
 
             if (path == null || path.isBlank()) {
-                throw new DaoException(key + " non trovato nelle proprietà.");
+                throw new PersistenzaException(key + " non trovato nelle proprietà.");
             }
 
             File file = new File(path);

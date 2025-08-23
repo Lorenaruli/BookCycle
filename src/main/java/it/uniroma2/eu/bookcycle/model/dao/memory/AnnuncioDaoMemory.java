@@ -2,7 +2,6 @@ package it.uniroma2.eu.bookcycle.model.dao.memory;
 
 import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
-import it.uniroma2.eu.bookcycle.model.dao.DaoException;
 import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
 import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 
@@ -71,7 +70,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     }
 
     @Override
-    public List<Annuncio> ottieniTuttiAnnunci() throws DaoException {
+    public List<Annuncio> ottieniTuttiAnnunci() {
         return new ArrayList<>(annunci);
     }
 

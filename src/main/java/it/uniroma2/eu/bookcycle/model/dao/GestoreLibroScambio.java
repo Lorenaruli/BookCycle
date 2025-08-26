@@ -25,8 +25,7 @@ public class GestoreLibroScambio {
 
         public Libro restituisciLibro(long id) throws LibroNonTrovatoException {
             LibroDao libroDao=FactoryDao.getIstance().ottieniLibroScambioDao();
-            Libro libro= libroDao.cercaPerId(id);
-            return libro;
+            return libroDao.cercaPerId(id);
         }
 
     public List<Libro>cercaPerProprietario(String username) {
@@ -36,7 +35,7 @@ public class GestoreLibroScambio {
             if (cliente instanceof Utente utente) {
                 return utente.getLibri();
             }
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             return Collections.emptyList();
         }
         return Collections.emptyList();

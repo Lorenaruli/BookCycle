@@ -91,7 +91,6 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
             return;
         }
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
-        String username = cliente.getUsername();
        long libroRichiesto = propostaParzialeBean.getLibroOfferto();
 
         String destinatario=gestore.trovaProprietarioLibro(propostaParzialeBean.getLibroOfferto()).getUsername();

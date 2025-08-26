@@ -7,7 +7,6 @@ import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreLibroScambio;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
-import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.LibroNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import javafx.beans.property.SimpleStringProperty;
@@ -79,13 +78,6 @@ public class GestisciProposteViewController extends GraphicController {
             }
             return new SimpleStringProperty(titolo);
         });
-
-        try {
-            String username=gestoreUtente.restituisciUtente(usernameLog).getUsername();
-        } catch (ClienteNonTrovatoException _) {
-            showAlert("Utente non trovato. Riprovare.");
-            return;
-        }
 
         caricaDati(usernameLog);
 

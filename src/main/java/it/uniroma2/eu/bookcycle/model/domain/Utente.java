@@ -57,14 +57,11 @@ public class Utente extends Cliente {
     }
 
     public List<PropostaDiScambio> getProposteInviate() {
-        for(PropostaDiScambio i:proposteInviate){
-        }
+
         return  (proposteInviate);
     }
 
     public List<PropostaDiScambio> getProposteRicevute() {
-        for(PropostaDiScambio p:proposteRicevute){
-        }
         return (proposteRicevute);
     }
 

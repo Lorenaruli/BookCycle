@@ -27,7 +27,7 @@ public class GestoreLibraio {
     }
 
 
-    public List<AnnuncioBean> caricaAnnunciLibraio(String usernameCliente) {
+    public List<AnnuncioBean> caricaAnnunciLibraio() {
 
 
 
@@ -36,7 +36,7 @@ if(clienteAttuale instanceof
     Libraio libraio)
 
     {
-        List<AnnuncioBean> beans = libraio.getAnnunci().stream()
+        return libraio.getAnnunci().stream()
                 .map(a -> new AnnuncioBean(
                         a.getLibro().getTitolo(),
                         a.getLibro().getAutore(),
@@ -44,7 +44,7 @@ if(clienteAttuale instanceof
                         a.getTipo(),
                         a.getIdAnnuncio()))
                 .toList();
-        return beans;
+
     }
 return Collections.emptyList();
 }
@@ -52,7 +52,6 @@ return Collections.emptyList();
 
 public List<AnnuncioBean> caricaAnnunciTutti() {
     Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
-    String usernameCorrente = clienteAttuale.getUsername();
     AnnuncioDao annuncioDao= FactoryDao.getIstance().ottieniAnnuncioDao();
     return annuncioDao.ottieniTuttiAnnunci().stream()
             .map(annuncio -> new AnnuncioBean(annuncio.getLibro().getTitolo(), annuncio.getLibro().getAutore(), annuncio.getPrezzo(),annuncio.getTipo(), annuncio.getIdAnnuncio()))

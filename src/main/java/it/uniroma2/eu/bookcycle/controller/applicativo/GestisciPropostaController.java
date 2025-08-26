@@ -113,42 +113,50 @@ public class GestisciPropostaController {
 
 
     public void risolviConflitti(List<PropostaDiScambio> conflitti) {
-        for (PropostaDiScambio p : conflitti) {
-
-            if (p.getLibroOfferto().getIdLibro() == idOfferto ||
-                    p.getLibroOfferto().getIdLibro() == idRichiesto||
-                    p.getLibroRichiesto().getIdLibro() == idOfferto ||
-                    p.getLibroRichiesto().getIdLibro() == idRichiesto) {
-                try {
-                    Utente destinatario = gestore.trovaDestinatarioProposta(p.getIdProposta());
-                    Utente mittente = gestore.trovaMittenteProposta(p.getIdProposta());
-
-                    p.setStato(StatoProposta.RIFIUTATA);
-
-                    for (PropostaDiScambio px : mittente.getProposteInviate()) {
-                        if (px.getIdProposta() == p.getIdProposta()) {
-                            px.setStato(StatoProposta.RIFIUTATA);
-                            break;
-                        }
-                    }
-
-                    destinatario.rimuoviPropostaRicevuta(p.getIdProposta());
-                    clienteDao.aggiornaCliente(destinatario);
-                    clienteDao.aggiornaCliente(mittente);
-                    propostaDao.aggiungiProposta(p);
-
-
-                } catch (ClienteNonTrovatoException _)  {
-                    continue;
-                } catch (OggettoInvalidoException _)  {
-                    break;
-            }
-            }
-
-
-
+        for (PropostaDiScambio proposta : conflitti) {
+            if (isInConflitto(proposta)) {
+                gestisciConflitto(proposta);
             }
         }
+    }
+
+    private boolean isInConflitto(PropostaDiScambio proposta) {
+        long idOffertoLibro = proposta.getLibroOfferto().getIdLibro();
+        long idRichiestoLibro = proposta.getLibroRichiesto().getIdLibro();
+        return idOffertoLibro == idOfferto
+                || idOffertoLibro == idRichiesto
+                || idRichiestoLibro == idOfferto
+                || idRichiestoLibro == idRichiesto;
+    }
+
+    private void gestisciConflitto(PropostaDiScambio proposta) {
+        try {
+            Utente destinatario = gestore.trovaDestinatarioProposta(proposta.getIdProposta());
+            Utente mittente = gestore.trovaMittenteProposta(proposta.getIdProposta());
+
+            proposta.setStato(StatoProposta.RIFIUTATA);
+            aggiornaStatoMittente(mittente, proposta);
+
+            destinatario.rimuoviPropostaRicevuta(proposta.getIdProposta());
+            clienteDao.aggiornaCliente(destinatario);
+            clienteDao.aggiornaCliente(mittente);
+            propostaDao.aggiungiProposta(proposta);
+
+        } catch (ClienteNonTrovatoException e) {
+            // log e ignoro
+        } catch (OggettoInvalidoException e) {
+            // log e interrompo
+        }
+    }
+
+    private void aggiornaStatoMittente(Utente mittente, PropostaDiScambio proposta) {
+        for (PropostaDiScambio inviata : mittente.getProposteInviate()) {
+            if (inviata.getIdProposta() == proposta.getIdProposta()) {
+                inviata.setStato(StatoProposta.RIFIUTATA);
+                break;
+            }
+        }
+    }
     }
 
 

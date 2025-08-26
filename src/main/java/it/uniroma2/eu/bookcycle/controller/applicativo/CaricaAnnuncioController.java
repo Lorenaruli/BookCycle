@@ -40,8 +40,7 @@ public class CaricaAnnuncioController {
         if(bean.getTipo()==TipoAnnuncio.ANNUNCIOVENDITA) {
             Annuncio annuncio = new AnnuncioVendita(
                     libro,
-                    bean.getPrezzo(),
-                    gestore.restituisciLibraio(clienteAttuale.getUsername())
+                    bean.getPrezzo()
 
             );
             annuncioDao.salvaAnnuncio(annuncio);
@@ -50,7 +49,6 @@ public class CaricaAnnuncioController {
             Annuncio annuncio = new AnnuncioNoleggio(
                     libro,
                     bean.getPrezzo(),
-                    gestore.restituisciLibraio(clienteAttuale.getUsername()),
                     bean.getDurata()
             );
             annuncioDao.salvaAnnuncio(annuncio);

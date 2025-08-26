@@ -22,7 +22,7 @@ public class GestoreProposta {
     }
 
     public GestoreProposta ottieniIstanza(){
-        return this.instance;
+        return instance;
     }
 
 

@@ -118,8 +118,8 @@ public class GestoreUtente {
         ClienteDao utenteDao = FactoryDao.getIstance().ottieniClienteDao();
 
         for (Cliente c : utenteDao.getTuttiClienti()) {
-            if (c instanceof Utente) {
-                Utente u = (Utente) c;
+            if (c instanceof Utente u) {
+                 u = (Utente) c;
                 if (!u.getUsername().equals(usernameCorrente)) {
                     for (Libro l : u.getLibri()) {
                         LibroBean bean = new LibroBean(l.getTitolo(), l.getAutore(), l.getGenere(), l.getIdLibro());
@@ -141,7 +141,7 @@ public class GestoreUtente {
             if (cliente instanceof Utente utente) {
                 return utente.getProposteInviate();
             }
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             return Collections.emptyList();
         }
         return Collections.emptyList();
@@ -155,7 +155,7 @@ public class GestoreUtente {
             if (cliente instanceof Utente utente) {
                 return utente.getProposteRicevute();
             }
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
            return Collections.emptyList();
         }
         return Collections.emptyList();
@@ -170,7 +170,8 @@ public class GestoreUtente {
                 utente.getProposteRicevute().clear();
 
             }
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
+            // se non lo trova non elimina le proposte. okay
         }
     }
 

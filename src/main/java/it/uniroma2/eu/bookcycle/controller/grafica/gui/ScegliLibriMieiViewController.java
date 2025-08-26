@@ -81,11 +81,11 @@ public class ScegliLibriMieiViewController extends GraphicController {
 
     private Button creaBottoneScambio(String username, LibroBean libro) {
         Button scambiaButton = new Button("Scambia con questo");
-        scambiaButton.setOnAction(e -> inviaProposta(username, libro));
+        scambiaButton.setOnAction(e -> inviaProposta( libro));
         return scambiaButton;
     }
 
-    private void inviaProposta(String username, LibroBean libro) {
+    private void inviaProposta(LibroBean libro) {
         long libroRichiesto = propostaParzialeBean.getLibroOfferto();
 
         PropostaBean propostaBean = new PropostaBean();

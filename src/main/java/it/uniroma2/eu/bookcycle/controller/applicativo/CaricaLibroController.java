@@ -38,7 +38,7 @@ public class CaricaLibroController {
                 nuovoId
         );
 
-        if (clienteAttuale instanceof Utente utente) {
+        if (clienteAttuale instanceof Utente ) {
 
             Utente utenteLoggato=(Utente) clienteDao.ottieniCliente(clienteAttuale.getUsername());
             utenteLoggato.aggiungiLibro(libro);

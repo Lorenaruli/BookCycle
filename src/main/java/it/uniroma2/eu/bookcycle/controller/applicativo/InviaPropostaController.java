@@ -75,14 +75,14 @@ public class InviaPropostaController extends GraphicController {
         String destUsername=bean.getDestinatario();
         PropostaDiScambio proposta = new PropostaDiScambio(
                 libroOfferto,
-                libroRichiesto,//li scambio
+                libroRichiesto,
                 idProposta,
                 IN_ATTESA,
                 destUsername
         );
 
-        ((Utente)mittente).aggiungiPropostaInviata(proposta);
-        ((Utente)destinatario).aggiungiPropostaRicevuta(proposta);
+        (mittente).aggiungiPropostaInviata(proposta);
+        (destinatario).aggiungiPropostaRicevuta(proposta);
 
         clienteDao.aggiornaCliente(mittente);
         clienteDao.aggiornaCliente(destinatario);

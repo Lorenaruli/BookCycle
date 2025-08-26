@@ -25,7 +25,7 @@ public class App extends Application {
         // Per la Gui2 Partire con "SCHERMATA_ACCESSO_VIEW"
         // Per la Gui1 Partire con "REGISTRAZIONE_VIEW"
         try {
-            String path = ViewPath.SCHERMATA_ACCESSO_VIEW;
+            String path = ViewPath.REGISTRAZIONE_VIEW;
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
             Scene scene = new Scene(root);

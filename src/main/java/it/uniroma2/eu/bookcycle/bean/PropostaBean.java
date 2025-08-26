@@ -3,14 +3,14 @@ package it.uniroma2.eu.bookcycle.bean;
 
 public class PropostaBean extends PropostaParzialeBean{
 
-    private String usernameDestinatario;
+   private String usernameDestinatario;
     private long idLibroD;
 
     @Override
     public boolean completo() {
-        return super.completo()
-                && usernameDestinatario != null
-                && idLibroD != 0;
+        return super.completo()&& idLibroD != 0
+        && usernameDestinatario != null;
+
     }
 
 

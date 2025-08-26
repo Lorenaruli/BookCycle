@@ -36,7 +36,7 @@ public class CaricaAnnuncioController {
                 clienteAttuale.getUsername(),
                 nuovoId
         );
-        GestoreLibraio gestore=new GestoreLibraio();
+        GestoreLibraio gestore=GestoreLibraio.getInstance();
         if(bean.getTipo()==TipoAnnuncio.ANNUNCIOVENDITA) {
             Annuncio annuncio = new AnnuncioVendita(
                     libro,

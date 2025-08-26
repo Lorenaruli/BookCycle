@@ -49,17 +49,17 @@ public class LibriMiei2ViewController extends CaricaLibroGui {
 
     public void initialize() {
         String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
-        GestoreUtente gestore = null;
-        try {
-            gestore = new GestoreUtente();
-        } catch (PersistenzaException _) {
-            showAlert("Errore tecnico. Riprovare più tardi.");
-            return;
-        }
+
+        GestoreUtente gestore = GestoreUtente.getInstance();
+
         List<LibroBean> libriUtente = null;
 
+        try {
             libriUtente = gestore.caricaLibriUtente(username);
-
+        } catch (ClienteNonTrovatoException _) {
+           showAlert("Cliente non trovato. Riprovare");
+           return;
+        }
 
 
         listaLibri = FXCollections.observableArrayList(libriUtente);

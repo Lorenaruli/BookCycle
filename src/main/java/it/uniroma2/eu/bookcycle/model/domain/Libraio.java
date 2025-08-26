@@ -25,6 +25,10 @@ public class Libraio  extends Cliente {
     public void eliminaAnnuncio(long idAnnuncio){
         annunci.removeIf(annuncio->annuncio.getIdAnnuncio()==idAnnuncio);
     }
+
+    public List<Annuncio> getAnnunci() {
+        return annunci;
+    }
 }
 
 

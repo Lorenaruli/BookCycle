@@ -1,53 +1,68 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
 import it.uniroma2.eu.bookcycle.bean.AnnuncioBean;
+import it.uniroma2.eu.bookcycle.model.domain.Cliente;
+import it.uniroma2.eu.bookcycle.model.domain.Libraio;
+import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.domain.*;
+
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+
 
 public class GestoreLibraio {
+    private static final GestoreLibraio instance = new GestoreLibraio();
 
-    private ClienteDao libraioDao;
-    private AnnuncioDao annuncioDao;
-    Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
 
-    public GestoreLibraio() throws PersistenzaException {
-        this.annuncioDao = FactoryDao.getIstance().ottieniAnnuncioDao();
-        this.libraioDao = FactoryDao.getIstance().ottieniClienteDao();
+
+    private GestoreLibraio() throws PersistenzaException {
 
 
     }
 
-
-
-    public List<AnnuncioBean> caricaAnnunciLibraio(String usernameCliente){
-        if (clienteAttuale instanceof Libraio) {
-
-            List<Annuncio> annunciLibraio = annuncioDao.cercaPerProprietario(usernameCliente);
-            return annunciLibraio.stream()
-                    .map(l -> new AnnuncioBean(l.getLibro().getTitolo(), l.getLibro().getAutore(), l.getPrezzo(), l.getTipo(), l.getIdAnnuncio()))
-                    .toList();
-        }
-        return Collections.emptyList();
+    public static GestoreLibraio getInstance() {
+        return instance;
     }
 
 
+    public List<AnnuncioBean> caricaAnnunciLibraio(String usernameCliente) {
 
-    public List<AnnuncioBean> caricaAnnunciTutti() {
-        String usernameCorrente = clienteAttuale.getUsername();
-        return annuncioDao.ottieniTuttiAnnunci().stream()
-                .filter(annuncio -> !Objects.equals(annuncio.getLibraio().getUsername(), usernameCorrente))
-                .map(annuncio -> new AnnuncioBean(annuncio.getLibro().getTitolo(), annuncio.getLibro().getAutore(), annuncio.getPrezzo(),annuncio.getTipo(), annuncio.getIdAnnuncio()))
+
+
+        Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
+if(clienteAttuale instanceof
+    Libraio libraio)
+
+    {
+        List<AnnuncioBean> beans = libraio.getAnnunci().stream()
+                .map(a -> new AnnuncioBean(
+                        a.getLibro().getTitolo(),
+                        a.getLibro().getAutore(),
+                        a.getPrezzo(),
+                        a.getTipo(),
+                        a.getIdAnnuncio()))
                 .toList();
+        return beans;
     }
+return Collections.emptyList();
+}
+
+
+public List<AnnuncioBean> caricaAnnunciTutti() {
+    Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
+    String usernameCorrente = clienteAttuale.getUsername();
+    AnnuncioDao annuncioDao= FactoryDao.getIstance().ottieniAnnuncioDao();
+    return annuncioDao.ottieniTuttiAnnunci().stream()
+            .map(annuncio -> new AnnuncioBean(annuncio.getLibro().getTitolo(), annuncio.getLibro().getAutore(), annuncio.getPrezzo(),annuncio.getTipo(), annuncio.getIdAnnuncio()))
+            .toList();
+}
 
 
 
     public Libraio restituisciLibraio(String username) throws ClienteNonTrovatoException {
+        ClienteDao libraioDao=FactoryDao.getIstance().ottieniClienteDao();
         return (Libraio) (libraioDao.trovaPerUsername(username));
 
     }

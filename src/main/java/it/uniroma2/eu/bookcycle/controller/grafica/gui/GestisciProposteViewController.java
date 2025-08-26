@@ -5,8 +5,12 @@ import it.uniroma2.eu.bookcycle.controller.applicativo.GestisciPropostaControlle
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
+import it.uniroma2.eu.bookcycle.model.dao.GestoreLibroScambio;
+import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.LibroNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.domain.Sessione;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,10 +22,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GestisciProposteViewController extends GraphicController {
 
@@ -42,15 +46,49 @@ public class GestisciProposteViewController extends GraphicController {
 
     private  GestisciPropostaController app;
 
+    private GestoreLibroScambio gestore=GestoreLibroScambio.getInstance();
 
-    String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
+    private GestoreUtente gestoreUtente=GestoreUtente.getInstance();
+
+    String usernameLog = gestoreUtente.getClienteLoggato().getUsername();
+
+
 
     @FXML
     private void initialize() {
-        libroOffertoCol.setCellValueFactory(new PropertyValueFactory<>("titoloOfferto"));
-        libroRichiestoCol.setCellValueFactory(new PropertyValueFactory<>("titoloRichiesto"));
+        libroOffertoCol.setCellValueFactory(cellData -> {
+            Proposta2Bean proposta = cellData.getValue();
+            String titolo;
+            try {
+                titolo = gestore.restituisciLibro(proposta.getLibroOfferto())
+                        .getTitolo();
+            } catch (LibroNonTrovatoException _) {
+                titolo = "Libro non trovato";
+            }
+            return new SimpleStringProperty(titolo);
+        });
 
-        caricaDati(username);
+        libroRichiestoCol.setCellValueFactory(cellData -> {
+            Proposta2Bean proposta = cellData.getValue();
+            String titolo;
+            try {
+                titolo = gestore.restituisciLibro(proposta.getLibroRichiesto())
+                        .getTitolo();
+            } catch (LibroNonTrovatoException _) {
+                titolo = "Libro non trovato";
+            }
+            return new SimpleStringProperty(titolo);
+        });
+
+        try {
+            String username=gestoreUtente.restituisciUtente(usernameLog).getUsername();
+        } catch (ClienteNonTrovatoException _) {
+            showAlert("Utente non trovato. Riprovare.");
+            return;
+        }
+
+        caricaDati(usernameLog);
+
 
         gestisciCol.setCellFactory(col -> new TableCell<Proposta2Bean, Void>() {
             private final Button btn = creaBottone();
@@ -78,7 +116,7 @@ public class GestisciProposteViewController extends GraphicController {
         } catch (PersistenzaException _) {
            showAlert("Errore tecnico. Riprovare più tardi.");
         }
-        var beans = app.creaListaBeanProposteRicevute(usernameDestinatario);
+        List<Proposta2Bean> beans = app.creaListaBeanProposteRicevute(usernameDestinatario);
         proposteTable.setItems(FXCollections.observableArrayList(beans));
     }
 
@@ -98,11 +136,6 @@ public class GestisciProposteViewController extends GraphicController {
             showAlert("Impossibile caricare la schermata.");
         }
     }
-
-
-
-
-
 
     @FXML
     void tornaIndietro (ActionEvent event) {

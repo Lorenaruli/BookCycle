@@ -1,15 +1,14 @@
 package it.uniroma2.eu.bookcycle.controller.applicativo;
 
 import it.uniroma2.eu.bookcycle.bean.CaricaLibroBean;
+import it.uniroma2.eu.bookcycle.model.dao.*;
 import it.uniroma2.eu.bookcycle.model.eccezioni.*;
-import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
-import it.uniroma2.eu.bookcycle.model.dao.LIbroVenNolDao;
-import it.uniroma2.eu.bookcycle.model.dao.LibroScambioDao;
 import it.uniroma2.eu.bookcycle.model.dao.file.LibroIdFacade;
 import it.uniroma2.eu.bookcycle.model.domain.*;
 
 public class CaricaLibroController {
     private LibroScambioDao libroScambioDao;
+    private ClienteDao clienteDao;
     Cliente clienteAttuale=Sessione.ottieniIstanza().getClienteLoggato();
 
 
@@ -19,6 +18,7 @@ public class CaricaLibroController {
             throw new ClienteNonLoggatoException("non ti sei loggato");
         }
         this.libroScambioDao = FactoryDao.getIstance().ottieniLibroScambioDao();
+        this.clienteDao=FactoryDao.getIstance().ottieniClienteDao();
     }
 
 
@@ -35,12 +35,14 @@ public class CaricaLibroController {
                 bean.getTitolo(),
                 bean.getAutore(),
                 bean.getGenere(),
-                clienteAttuale.getUsername(),
                 nuovoId
         );
 
         if (clienteAttuale instanceof Utente utente) {
-            utente.aggiungiLibro(libro);
+
+            Utente utenteLoggato=(Utente) clienteDao.ottieniCliente(clienteAttuale.getUsername());
+            utenteLoggato.aggiungiLibro(libro);
+            clienteDao.aggiornaCliente(utenteLoggato);
             libroScambioDao.aggiungiLibro(libro);
 
         } else

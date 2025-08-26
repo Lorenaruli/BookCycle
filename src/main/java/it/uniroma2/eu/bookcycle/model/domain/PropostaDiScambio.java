@@ -6,16 +6,14 @@ public class PropostaDiScambio implements Serializable {
 
     private static long idCounter = 1;
 
-    private Utente mittente;
-    private Utente destinatario;
     private Libro libroOfferto;
     private Libro libroRichiesto;
     private StatoProposta stato;
     private long idProposta;
+    private String destinatario;
 
 
-    public  PropostaDiScambio(Utente mittente, Utente destinatario, Libro libroOfferto, Libro libroRichiesto,long idProposta, StatoProposta statoProposta) {
-        this.mittente = mittente;
+    public  PropostaDiScambio( Libro libroOfferto, Libro libroRichiesto,long idProposta, StatoProposta statoProposta, String destinatario) {
         this.destinatario = destinatario;
         this.libroOfferto = libroOfferto;
         this.libroRichiesto = libroRichiesto;
@@ -40,19 +38,11 @@ public class PropostaDiScambio implements Serializable {
         PropostaDiScambio.idCounter = idCounter;
     }
 
-    public Utente getMittente() {
-        return mittente;
-    }
-
-    public void setMittente(Utente mittente) {
-        this.mittente = mittente;
-    }
-
-    public Utente getDestinatario() {
+    public String getDestinatario() {
         return destinatario;
     }
 
-    public void setDestinatario(Utente destinatario) {
+    public void setDestinatario(String destinatario) {
         this.destinatario = destinatario;
     }
 

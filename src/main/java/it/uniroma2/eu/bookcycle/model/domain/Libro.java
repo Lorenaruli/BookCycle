@@ -10,30 +10,26 @@ public class Libro implements Serializable {
     private String autore;
     private String genere;
     private long idLibro;
-    private String usernameProprietario;
 
 
-    public Libro(String titolo, String autore, String genere, String usernameProprietario){
+    public Libro(String titolo, String autore, String genere){
         this.titolo = titolo;
         this.autore = autore;
         this.genere = genere;
-        this.usernameProprietario=usernameProprietario;
 
     }
 
-    public Libro(String titolo, String autore, String usernameProprietario, long id){
+    public Libro(String titolo, String autore, long id){
         this.titolo = titolo;
         this.autore = autore;
-        this.usernameProprietario=usernameProprietario;
         this.idLibro=id;
 
     }
 
-    public Libro(String titolo, String autore, String genere, String usernameProprietario, long idLibro){
+    public Libro(String titolo, String autore, String genere, long idLibro){
         this.titolo = titolo;
         this.autore = autore;
         this.genere = genere;
-        this.usernameProprietario=usernameProprietario;
         this.idLibro= idLibro;
 
     }
@@ -72,10 +68,6 @@ public class Libro implements Serializable {
     }
 
 
-    public String getUsernameProprietario() {
-
-        return usernameProprietario;
-    }
 }
 
 

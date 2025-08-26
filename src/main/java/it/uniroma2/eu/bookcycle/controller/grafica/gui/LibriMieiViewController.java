@@ -7,7 +7,6 @@ import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
 import javafx.collections.FXCollections;
@@ -27,22 +26,22 @@ public class LibriMieiViewController extends GraphicController {
 
     @FXML
     private ListView<LibroBean> libriList;
+    private final ObservableList<LibroBean> listaLibri = FXCollections.observableArrayList();
+    @FXML
+
     public void initialize() {
-        String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
-        GestoreUtente gestore = null;
+        String usernameLog = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
+        GestoreUtente gestore = GestoreUtente.getInstance();
+
         try {
-            gestore = new GestoreUtente();
-        } catch (PersistenzaException _) {
-            showAlert("Errore tecnico. Riprovare più tardi.");
+            List<LibroBean> libriUtente = gestore.caricaLibriUtente(usernameLog);
+            listaLibri.setAll(libriUtente);
+        } catch (ClienteNonTrovatoException _) {
+            showAlert("Cliente non trovato. Riprovare");
             return;
         }
-        List<LibroBean> libriUtente = null;
 
-            libriUtente = gestore.caricaLibriUtente(username);
-
-
-        ObservableList<LibroBean> lista = FXCollections.observableArrayList(libriUtente);
-        libriList.setItems(lista);
+        libriList.setItems(listaLibri);
 
         libriList.setCellFactory(lv -> new ListCell<>() {
             @Override
@@ -56,10 +55,24 @@ public class LibriMieiViewController extends GraphicController {
             }
         });
     }
+
     @FXML
     void tornaIndietro(ActionEvent event){
         SceneManager.cambiaScena(event, ViewPath.PROFILO_UTENTE_VIEW);
 
     }
+
+    public void aggiornaLista() {
+        String usernameLog = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
+        GestoreUtente gestore = GestoreUtente.getInstance();
+
+        try {
+            List<LibroBean> libriUtente = gestore.caricaLibriUtente(usernameLog);
+            listaLibri.setAll(libriUtente);
+        } catch (ClienteNonTrovatoException _) {
+            showAlert("Cliente non trovato. Riprovare");
+        }
+    }
+
 }
 

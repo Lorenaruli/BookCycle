@@ -54,12 +54,6 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         Annuncio.setIdCounter(max + 1);
     }
 
-    @Override
-    public List<Annuncio> cercaPerProprietario(String username) {
-        return annunci.stream()
-                .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(username))
-                .toList();
-    }
 
     @Override
     public void rimuoviAnnuncio(long idAnnuncio) throws OggettoInvalidoException {
@@ -74,34 +68,33 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         return new ArrayList<>(annunci);
     }
 
-    @Override
-    public List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) {
-        if (usernameLibraio == null) {
-            return Collections.emptyList();
-        }
-        return annunci.stream()
-                .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(usernameLibraio))
-                .toList();
-    }
 
     @Override
-    public List<Annuncio> cercaPerTitolo(String titolo)  {
+    public List<Annuncio> cercaPerTitolo(String titolo) {
         if (titolo == null) {
             return Collections.emptyList();
         }
-        return annunci.stream()
-                .filter(a -> a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase()))
-                .toList();
+        List<Annuncio> risultati = new ArrayList<>();
+        for (Annuncio a : annunci) {
+            if (a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase())) {
+                risultati.add(a);
+            }
+        }
+        return risultati;
     }
 
     @Override
-    public List<Annuncio> cercaPerAutore(String autore){
+    public List<Annuncio> cercaPerAutore(String autore) {
         if (autore == null) {
             return Collections.emptyList();
         }
-        return annunci.stream()
-                .filter(a -> a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase()))
-                .toList();
+        List<Annuncio> risultati = new ArrayList<>();
+        for (Annuncio a : annunci) {
+            if (a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase())) {
+                risultati.add(a);
+            }
+        }
+        return risultati;
     }
 
     @Override
@@ -109,18 +102,27 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
         if (genere == null) {
             return Collections.emptyList();
         }
-        return annunci.stream()
-                .filter(a -> a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase()))
-                .toList();
+        List<Annuncio> risultati = new ArrayList<>();
+        for (Annuncio a : annunci) {
+            if (a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase())) {
+                risultati.add(a);
+            }
+        }
+        return risultati;
     }
 
     @Override
-    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo)  {
+    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) {
         if (tipo == null) {
             return Collections.emptyList();
         }
-        return annunci.stream()
-                .filter(a -> a.getTipo() == tipo)
-                .toList();
+        List<Annuncio> risultati = new ArrayList<>();
+        for (Annuncio a : annunci) {
+            if (a.getTipo() == tipo) {
+                risultati.add(a);
+            }
+        }
+        return risultati;
     }
+
 }

@@ -9,16 +9,11 @@ import java.util.List;
 
 public interface PropostaDiScambioDao {
 
-    void eliminaProposteUtente(String username) throws PersistenzaException;
 
     void aggiungiProposta(PropostaDiScambio proposta) throws OggettoInvalidoException, PersistenzaException;
 
     void rimuoviProposta(long idProposta) throws PropostaNonTrovataException, PersistenzaException;
     long aggiornaIdCounter();
-
-    List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario);
-
-    List<PropostaDiScambio> getProposteInviate(String usernameMittente);
 
     List<PropostaDiScambio> cercaPropostaLibroOfferto(long idLibro);
 

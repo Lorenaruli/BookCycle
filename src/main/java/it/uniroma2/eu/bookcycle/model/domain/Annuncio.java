@@ -9,13 +9,11 @@ public abstract class Annuncio implements Serializable  {
 
     private Libro libro;
     private double prezzo;
-    private Libraio libraio;
     private long idAnnuncio;
 
-    protected Annuncio(Libro libro, double prezzo, Libraio libraio) {
+    protected Annuncio(Libro libro, double prezzo) {
         this.libro = libro;
         this.prezzo = prezzo;
-        this.libraio= libraio;
         this.idAnnuncio= idCounter++;
     }
     public abstract TipoAnnuncio getTipo();
@@ -30,10 +28,6 @@ public abstract class Annuncio implements Serializable  {
         return prezzo;
     }
 
-    public Libraio getLibraio() {
-
-        return libraio;
-    }
 
     public long getIdAnnuncio() {
 

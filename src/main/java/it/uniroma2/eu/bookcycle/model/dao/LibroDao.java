@@ -14,7 +14,6 @@ public interface LibroDao {
     List<Libro> cercaPerAutore(String autore) ;
 
     List<Libro> cercaPerGenere(String genere);
-    List<Libro> cercaPerProprietario(String usernameProprietario);
 
     List<Libro> getTuttiLibri();
 

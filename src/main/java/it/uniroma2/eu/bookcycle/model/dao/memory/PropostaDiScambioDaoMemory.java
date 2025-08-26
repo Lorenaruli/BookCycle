@@ -10,19 +10,19 @@ import java.util.List;
 
 public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
 
-    private  List<PropostaDiScambio> proposteTotali;
+    private List<PropostaDiScambio> proposteTotali;
     private static PropostaDiScambioDaoMemory instanza;
     boolean idCounterInizializzato = false;
 
-    private PropostaDiScambioDaoMemory(){
-        this.proposteTotali=new ArrayList<>();
+    private PropostaDiScambioDaoMemory() {
+        this.proposteTotali = new ArrayList<>();
         aggiornaIdCounter();
 
     }
 
 
-    public static PropostaDiScambioDaoMemory ottieniIstanza(){
-        if (instanza == null){
+    public static PropostaDiScambioDaoMemory ottieniIstanza() {
+        if (instanza == null) {
             instanza = new PropostaDiScambioDaoMemory();
 
         }
@@ -42,15 +42,15 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
         }
         proposteTotali.add(proposta);
     }
+
     //l'ho aggiunto per il test1
     public void clear() {
         proposteTotali.clear();
     }
 
 
-
     @Override
-    public long aggiornaIdCounter(){
+    public long aggiornaIdCounter() {
         if (!idCounterInizializzato) {
             PropostaDiScambio.setIdCounter(0);
             idCounterInizializzato = true;
@@ -61,7 +61,7 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
                 max = a.getIdProposta();
             }
         }
-        return (max+1);
+        return (max + 1);
     }
 
     @Override
@@ -82,55 +82,37 @@ public class PropostaDiScambioDaoMemory implements PropostaDiScambioDao {
         proposteTotali.remove(daRimuovere);
     }
 
-    @Override
-    public List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) {
-        return proposteTotali.stream()
-                .filter(p -> p.getDestinatario().getUsername().equalsIgnoreCase(usernameDestinatario))
-                .toList();
-    }
-
-    @Override
-    public List<PropostaDiScambio> getProposteInviate(String usernameMittente){
-        return proposteTotali.stream()
-                .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
-                .toList();
-    }
-    @Override
-    public void eliminaProposteUtente(String username) {
-        proposteTotali.removeIf(p ->
-                p.getMittente().getUsername().equalsIgnoreCase(username) ||
-                        p.getDestinatario().getUsername().equalsIgnoreCase(username)
-        );
-    }
 
     @Override
     public List<PropostaDiScambio> cercaPropostaLibroOfferto(long idLibro) {
-        return proposteTotali.stream()
-                .filter(p -> p.getLibroOfferto() != null
-                        && p.getLibroOfferto().getIdLibro() == idLibro)
-                .toList();
-
+        List<PropostaDiScambio> risultati = new ArrayList<>();
+        for (PropostaDiScambio p : proposteTotali) {
+            if (p.getLibroOfferto() != null && p.getLibroOfferto().getIdLibro() == idLibro) {
+                risultati.add(p);
+            }
+        }
+        return risultati;
     }
-
-
 
     @Override
     public List<PropostaDiScambio> cercaPropostaLibroRichiesto(long idLibro) {
-        return proposteTotali.stream()
-                .filter(p -> p.getLibroRichiesto() != null
-                        && p.getLibroRichiesto().getIdLibro() == idLibro)
-                .toList();
-
+        List<PropostaDiScambio> risultati = new ArrayList<>();
+        for (PropostaDiScambio p : proposteTotali) {
+            if (p.getLibroRichiesto() != null && p.getLibroRichiesto().getIdLibro() == idLibro) {
+                risultati.add(p);
+            }
+        }
+        return risultati;
     }
 
     @Override
     public PropostaDiScambio cercaPropostaId(long idProposta) throws PropostaNonTrovataException {
-        return proposteTotali.stream()
-                .filter(p -> p.getIdProposta() == idProposta)
-                .findFirst()
-                .orElseThrow(() ->
-                        new PropostaNonTrovataException("Nessuna proposta trovata con id: " + idProposta));
-
+        for (PropostaDiScambio p : proposteTotali) {
+            if (p.getIdProposta() == idProposta) {
+                return p;
+            }
+        }
+        throw new PropostaNonTrovataException("Nessuna proposta trovata con id: " + idProposta);
     }
 }
 

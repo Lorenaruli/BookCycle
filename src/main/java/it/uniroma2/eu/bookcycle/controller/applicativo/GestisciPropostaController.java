@@ -2,25 +2,26 @@ package it.uniroma2.eu.bookcycle.controller.applicativo;
 
 import it.uniroma2.eu.bookcycle.bean.Proposta2Bean;
 import it.uniroma2.eu.bookcycle.bean.Proposta3Bean;
+import it.uniroma2.eu.bookcycle.model.dao.*;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
-import it.uniroma2.eu.bookcycle.model.dao.ClienteDao;
-import it.uniroma2.eu.bookcycle.model.dao.FactoryDao;
-import it.uniroma2.eu.bookcycle.model.dao.LibroDao;
-import it.uniroma2.eu.bookcycle.model.dao.PropostaDiScambioDao;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 import it.uniroma2.eu.bookcycle.model.domain.StatoProposta;
 import it.uniroma2.eu.bookcycle.model.domain.Utente;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GestisciPropostaController {
     private PropostaDiScambioDao propostaDao;
     private ClienteDao clienteDao;
     private LibroDao libroDao;
+    private GestoreUtente gestore = GestoreUtente.getInstance();
+    private long idRichiesto;
+    private long idOfferto;
+
+
 
     public GestisciPropostaController() throws PersistenzaException {
         propostaDao = FactoryDao.getIstance().ottieniPropostaDiScambioDao();
@@ -30,28 +31,44 @@ public class GestisciPropostaController {
 
 
     public List<Proposta2Bean> creaListaBeanProposteRicevute(String usernameDestinatario) {
-        return propostaDao.getProposteRicevute(usernameDestinatario).stream()
-                .filter(p -> p.getDestinatario() != null
-                        && usernameDestinatario.equals(p.getDestinatario().getUsername()) && p.getStato()==StatoProposta.IN_ATTESA)
-                .map(p -> {
-                    Proposta2Bean bean = new Proposta2Bean();
-                    bean.setIdProposta(p.getIdProposta());
-                    bean.setLibroRichiesto(p.getLibroRichiesto().getIdLibro());
-                    bean.setLibroOfferto(p.getLibroOfferto().getIdLibro());
-                    bean.setMittente(p.getLibroOfferto().getUsernameProprietario());
-                    bean.setDestinatario(p.getLibroRichiesto().getUsernameProprietario());
-                    bean.setTitoloOfferto(p.getLibroOfferto().getTitolo());
-                    bean.setTitoloRichiesto(p.getLibroRichiesto().getTitolo());
-                    return bean;
-                })
-                .toList();
+        List<Proposta2Bean> risultati = new ArrayList<>();
+        List<PropostaDiScambio> proposte = gestore.trovaProposteRicevute(usernameDestinatario);
+
+        for (PropostaDiScambio p : proposte) {
+            if (p.getStato()==StatoProposta.IN_ATTESA){
+
+                Proposta2Bean bean = new Proposta2Bean();
+                bean.setIdProposta(p.getIdProposta());
+                bean.setLibroRichiesto(p.getLibroRichiesto().getIdLibro());
+                bean.setLibroOfferto(p.getLibroOfferto().getIdLibro());
+
+                risultati.add(bean);
+            }
+        }
+
+        return risultati;
     }
+
 
     public void gestisci(Proposta3Bean propostaBean) throws PersistenzaException, OggettoInvalidoException {
         PropostaDiScambio proposta = propostaDao.cercaPropostaId(propostaBean.getIdProposta());
+        Utente mittente = gestore.trovaMittenteProposta(proposta.getIdProposta());
+        Utente destinatario = gestore.trovaDestinatarioProposta(propostaBean.getIdProposta());
+
         if (propostaBean.getStato() == StatoProposta.RIFIUTATA) {
             proposta.setStato(StatoProposta.RIFIUTATA);
-            proposta.getDestinatario().rimuoviPropostaRicevuta(propostaBean.getIdProposta());
+            destinatario.rimuoviPropostaRicevuta(propostaBean.getIdProposta());
+
+            clienteDao.aggiornaCliente(destinatario);
+
+            for (PropostaDiScambio px : mittente.getProposteInviate()) {
+                if (px.getIdProposta() == proposta.getIdProposta()) {
+                    px.setStato(StatoProposta.RIFIUTATA);
+                    break;
+                }
+            }
+
+            clienteDao.aggiornaCliente(mittente);
             propostaDao.aggiungiProposta(proposta);
         }
 
@@ -59,22 +76,25 @@ public class GestisciPropostaController {
             proposta.setStato(StatoProposta.ACCETTATA);
             propostaDao.aggiungiProposta(proposta);
 
-            long idOfferto = proposta.getLibroOfferto().getIdLibro();
-            long idRichiesto = proposta.getLibroRichiesto().getIdLibro();
+            this.idOfferto = proposta.getLibroOfferto().getIdLibro();
+            this.idRichiesto = proposta.getLibroRichiesto().getIdLibro();
 
-            libroDao.rimuoviLibro(idOfferto);
-            libroDao.rimuoviLibro(idRichiesto);
+            mittente.eliminaLibro(idOfferto);
+            destinatario.eliminaLibro(idRichiesto);
 
-            Utente mittente = (Utente) clienteDao.trovaPerUsername(proposta.getMittente().getUsername());
-            mittente.getProposteInviate().stream()
-                    .filter(px -> px.getIdProposta() == proposta.getIdProposta())
-                    .findFirst()
-                    .ifPresent(px -> px.setStato(StatoProposta.ACCETTATA));
+            for (PropostaDiScambio px : mittente.getProposteInviate()) {
+                if (px.getIdProposta() == proposta.getIdProposta()) {
+                    px.setStato(StatoProposta.ACCETTATA);
+                    break;
+                }
+            }
             clienteDao.aggiornaCliente(mittente);
 
-            Utente destinatario = (Utente) clienteDao.trovaPerUsername(proposta.getDestinatario().getUsername());
-            destinatario.getProposteRicevute().removeIf(px -> px.getIdProposta() == proposta.getIdProposta());
+            destinatario.rimuoviPropostaRicevuta(propostaBean.getIdProposta());
+
             clienteDao.aggiornaCliente(destinatario);
+
+            propostaDao.aggiungiProposta(proposta);
 
 
             List<PropostaDiScambio> conflitti = new ArrayList<>();
@@ -82,32 +102,62 @@ public class GestisciPropostaController {
             conflitti.addAll(propostaDao.cercaPropostaLibroRichiesto(idOfferto));
             conflitti.addAll(propostaDao.cercaPropostaLibroOfferto(idRichiesto));
             conflitti.addAll(propostaDao.cercaPropostaLibroRichiesto(idRichiesto));
+            conflitti.remove(proposta);
+
+            risolviConflitti(conflitti);
+
+            libroDao.rimuoviLibro(idOfferto);
+            libroDao.rimuoviLibro(idRichiesto);
+        }
+    }
 
 
-            Set<Long> idsVisti = new HashSet<>();
-            conflitti.removeIf(p -> !idsVisti.add(p.getIdProposta()));
+    public void risolviConflitti(List<PropostaDiScambio> conflitti) {
+        for (PropostaDiScambio p : conflitti) {
 
-            for (PropostaDiScambio p : conflitti) {
-                if (p.getIdProposta() != proposta.getIdProposta()
-                        && p.getStato() == StatoProposta.IN_ATTESA) {
+            if (p.getLibroOfferto().getIdLibro() == idOfferto ||
+                    p.getLibroOfferto().getIdLibro() == idRichiesto||
+                    p.getLibroRichiesto().getIdLibro() == idOfferto ||
+                    p.getLibroRichiesto().getIdLibro() == idRichiesto) {
+                try {
+                    Utente destinatario = gestore.trovaDestinatarioProposta(p.getIdProposta());
+                    Utente mittente = gestore.trovaMittenteProposta(p.getIdProposta());
 
                     p.setStato(StatoProposta.RIFIUTATA);
+
+                    for (PropostaDiScambio px : mittente.getProposteInviate()) {
+                        if (px.getIdProposta() == p.getIdProposta()) {
+                            px.setStato(StatoProposta.RIFIUTATA);
+                            break;
+                        }
+                    }
+
+                    destinatario.rimuoviPropostaRicevuta(p.getIdProposta());
+                    clienteDao.aggiornaCliente(destinatario);
+                    clienteDao.aggiornaCliente(mittente);
                     propostaDao.aggiungiProposta(p);
 
-                    Utente m = (Utente) clienteDao.trovaPerUsername(p.getMittente().getUsername());
-                    m.getProposteInviate().stream()
-                            .filter(px -> px.getIdProposta() == p.getIdProposta())
-                            .findFirst()
-                            .ifPresent(px -> px.setStato(StatoProposta.RIFIUTATA));
-                    clienteDao.aggiornaCliente(m);
 
-                    Utente d = (Utente) clienteDao.trovaPerUsername(p.getDestinatario().getUsername());
-                    d.getProposteRicevute().removeIf(px -> px.getIdProposta() == p.getIdProposta());
-                    clienteDao.aggiornaCliente(d);
-                }
+                } catch (ClienteNonTrovatoException _)  {
+                    continue;
+                } catch (OggettoInvalidoException _)  {
+                    break;
+            }
+            }
+
+
 
             }
         }
-        }
     }
+
+
+
+
+
+
+
+
+
+
 

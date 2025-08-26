@@ -26,7 +26,9 @@ public abstract class CaricaLibroGui extends GraphicController {
         } catch (BeanInvalidoException _) {
             showAlert("Devi completare tutti i campi");
         } catch (OggettoInvalidoException _) {
-            showAlert("Libro non valido: ");
+           showAlert("Libro non valido: ");
+
+
         } catch (PersistenzaException _) {
             showAlert("Errore tecnico durante il salvataggio del libro. Riprova.");
         }catch (ClienteNonLoggatoException _){

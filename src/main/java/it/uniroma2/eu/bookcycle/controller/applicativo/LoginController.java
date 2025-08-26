@@ -38,7 +38,7 @@ public class LoginController {
 
     }
     public void logout() {
-        Sessione.ottieniIstanza().setClienteLoggato(null);
+        Sessione.ottieniIstanza().clear();
     }
 
 

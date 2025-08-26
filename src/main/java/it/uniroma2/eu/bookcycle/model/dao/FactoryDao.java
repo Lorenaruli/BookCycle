@@ -13,6 +13,8 @@ public abstract class FactoryDao {
     private static final String PROPERTIES_PATH = "proprieta.properties";
     private static FactoryDao istance;
 
+
+
     public static FactoryDao getIstance(){
         if (istance == null) {
             try(InputStream input = FactoryDao.class.getClassLoader().getResourceAsStream(PROPERTIES_PATH);){

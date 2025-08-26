@@ -8,7 +8,6 @@ import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
-import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
@@ -40,6 +39,8 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
 
     private LibroBean libroSelezionato;
 
+    GestoreUtente gestore = GestoreUtente.getInstance();
+
     @FXML
     public void initialize() {
         titoloColonna.setCellValueFactory(new PropertyValueFactory<>("titolo"));
@@ -61,15 +62,16 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
     public void caricaLibri() {
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
-        GestoreUtente gestore = null;
-        try {
-            gestore = new GestoreUtente();
-        } catch (PersistenzaException _) {
-            showAlert("Errore tecnico. Riprovare più tardi");
-        }
+
+
 
         List<LibroBean> libriUtente = null;
+        try {
             libriUtente = gestore.caricaLibriUtente(username);
+        } catch (ClienteNonTrovatoException _) {
+            showAlert("Cliente non trovato. Riprovare");
+            return;
+        }
 
 
         List<LibroBean> libriDisponibili = libriUtente.stream().toList();
@@ -90,14 +92,14 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
         }
         Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
         String username = cliente.getUsername();
-        String destinatario = propostaParzialeBean.getMittente();
-        long libroRichiesto = propostaParzialeBean.getLibroOfferto();
+       long libroRichiesto = propostaParzialeBean.getLibroOfferto();
+
+        String destinatario=gestore.trovaProprietarioLibro(propostaParzialeBean.getLibroOfferto()).getUsername();
 
         PropostaBean propostaBean = new PropostaBean();
-        propostaBean.setMittente(username);
-        propostaBean.setDestinatario(destinatario);
         propostaBean.setLibroRichiesto(libroRichiesto);
         propostaBean.setLibroOfferto(libroSelezionato.getIdLibro());
+        propostaBean.setDestinatario(destinatario);
 
         try {
             InviaPropostaController controller = new InviaPropostaController();

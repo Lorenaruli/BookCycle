@@ -18,4 +18,8 @@ public class Sessione {
     public void setClienteLoggato(Cliente clienteLoggato) {
         this.clienteLoggato = clienteLoggato;
     }
+
+    public void clear() {
+        this.clienteLoggato = null;
+    }
 }

@@ -2,13 +2,14 @@ package it.uniroma2.eu.bookcycle.controller.grafica.gui2;
 
 import it.uniroma2.eu.bookcycle.bean.ContattiBean;
 import it.uniroma2.eu.bookcycle.bean.Proposta2Bean;
-import it.uniroma2.eu.bookcycle.bean.Proposta4Bean;
 import it.uniroma2.eu.bookcycle.controller.applicativo.GestisciPropostaController;
 import it.uniroma2.eu.bookcycle.controller.applicativo.InviaPropostaController;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
+import it.uniroma2.eu.bookcycle.model.dao.GestoreLibroScambio;
 import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
+import it.uniroma2.eu.bookcycle.model.eccezioni.LibroNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
 import it.uniroma2.eu.bookcycle.model.domain.Sessione;
@@ -22,7 +23,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,9 +30,9 @@ import java.io.IOException;
 public class ProposteViewController extends GraphicController {
 
 
-    @FXML private TableView<Proposta4Bean> proposteInviate;
-    @FXML private TableColumn<Proposta4Bean, String> proposteInviateColonna;
-    @FXML private TableColumn<Proposta4Bean, String> statoColonna;
+    @FXML private TableView<Proposta2Bean> proposteInviate;
+    @FXML private TableColumn<Proposta2Bean, String> proposteInviateColonna;
+    @FXML private TableColumn<Proposta2Bean, String> statoColonna;
 
     @FXML private TableView<Proposta2Bean> proposteRicevute;
     @FXML private TableColumn<Proposta2Bean, String> proposteRIcevuteColonna;
@@ -44,24 +44,42 @@ public class ProposteViewController extends GraphicController {
     private InviaPropostaController inviaCtrl;
 
     private static final String CONTATTI_LABEL = "Contatti";
+    private GestoreLibroScambio gestore=GestoreLibroScambio.getInstance();
+    private GestoreUtente gestoreUtente=GestoreUtente.getInstance();
 
 
     @FXML
     private void initialize() {
         String username = Sessione.ottieniIstanza().getClienteLoggato().getUsername();
 
-        proposteInviateColonna.setCellValueFactory(new PropertyValueFactory<>("titoloOfferto"));
+        proposteInviateColonna.setCellValueFactory(
+                cellData -> new SimpleStringProperty(cellData.getValue().getTitoloRichiesto())
+        );
         statoColonna.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getStato().toString()));
 
         aggiungiColonnaContatti();
         caricaInviate();
 
-        proposteRIcevuteColonna.setCellValueFactory(cellData ->
-                new SimpleStringProperty(
-                        cellData.getValue().getTitoloOfferto() + " per " + cellData.getValue().getTitoloRichiesto()
-                )
-        );
+
+        proposteRIcevuteColonna.setCellValueFactory(cellData -> {
+            String titoloOfferto = null;
+            String titoloRichiesto = null;
+            try {
+                Proposta2Bean proposta = cellData.getValue();
+                titoloOfferto = gestore
+                        .restituisciLibro(proposta.getLibroOfferto())
+                        .getTitolo();
+                titoloRichiesto = gestore
+                        .restituisciLibro(proposta.getLibroRichiesto())
+                        .getTitolo();
+            } catch (LibroNonTrovatoException _) {
+                showAlert("Nessun libro trovato. Riprovare.");
+            }
+            return new SimpleStringProperty(titoloOfferto + " per " + titoloRichiesto);
+        });
+
+
         gestisciColonna.setCellFactory(col -> new TableCell<Proposta2Bean, Void>() {
             private final Button btn = creaBottone();
 
@@ -89,7 +107,7 @@ public class ProposteViewController extends GraphicController {
         } catch (PersistenzaException _) {
             showAlert("Errore tecnico. Riprovare più tardi");
         }
-        var beans = inviaCtrl.creaListaBeanProposteInviate();
+        var beans = inviaCtrl.creaListaProposteInviate();
         proposteInviate.setItems(FXCollections.observableArrayList(beans));
     }
 
@@ -112,8 +130,10 @@ public class ProposteViewController extends GraphicController {
             AccettaRifiuta2ViewController ctrl = loader.getController();
             ctrl.setDati(
                     propostaSelezionata.getIdProposta(),
-                    propostaSelezionata.getTitoloOfferto(),
-                    propostaSelezionata.getTitoloRichiesto()
+
+                    titoloOfferto(propostaSelezionata),
+                    titoloRichiesto(propostaSelezionata)
+
             );
 
 
@@ -125,16 +145,35 @@ public class ProposteViewController extends GraphicController {
         }
     }
 
+    private String titoloOfferto(Proposta2Bean proposta){
+        try {
+            return  gestore.restituisciLibro(proposta.getLibroOfferto()).getTitolo();
+        } catch (LibroNonTrovatoException _) {
+            showAlert("Libro non trovato. Riprovare");
+            return "Libro non trovato";
+        }
+    }
+
+    private String titoloRichiesto(Proposta2Bean proposta){
+        try {
+            return  gestore.restituisciLibro(proposta.getLibroRichiesto()).getTitolo();
+        } catch (LibroNonTrovatoException _) {
+            showAlert("Libro non trovato. Riprovare");
+            return "Libro non trovato";
+        }
+    }
+
+
     private void aggiungiColonnaContatti() {
-        TableColumn<Proposta4Bean, Proposta4Bean> contattiCol = new TableColumn<>(CONTATTI_LABEL);
+        TableColumn<Proposta2Bean, Proposta2Bean> contattiCol = new TableColumn<>(CONTATTI_LABEL);
         contattiCol.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-        contattiCol.setCellFactory(col -> new TableCell<Proposta4Bean, Proposta4Bean>() {
+        contattiCol.setCellFactory(col -> new TableCell<Proposta2Bean, Proposta2Bean>() {
             private final Button btn = creaBottone();
 
             private Button creaBottone() {
                 Button b = new Button("CONTATTI_LABEL");
                 b.setOnAction(e -> {
-                    Proposta4Bean bean = getItem();
+                    Proposta2Bean bean = getItem();
                     if (bean != null && "ACCETTATA".equalsIgnoreCase(bean.getStato().toString())) {
                         mostraContatti(bean);
                     }
@@ -143,7 +182,7 @@ public class ProposteViewController extends GraphicController {
             }
 
             @Override
-            protected void updateItem(Proposta4Bean bean, boolean empty) {
+            protected void updateItem(Proposta2Bean bean, boolean empty) {
                 super.updateItem(bean, empty);
                 if (empty || bean == null) {
                     setGraphic(null);
@@ -156,28 +195,27 @@ public class ProposteViewController extends GraphicController {
         proposteInviate.getColumns().add(contattiCol);
     }
 
-    private void mostraContatti(Proposta4Bean bean) {
-        String altroUsername = bean.getUsernameDestinatario();
-        ContattiBean c = null;
+    private void mostraContatti(Proposta2Bean bean) {
+        ContattiBean c=null;
         try {
-            c = new GestoreUtente().trovaContattiDaUsername(altroUsername);
+            c=gestoreUtente.trovaContattiDaUsername(bean.getDestinatario());
         } catch (ClienteNonTrovatoException _) {
-            showAlert("Utente non trovato, riprovare");
-            return;
-        } catch (PersistenzaException _) {
-            showAlert("Errore tecnico. Riprovare più tardi.");
+            showAlert("Utente non trovato.Riprovare");
             return;
         }
+
         Alert a = new Alert(Alert.AlertType.INFORMATION);
-        if (c != null) {
+        if (c!= null) {
             a.setHeaderText("CONTATTI_LABEL");
             a.setContentText("Email: " + c.getEmail() + "\nTelefono: " + c.getTelefono());
         } else {
             a.setHeaderText("Contatti non disponibili");
-            a.setContentText("Nessun contatto trovato per " + altroUsername);
+            a.setContentText("Nessun contatto trovato per " + bean.getDestinatario());
         }
         a.showAndWait();
     }
+
+
 
     @FXML
     void tornaIndietro(ActionEvent event) {

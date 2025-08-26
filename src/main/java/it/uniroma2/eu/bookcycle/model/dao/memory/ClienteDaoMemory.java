@@ -22,6 +22,13 @@ public class ClienteDaoMemory implements ClienteDao {
     }
 
     @Override
+    public List<Cliente> getTuttiClienti() {
+        return datiClienti.values().stream()
+                .map(DatiClienteM::getCliente)
+                .toList();
+    }
+
+    @Override
     public void rimuoviCliente(String username) throws ClienteNonTrovatoException {
         Cliente daRimuovere = null;
 
@@ -38,6 +45,9 @@ public class ClienteDaoMemory implements ClienteDao {
 
         clienti.remove(daRimuovere);
     }
+
+
+
 
 
  public void aggiornaCliente(Cliente cliente) throws OggettoInvalidoException {

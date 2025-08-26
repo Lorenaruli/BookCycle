@@ -9,7 +9,6 @@ import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.SceneManager;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.ViewPath;
 import it.uniroma2.eu.bookcycle.model.eccezioni.*;
 import it.uniroma2.eu.bookcycle.model.dao.GestoreUtente;
-import it.uniroma2.eu.bookcycle.model.domain.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -30,6 +29,8 @@ public class ScegliLibriMieiViewController extends GraphicController {
 
     private PropostaParzialeBean propostaParzialeBean;
 
+    private GestoreUtente gestore = GestoreUtente.getInstance();
+
 
     public void creaBeanProposta(PropostaParzialeBean propostaParzialeBean) {
         this.propostaParzialeBean = propostaParzialeBean;
@@ -37,14 +38,8 @@ public class ScegliLibriMieiViewController extends GraphicController {
     }
 
     public void inizializzaConBean() {
-        Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
+        String username = gestore.getClienteLoggato().getUsername();
 
-        if (!(cliente instanceof Utente)) {
-            showAlert("Il ruolo è sbagliato. Rieffettuare il login");
-            return;
-        }
-
-        String username = cliente.getUsername();
         List<LibroBean> libri = caricaLibriUtente(username);
 
         if (libri.isEmpty()) {
@@ -55,14 +50,15 @@ public class ScegliLibriMieiViewController extends GraphicController {
     }
 
     private List<LibroBean> caricaLibriUtente(String username) {
-        try {
-            GestoreUtente gestore = new GestoreUtente();
-            return gestore.caricaLibriUtente(username);
-        } catch (PersistenzaException _) {
-            showAlert("Errore tecnico. Riprovare più tardi");
 
+
+        try {
+            return gestore.caricaLibriUtente(username);
+        } catch (ClienteNonTrovatoException _) {
+           showAlert("Cliente non trovato. Riprovare");
         }
         return Collections.emptyList();
+
     }
 
     private void mostraMessaggioNessunLibro() {
@@ -90,14 +86,12 @@ public class ScegliLibriMieiViewController extends GraphicController {
     }
 
     private void inviaProposta(String username, LibroBean libro) {
-        String destinatario = propostaParzialeBean.getMittente();
         long libroRichiesto = propostaParzialeBean.getLibroOfferto();
 
         PropostaBean propostaBean = new PropostaBean();
-        propostaBean.setMittente(username);
-        propostaBean.setDestinatario(destinatario);
         propostaBean.setLibroRichiesto(libroRichiesto);
         propostaBean.setLibroOfferto(libro.getIdLibro());
+        propostaBean.setDestinatario(gestore.trovaProprietarioLibro(libroRichiesto).getUsername());
 
         try {
             InviaPropostaController controller = new InviaPropostaController();
@@ -105,8 +99,6 @@ public class ScegliLibriMieiViewController extends GraphicController {
             showAlert("Proposta inviata");
         } catch (BeanInvalidoException _) {
             showAlert("Non sono state fornite abbastanza informazioni");
-        } catch (RuoloClienteException _) {
-            showAlert("Ruolo cliente sbagliato, rieffettuare il login");
         } catch (OggettoInvalidoException _) {
             showAlert("Dati non validi: verifica i campi inseriti.");
         } catch (PersistenzaException _) {

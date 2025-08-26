@@ -6,8 +6,11 @@ import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.Cliente;
 
+import java.util.List;
+
 
 public interface ClienteDao {
+    List<Cliente> getTuttiClienti();
     void rimuoviCliente(String username) throws ClienteNonTrovatoException, PersistenzaException;
     void aggiungiLibraio(String username, String password, String telefono, String email) throws OggettoEsistenteException, PersistenzaException;
     void aggiungiUtente(String username, String password, String telefono, String email) throws OggettoEsistenteException, PersistenzaException;

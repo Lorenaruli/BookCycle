@@ -13,13 +13,9 @@ public interface AnnuncioDao {
     void salvaAnnuncio(Annuncio annuncio) throws OggettoInvalidoException, PersistenzaException;
 
     void rimuoviAnnuncio(long idAnnuncio) throws OggettoInvalidoException, PersistenzaException;
-     List<Annuncio> cercaPerProprietario(String username) ;
-
 
     List<Annuncio> ottieniTuttiAnnunci() ;
 
-
-    List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio);
 
 
     List<Annuncio> cercaPerTitolo(String titolo);

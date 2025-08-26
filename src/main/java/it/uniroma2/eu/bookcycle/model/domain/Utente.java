@@ -53,19 +53,25 @@ public class Utente extends Cliente {
 
     public void rimuoviPropostaRicevuta(long idProposta) {
         proposteRicevute.removeIf(propostaDiScambio -> propostaDiScambio.getIdProposta()==idProposta);
+
     }
 
     public List<PropostaDiScambio> getProposteInviate() {
+        for(PropostaDiScambio i:proposteInviate){
+        }
         return  (proposteInviate);
     }
 
     public List<PropostaDiScambio> getProposteRicevute() {
+        for(PropostaDiScambio p:proposteRicevute){
+        }
         return (proposteRicevute);
     }
 
 
     public List<Libro> getLibri() {
         return libri;
+
     }
     public void setLibri(List<Libro> posseduti){
         this.libri=posseduti;

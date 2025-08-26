@@ -1,7 +1,4 @@
 package it.uniroma2.eu.bookcycle.controller.grafica.gui;
-
-
-
 import it.uniroma2.eu.bookcycle.bean.LibroBean;
 import it.uniroma2.eu.bookcycle.bean.PropostaParzialeBean;
 import it.uniroma2.eu.bookcycle.controller.grafica.guicomune.GraphicController;
@@ -21,8 +18,8 @@ import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class VediLibriTuttiViewController extends GraphicController {
 
@@ -63,9 +60,9 @@ public class VediLibriTuttiViewController extends GraphicController {
 
     private void caricaLibri() {
         try {
-            GestoreUtente gestoreUtente= new GestoreUtente();
+            GestoreUtente gestoreUtente= GestoreUtente.getInstance();
 
-            List<LibroBean> libriDisponibili = gestoreUtente.caricaLibriTutti();
+            List<LibroBean> libriDisponibili = gestoreUtente.caricaLibriTuttiAltri();
             listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);
             libriTable.setItems(listaLibriDisponibili);
         } catch (Exception _) {
@@ -80,13 +77,16 @@ public class VediLibriTuttiViewController extends GraphicController {
         if (titolo.isEmpty()) {
             libriTable.setItems(listaLibriDisponibili);
         } else {
-            List<LibroBean> filtrati = listaLibriDisponibili.stream()
-                    .filter(libro -> libro.getTitolo().toLowerCase().contains(titolo))
-                    .collect(Collectors.toList());
-
+            List<LibroBean> filtrati = new ArrayList<>();
+            for (LibroBean libro : listaLibriDisponibili) {
+                if (libro.getTitolo().toLowerCase().contains(titolo)) {
+                    filtrati.add(libro);
+                }
+            }
             libriTable.setItems(FXCollections.observableArrayList(filtrati));
         }
     }
+
 
     @FXML
     public void tornaIndietro(ActionEvent event) {
@@ -107,7 +107,6 @@ public class VediLibriTuttiViewController extends GraphicController {
                 LibroBean libroSelezionato = getTableView().getItems().get(getIndex());
                 PropostaParzialeBean propostaParzialeBean = new PropostaParzialeBean();
                 propostaParzialeBean.setLibroOfferto(libroSelezionato.getIdLibro());
-                propostaParzialeBean.setMittente(libroSelezionato.getUsernameProprietario());
 
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource(ViewPath.SCEGLI_LIBRI_MIEI_VIEW));

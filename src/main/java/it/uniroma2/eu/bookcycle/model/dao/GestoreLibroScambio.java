@@ -1,5 +1,8 @@
 package it.uniroma2.eu.bookcycle.model.dao;
 
+import it.uniroma2.eu.bookcycle.model.domain.Cliente;
+import it.uniroma2.eu.bookcycle.model.domain.Utente;
+import it.uniroma2.eu.bookcycle.model.eccezioni.ClienteNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.LibroNonTrovatoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.domain.Libro;
@@ -9,49 +12,71 @@ import java.util.Collections;
 import java.util.List;
 
 public class GestoreLibroScambio {
-        private LibroScambioDao libroDao;
 
-        public GestoreLibroScambio() throws PersistenzaException {
-            this.libroDao = FactoryDao.getIstance().ottieniLibroScambioDao();
+    private static final GestoreLibroScambio instance = new GestoreLibroScambio();
+
+        private GestoreLibroScambio() throws PersistenzaException {
+
         }
+
+    public static GestoreLibroScambio getInstance() {
+        return instance;
+    }
 
         public Libro restituisciLibro(long id) throws LibroNonTrovatoException {
-            return libroDao.cercaPerId(id);
+            LibroDao libroDao=FactoryDao.getIstance().ottieniLibroScambioDao();
+            Libro libro= libroDao.cercaPerId(id);
+            return libro;
         }
 
+    public List<Libro>cercaPerProprietario(String username) {
+        try {
+            ClienteDao clienteDao=FactoryDao.getIstance().ottieniClienteDao();
+            Cliente cliente = clienteDao.ottieniCliente(username);
+            if (cliente instanceof Utente utente) {
+                return utente.getLibri();
+            }
+        } catch (ClienteNonTrovatoException e) {
+            return Collections.emptyList();
+        }
+        return Collections.emptyList();
+    }
+
     public List<Libro> restituisciSimili(String usernameCliente, long idRiferimento) {
-        List<Libro> tutti = libroDao.cercaPerProprietario(usernameCliente);
+        List<Libro> tutti = cercaPerProprietario(usernameCliente);
 
-
-        Libro riferimento = tutti.stream()
-                .filter(l -> l.getIdLibro() == idRiferimento)
-                .findFirst()
-                .orElse(null);
+        Libro riferimento = null;
+        for (Libro l : tutti) {
+            if (l.getIdLibro() == idRiferimento) {
+                riferimento = l;
+                break;
+            }
+        }
 
         if (riferimento == null) {
-
             return Collections.emptyList();
         }
 
         List<Libro> simili = new ArrayList<>();
 
-        simili.addAll(
-                tutti.stream()
-                        .filter(l -> l.getIdLibro() != riferimento.getIdLibro())
-                        .filter(l -> l.getTitolo().equalsIgnoreCase(riferimento.getTitolo()))
-                        .toList()
-        );
+        for (Libro l : tutti) {
+            if (l.getIdLibro() != riferimento.getIdLibro()
+                    && l.getTitolo().equalsIgnoreCase(riferimento.getTitolo())) {
+                simili.add(l);
+            }
+        }
 
-        simili.addAll(
-                tutti.stream()
-                        .filter(l -> l.getIdLibro() != riferimento.getIdLibro())
-                        .filter(l -> !l.getTitolo().equalsIgnoreCase(riferimento.getTitolo()))
-                        .filter(l -> l.getAutore().equalsIgnoreCase(riferimento.getAutore()))
-                        .toList()
-        );
+        for (Libro l : tutti) {
+            if (l.getIdLibro() != riferimento.getIdLibro()
+                    && !l.getTitolo().equalsIgnoreCase(riferimento.getTitolo())
+                    && l.getAutore().equalsIgnoreCase(riferimento.getAutore())) {
+                simili.add(l);
+            }
+        }
 
         return simili;
     }
-    }
+
+}
 
 

@@ -33,35 +33,38 @@ public class LibroDaoMemory implements LibroDao {
 
 
     @Override
-    public List<Libro> cercaPerTitolo(String titolo)  {
-        return libri.stream()
-                .filter(l -> l.getTitolo().equalsIgnoreCase(titolo))
-                .toList();
-
+    public List<Libro> cercaPerTitolo(String titolo) {
+        List<Libro> risultati = new ArrayList<>();
+        for (Libro l : libri) {
+            if (l.getTitolo().equalsIgnoreCase(titolo)) {
+                risultati.add(l);
+            }
+        }
+        return risultati;
     }
 
     @Override
     public List<Libro> cercaPerAutore(String autore) {
-       return libri.stream()
-                .filter(l -> l.getAutore().equalsIgnoreCase(autore))
-               .toList();
-
+        List<Libro> risultati = new ArrayList<>();
+        for (Libro l : libri) {
+            if (l.getAutore().equalsIgnoreCase(autore)) {
+                risultati.add(l);
+            }
+        }
+        return risultati;
     }
 
     @Override
-    public List<Libro> cercaPerGenere(String genere){
-        return libri.stream()
-                .filter(l -> l.getGenere().equalsIgnoreCase(genere))
-                .toList();
-
+    public List<Libro> cercaPerGenere(String genere) {
+        List<Libro> risultati = new ArrayList<>();
+        for (Libro l : libri) {
+            if (l.getGenere().equalsIgnoreCase(genere)) {
+                risultati.add(l);
+            }
+        }
+        return risultati;
     }
-    @Override
-    public List<Libro> cercaPerProprietario(String username)  {
-        return libri.stream()
-                .filter(l -> l.getUsernameProprietario().equalsIgnoreCase(username))
-                .toList();
 
-    }
     @Override
     public List<Libro> getTuttiLibri()  {
         return new ArrayList<>(libri);
@@ -71,12 +74,14 @@ public class LibroDaoMemory implements LibroDao {
 
     @Override
     public Libro cercaPerId(long id) throws LibroNonTrovatoException {
-        return libri.stream()
-                .filter(l -> l.getIdLibro() == id)
-                .findFirst()
-                .orElseThrow(() ->
-                        new LibroNonTrovatoException("Nessun libro trovato con id: " + id));
+        for (Libro l : libri) {
+            if (l.getIdLibro() == id) {
+                return l;
+            }
+        }
+        throw new LibroNonTrovatoException("Nessun libro trovato con id: " + id);
     }
+
 
 
 

@@ -8,7 +8,6 @@ import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class PropostaDiScambioDaoFile extends AbstractFileDao implements PropostaDiScambioDao {
@@ -22,23 +21,13 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         aggiornaIdCounter();
     }
 
-    @Override
-    public void eliminaProposteUtente(String username) throws PersistenzaException {
-        proposteTotali.removeIf(p ->
-                p.getMittente().getUsername().equalsIgnoreCase(username) ||
-                        p.getDestinatario().getUsername().equalsIgnoreCase(username)
-
-        );
-        salvaProposte();
-    }
 
     @Override
     protected void inizializzaFileVuoto(File file) throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(new ArrayList<PropostaDiScambio>());
-        }
-            catch (IOException _) {
-                throw new PersistenzaException("Errore inizializzazione file clienti");
+        } catch (IOException _) {
+            throw new PersistenzaException("Errore inizializzazione file clienti");
 
         }
     }
@@ -87,13 +76,13 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
             if (proposteTotali.get(i).getIdProposta() == proposta.getIdProposta()) {
                 proposteTotali.set(i, proposta);
                 salvaProposte();
+
                 return;
             }
         }
         proposteTotali.add(proposta);
         salvaProposte();
     }
-
 
 
     @Override
@@ -115,55 +104,38 @@ public class PropostaDiScambioDaoFile extends AbstractFileDao implements Propost
         salvaProposte();
     }
 
-    @Override
-    public List<PropostaDiScambio> getProposteRicevute(String usernameDestinatario) {
-        if (usernameDestinatario == null) {
-            return Collections.emptyList();
-        }
-        return proposteTotali.stream()
-                .filter(p -> p.getDestinatario().getUsername().equalsIgnoreCase(usernameDestinatario))
-                .toList();
-    }
-
-    @Override
-    public List<PropostaDiScambio> getProposteInviate(String usernameMittente) {
-        if (usernameMittente == null) {
-            return Collections.emptyList();}
-
-
-            return proposteTotali.stream()
-                    .filter(p -> p.getMittente().getUsername().equalsIgnoreCase(usernameMittente))
-                    .toList();
-
-    }
 
     @Override
     public List<PropostaDiScambio> cercaPropostaLibroOfferto(long idLibro) {
-        return proposteTotali.stream()
-                .filter(p -> p.getLibroOfferto() != null
-                        && p.getLibroOfferto().getIdLibro() == idLibro)
-                .toList();
-
+        List<PropostaDiScambio> risultati = new ArrayList<>();
+        for (PropostaDiScambio p : proposteTotali) {
+            if (p.getLibroOfferto() != null && p.getLibroOfferto().getIdLibro() == idLibro) {
+                risultati.add(p);
+            }
+        }
+        return risultati;
     }
-
 
     @Override
     public List<PropostaDiScambio> cercaPropostaLibroRichiesto(long idLibro) {
-        return proposteTotali.stream()
-                .filter(p -> p.getLibroRichiesto() != null
-                        && p.getLibroRichiesto().getIdLibro() == idLibro)
-                .toList();
-
+        List<PropostaDiScambio> risultati = new ArrayList<>();
+        for (PropostaDiScambio p : proposteTotali) {
+            if (p.getLibroRichiesto() != null && p.getLibroRichiesto().getIdLibro() == idLibro) {
+                risultati.add(p);
+            }
+        }
+        return risultati;
     }
 
     @Override
     public PropostaDiScambio cercaPropostaId(long idProposta) throws PropostaNonTrovataException {
-        return proposteTotali.stream()
-                .filter(p -> p.getIdProposta() == idProposta)
-                .findFirst()
-                .orElseThrow(() ->
-                        new PropostaNonTrovataException("Nessuna proposta trovata con id: " + idProposta));
-
+        for (PropostaDiScambio p : proposteTotali) {
+            if (p.getIdProposta() == idProposta) {
+                return p;
+            }
+        }
+        throw new PropostaNonTrovataException("Nessuna proposta trovata con id: " + idProposta);
     }
 }
+
 

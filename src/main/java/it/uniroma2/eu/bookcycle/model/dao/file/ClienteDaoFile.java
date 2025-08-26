@@ -45,19 +45,33 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
         }
     }
 
-    public void aggiornaCliente(Cliente cliente) throws OggettoInvalidoException, PersistenzaException{
+    public void aggiornaCliente(Cliente cliente) throws OggettoInvalidoException, PersistenzaException {
         if (cliente == null) {
             throw new OggettoInvalidoException("Cliente nullo");
         }
 
-        for (int i = 0; i < clienti.size(); i++) {
-            if (Objects.equals(clienti.get(i).getUsername(), cliente.getUsername())) {
-                clienti.set(i, cliente);
-                salvaClienti();
-                return;
-            }
+        DatiClienteF vecchiDati = datiClienti.get(cliente.getUsername());
+        if (vecchiDati == null) {
+            throw new PersistenzaException("Cliente non trovato: " + cliente.getUsername());
         }
+
+        datiClienti.put(cliente.getUsername(),
+                new DatiClienteF(cliente,
+                        vecchiDati.getPassword(),
+                        vecchiDati.getTelefono(),
+                        vecchiDati.getEmail()));
+
+
+        this.clienti = datiClienti.values().stream()
+                .map(DatiClienteF::getCliente)
+                .collect(Collectors.toList());
+
+
+
+
+        salvaClienti();
     }
+
 
 
 
@@ -155,6 +169,14 @@ public class ClienteDaoFile extends AbstractFileDao implements ClienteDao {
 
         return d.getTelefono();
     }
+
+    @Override
+    public List<Cliente> getTuttiClienti() {
+        return datiClienti.values().stream()
+                .map(DatiClienteF::getCliente)
+                .toList();
+    }
+
 
 
 

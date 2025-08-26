@@ -19,8 +19,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LibriScambioViewController extends GraphicController {
 
@@ -67,16 +67,13 @@ public class LibriScambioViewController extends GraphicController {
     }
 
     private void caricaLibri() {
-        try {
-            GestoreUtente gestoreUtente= new GestoreUtente();
 
-            List<LibroBean> libriDisponibili = gestoreUtente.caricaLibriTutti();
+            GestoreUtente gestoreUtente= GestoreUtente.getInstance();
+
+            List<LibroBean> libriDisponibili = gestoreUtente.caricaLibriTuttiAltri();
             listaLibriDisponibili = FXCollections.observableArrayList(libriDisponibili);
             tabella.setItems(listaLibriDisponibili);
-        } catch (Exception _) {
-            showAlert("Errore durante il caricamento dei libri.");
 
-        }
     }
 
 
@@ -91,7 +88,6 @@ public class LibriScambioViewController extends GraphicController {
 
         PropostaParzialeBean propostaParzialeBean = new PropostaParzialeBean();
         propostaParzialeBean.setLibroOfferto(libroSelezionato.getIdLibro());
-        propostaParzialeBean.setMittente(libroSelezionato.getUsernameProprietario());
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(ViewPath.SCEGLI_LIBRI_MIEI2_VIEW));
@@ -113,19 +109,22 @@ public class LibriScambioViewController extends GraphicController {
 
     @FXML
     void filtraLibri(ActionEvent event) {
+        String titolo = titoloField.getText().toLowerCase().trim();
 
-    String titolo = titoloField.getText().toLowerCase().trim();
-
-    if (titolo.isEmpty()) {
-        tabella.setItems(listaLibriDisponibili);
-    } else {
-        List<LibroBean> filtrati = listaLibriDisponibili.stream()
-                .filter(libro -> libro.getTitolo().toLowerCase().contains(titolo))
-                .collect(Collectors.toList());
-
-        tabella.setItems(FXCollections.observableArrayList(filtrati));
+        if (titolo.isEmpty()) {
+            tabella.setItems(listaLibriDisponibili);
+        } else {
+            List<LibroBean> filtrati = new ArrayList<>();
+            for (LibroBean libro : listaLibriDisponibili) {
+                if (libro.getTitolo().toLowerCase().contains(titolo)) {
+                    filtrati.add(libro);
+                }
+            }
+            tabella.setItems(FXCollections.observableArrayList(filtrati));
+        }
     }
-}
+
+
 
 
 

@@ -1,22 +1,23 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
+import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
+import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.eccezioni.PersistenzaException;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
-import it.uniroma2.eu.bookcycle.model.domain.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
+public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao {
     private static final String PROPERTIES_PATH = "proprieta.properties";
     private static final String ANNUNCI_PATH = "ANNUNCI_PATH";
     private final File file;
     private List<Annuncio> annunci;
 
-    public AnnuncioDaoFile() throws PersistenzaException  {
+    public AnnuncioDaoFile() throws PersistenzaException {
         this.file = inizializzaPercorsoDaProperties(ANNUNCI_PATH);
         this.annunci = caricaAnnunci();
         aggiornaIdCounter();
@@ -25,18 +26,16 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
     @Override
     protected void inizializzaFileVuoto(File file) throws PersistenzaException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-                    oos.writeObject(new ArrayList<Annuncio>());
-                }
-    catch (IOException _) {
-        throw new PersistenzaException("Errore inizializzazione file annunci");
-     }
+            oos.writeObject(new ArrayList<Annuncio>());
+        } catch (IOException _) {
+            throw new PersistenzaException("Errore inizializzazione file annunci");
+        }
     }
-
 
 
     private List<Annuncio> caricaAnnunci() throws PersistenzaException {
         if (!file.exists()) {
-            return new ArrayList<>(); // nessun file = nessun annuncio
+            return new ArrayList<>();
         }
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
@@ -54,7 +53,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
     private void salvaAnnunci() throws PersistenzaException {
         File parentDir = file.getParentFile();
         if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
-                throw new PersistenzaException("Impossibile creare directory: " + parentDir.getAbsolutePath());
+            throw new PersistenzaException("Impossibile creare directory: " + parentDir.getAbsolutePath());
 
         }
 
@@ -81,15 +80,8 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         if (annuncio == null) throw new OggettoInvalidoException("Annuncio nullo");
         annunci.add(annuncio);
 
-            salvaAnnunci();
+        salvaAnnunci();
 
-    }
-
-    @Override
-    public List<Annuncio> cercaPerProprietario(String username) {
-        return annunci.stream()
-                .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(username))
-                .toList();
     }
 
     @Override
@@ -116,46 +108,57 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao  {
         return new ArrayList<>(annunci);
     }
 
-    @Override
-    public List<Annuncio> ottieniAnnunciPerLibraio(String usernameLibraio) {
-        if (usernameLibraio == null) {
-            return Collections.emptyList();
-        }
-        return annunci.stream()
-                .filter(a -> a.getLibraio().getUsername().equalsIgnoreCase(usernameLibraio))
-                .toList();
-    }
 
     @Override
     public List<Annuncio> cercaPerTitolo(String titolo) {
-        if (titolo == null)  return Collections.emptyList();
-        return annunci.stream()
-                .filter(a -> a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase()))
-                .toList();
+        if (titolo == null) return Collections.emptyList();
+
+        List<Annuncio> risultati = new ArrayList<>();
+
+        for (Annuncio a : annunci) {
+            if (a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase())) {
+                risultati.add(a);
+            }
+        }
+
+        return risultati;
     }
 
+
     @Override
-    public List<Annuncio> cercaPerAutore(String autore)  {
+    public List<Annuncio> cercaPerAutore(String autore) {
         if (autore == null) return Collections.emptyList();
-        return annunci.stream()
-                .filter(a -> a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase()))
-                .toList();
+        List<Annuncio> risultati = new ArrayList<>();
+        for (Annuncio a : annunci) {
+            if (a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase())) {
+                risultati.add(a);
+            }
+        }
+        return risultati;
     }
 
     @Override
-    public List<Annuncio> cercaPerGenere(String genere)  {
+    public List<Annuncio> cercaPerGenere(String genere) {
         if (genere == null) return Collections.emptyList();
-        return annunci.stream()
-                .filter(a -> a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase()))
-                .toList();
+        List<Annuncio> risultati = new ArrayList<>();
+        for (Annuncio a : annunci) {
+            if (a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase())) {
+                risultati.add(a);
+            }
+        }
+        return risultati;
     }
 
     @Override
-    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo)  {
+    public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) {
         if (tipo == null) return Collections.emptyList();
-        return annunci.stream()
-                .filter(a -> a.getTipo() == tipo)
-                .toList();
+        List<Annuncio> risultati = new ArrayList<>();
+        for (Annuncio a : annunci) {
+            if (a.getTipo() == tipo) {
+                risultati.add(a);
+            }
+        }
+        return risultati;
     }
 }
 

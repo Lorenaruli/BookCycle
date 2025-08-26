@@ -5,19 +5,24 @@ import it.uniroma2.eu.bookcycle.model.eccezioni.PropostaNonTrovataException;
 import it.uniroma2.eu.bookcycle.model.domain.PropostaDiScambio;
 
 public class GestoreProposta {
-    PropostaDiScambioDao proposta;
+    private static final GestoreProposta instance =new GestoreProposta();
 
-    public GestoreProposta() throws PersistenzaException {
-        this.proposta=FactoryDao.getIstance().ottieniPropostaDiScambioDao();
+    private GestoreProposta() throws PersistenzaException {
+
 
     }
 
     public PropostaDiScambio trovaPropostaId(long id) throws PropostaNonTrovataException {
-        return proposta.cercaPropostaId(id);
+        PropostaDiScambioDao propostaDao=FactoryDao.getIstance().ottieniPropostaDiScambioDao();
+        return propostaDao.cercaPropostaId(id);
 
 
 
 
+    }
+
+    public GestoreProposta ottieniIstanza(){
+        return this.instance;
     }
 
 

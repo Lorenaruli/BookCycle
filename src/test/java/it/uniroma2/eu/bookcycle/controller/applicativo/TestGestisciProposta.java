@@ -30,9 +30,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 
-        PropostaDiScambio proposta = new PropostaDiScambio(mittente, destinatario,
-                new Libro("Titolo1", "Autore1", "Genere1", "diego"),
-                new Libro("Titolo2", "Autore2", "Genere2","franco"),0, StatoProposta.RIFIUTATA);
+        PropostaDiScambio proposta = new PropostaDiScambio(
+                new Libro("Titolo1", "Autore1", "Genere1", 20),
+                new Libro("Titolo2", "Autore2", "Genere2",21),0, StatoProposta.RIFIUTATA,"franco");
 
 
 

@@ -1,9 +1,12 @@
 package it.uniroma2.eu.bookcycle.bean;
 
+import it.uniroma2.eu.bookcycle.model.domain.StatoProposta;
+
 public class Proposta2Bean extends PropostaBean {
     private long idProposta;
-    private String titoloRichiesto;
-   private String titoloOfferto;
+    private StatoProposta stato;
+   private String titoloRichiesto;
+
 
 
     public long getIdProposta() {
@@ -14,8 +17,15 @@ public class Proposta2Bean extends PropostaBean {
         this.idProposta = idProposta;
     }
 
+    public StatoProposta getStato() {
+        return stato;
+    }
 
-    public String getTitoloRichiesto() {
+    public void setStato(StatoProposta stato) {
+        this.stato = stato;
+    }
+
+        public String getTitoloRichiesto() {
         return titoloRichiesto;
     }
 
@@ -23,11 +33,4 @@ public class Proposta2Bean extends PropostaBean {
         this.titoloRichiesto = titoloRichiesto;
     }
 
-    public String getTitoloOfferto() {
-        return titoloOfferto;
-    }
-
-    public void setTitoloOfferto(String titoloOfferto) {
-        this.titoloOfferto = titoloOfferto;
-    }
 }

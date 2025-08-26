@@ -1,5 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao.file;
 
+import it.uniroma2.eu.bookcycle.model.AnnuncioDaoComune;
 import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
 import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
@@ -8,7 +9,6 @@ import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao {
@@ -16,6 +16,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao {
     private static final String ANNUNCI_PATH = "ANNUNCI_PATH";
     private final File file;
     private List<Annuncio> annunci;
+    private AnnuncioDaoComune helper;
 
     public AnnuncioDaoFile() throws PersistenzaException {
         this.file = inizializzaPercorsoDaProperties(ANNUNCI_PATH);
@@ -65,15 +66,11 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao {
     }
 
     @Override
-    public void aggiornaIdCounter() {
-        long max = 0;
-        for (Annuncio a : annunci) {
-            if (a.getIdAnnuncio() > max) {
-                max = a.getIdAnnuncio();
-            }
-        }
-        Annuncio.setIdCounter(max + 1);
+  public void aggiornaIdCounter() {
+        helper.aggiornaIdCounter();
     }
+
+
 
     @Override
     public void salvaAnnuncio(Annuncio annuncio) throws OggettoInvalidoException, PersistenzaException {
@@ -105,60 +102,29 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao {
 
     @Override
     public List<Annuncio> ottieniTuttiAnnunci() {
-        return new ArrayList<>(annunci);
+      return helper.ottieniTuttiAnnunci();
     }
 
 
     @Override
     public List<Annuncio> cercaPerTitolo(String titolo) {
-        if (titolo == null) return Collections.emptyList();
-
-        List<Annuncio> risultati = new ArrayList<>();
-
-        for (Annuncio a : annunci) {
-            if (a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase())) {
-                risultati.add(a);
-            }
-        }
-
-        return risultati;
+      return helper.cercaPerTitolo(titolo);
     }
 
 
     @Override
     public List<Annuncio> cercaPerAutore(String autore) {
-        if (autore == null) return Collections.emptyList();
-        List<Annuncio> risultati = new ArrayList<>();
-        for (Annuncio a : annunci) {
-            if (a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase())) {
-                risultati.add(a);
-            }
-        }
-        return risultati;
+      return helper.cercaPerAutore(autore);
     }
 
     @Override
     public List<Annuncio> cercaPerGenere(String genere) {
-        if (genere == null) return Collections.emptyList();
-        List<Annuncio> risultati = new ArrayList<>();
-        for (Annuncio a : annunci) {
-            if (a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase())) {
-                risultati.add(a);
-            }
-        }
-        return risultati;
+       return helper.cercaPerGenere(genere);
     }
 
     @Override
     public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) {
-        if (tipo == null) return Collections.emptyList();
-        List<Annuncio> risultati = new ArrayList<>();
-        for (Annuncio a : annunci) {
-            if (a.getTipo() == tipo) {
-                risultati.add(a);
-            }
-        }
-        return risultati;
+       return ottieniAnnunciPerTipo(tipo);
     }
 }
 

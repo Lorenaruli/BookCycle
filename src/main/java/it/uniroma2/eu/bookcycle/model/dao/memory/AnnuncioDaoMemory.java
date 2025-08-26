@@ -1,5 +1,6 @@
 package it.uniroma2.eu.bookcycle.model.dao.memory;
 
+import it.uniroma2.eu.bookcycle.model.AnnuncioDaoComune;
 import it.uniroma2.eu.bookcycle.model.eccezioni.OggettoInvalidoException;
 import it.uniroma2.eu.bookcycle.model.dao.AnnuncioDao;
 import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
@@ -14,6 +15,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
     boolean idCounterInizializzato = false;
 
     private List<Annuncio> annunci;
+    private AnnuncioDaoComune helper;
 
     private AnnuncioDaoMemory() {
 
@@ -40,19 +42,14 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
 
 
     @Override
-    public  void aggiornaIdCounter(){
+    public  void aggiornaIdCounter() {
         if (!idCounterInizializzato) {
             Annuncio.setIdCounter(0);
             idCounterInizializzato = true;
         }
-        long max = 0;
-        for (Annuncio a : annunci) {
-            if (a.getIdAnnuncio() > max) {
-                max = a.getIdAnnuncio();
-            }
-        }
-        Annuncio.setIdCounter(max + 1);
+        helper.aggiornaIdCounter();
     }
+
 
 
     @Override
@@ -65,64 +62,28 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
 
     @Override
     public List<Annuncio> ottieniTuttiAnnunci() {
-        return new ArrayList<>(annunci);
+        return helper.ottieniTuttiAnnunci();
     }
 
 
     @Override
     public List<Annuncio> cercaPerTitolo(String titolo) {
-        if (titolo == null) {
-            return Collections.emptyList();
-        }
-        List<Annuncio> risultati = new ArrayList<>();
-        for (Annuncio a : annunci) {
-            if (a.getLibro().getTitolo().toLowerCase().contains(titolo.toLowerCase())) {
-                risultati.add(a);
-            }
-        }
-        return risultati;
+     return helper.cercaPerTitolo(titolo);
     }
 
     @Override
     public List<Annuncio> cercaPerAutore(String autore) {
-        if (autore == null) {
-            return Collections.emptyList();
-        }
-        List<Annuncio> risultati = new ArrayList<>();
-        for (Annuncio a : annunci) {
-            if (a.getLibro().getAutore().toLowerCase().contains(autore.toLowerCase())) {
-                risultati.add(a);
-            }
-        }
-        return risultati;
+        return helper.cercaPerGenere(autore);
     }
 
     @Override
     public List<Annuncio> cercaPerGenere(String genere) {
-        if (genere == null) {
-            return Collections.emptyList();
-        }
-        List<Annuncio> risultati = new ArrayList<>();
-        for (Annuncio a : annunci) {
-            if (a.getLibro().getGenere().toLowerCase().contains(genere.toLowerCase())) {
-                risultati.add(a);
-            }
-        }
-        return risultati;
+       return helper.cercaPerGenere(genere);
     }
 
     @Override
     public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) {
-        if (tipo == null) {
-            return Collections.emptyList();
-        }
-        List<Annuncio> risultati = new ArrayList<>();
-        for (Annuncio a : annunci) {
-            if (a.getTipo() == tipo) {
-                risultati.add(a);
-            }
-        }
-        return risultati;
+       return ottieniAnnunciPerTipo(tipo);
     }
 
 }

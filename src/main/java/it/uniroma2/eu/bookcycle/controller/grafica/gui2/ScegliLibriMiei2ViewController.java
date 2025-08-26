@@ -90,7 +90,6 @@ public class ScegliLibriMiei2ViewController extends GraphicController {
             showAlert("Seleziona un libro con doppio click prima di procedere.");
             return;
         }
-        Cliente cliente = Sessione.ottieniIstanza().getClienteLoggato();
        long libroRichiesto = propostaParzialeBean.getLibroOfferto();
 
         String destinatario=gestore.trovaProprietarioLibro(propostaParzialeBean.getLibroOfferto()).getUsername();

@@ -51,7 +51,6 @@ return Collections.emptyList();
 
 
 public List<AnnuncioBean> caricaAnnunciTutti() {
-    Cliente clienteAttuale = Sessione.ottieniIstanza().getClienteLoggato();
     AnnuncioDao annuncioDao= FactoryDao.getIstance().ottieniAnnuncioDao();
     return annuncioDao.ottieniTuttiAnnunci().stream()
             .map(annuncio -> new AnnuncioBean(annuncio.getLibro().getTitolo(), annuncio.getLibro().getAutore(), annuncio.getPrezzo(),annuncio.getTipo(), annuncio.getIdAnnuncio()))

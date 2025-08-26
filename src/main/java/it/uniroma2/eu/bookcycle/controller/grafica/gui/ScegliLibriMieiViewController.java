@@ -72,14 +72,14 @@ public class ScegliLibriMieiViewController extends GraphicController {
             riga.setSpacing(10);
 
             Label titoloLabel = new Label(libro.getTitolo());
-            Button scambiaButton = creaBottoneScambio(username, libro);
+            Button scambiaButton = creaBottoneScambio( libro);
 
             riga.getChildren().addAll(titoloLabel, scambiaButton);
             contenitoreLibri.getChildren().add(riga);
         }
     }
 
-    private Button creaBottoneScambio(String username, LibroBean libro) {
+    private Button creaBottoneScambio( LibroBean libro) {
         Button scambiaButton = new Button("Scambia con questo");
         scambiaButton.setOnAction(e -> inviaProposta( libro));
         return scambiaButton;

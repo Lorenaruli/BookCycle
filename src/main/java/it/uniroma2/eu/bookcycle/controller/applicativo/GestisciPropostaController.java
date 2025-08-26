@@ -142,9 +142,9 @@ public class GestisciPropostaController {
             clienteDao.aggiornaCliente(mittente);
             propostaDao.aggiungiProposta(proposta);
 
-        } catch (ClienteNonTrovatoException e) {
+        } catch (ClienteNonTrovatoException _) {
             // log e ignoro
-        } catch (OggettoInvalidoException e) {
+        } catch (OggettoInvalidoException _) {
             // log e interrompo
         }
     }

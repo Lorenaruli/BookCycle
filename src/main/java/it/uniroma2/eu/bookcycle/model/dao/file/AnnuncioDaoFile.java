@@ -124,7 +124,7 @@ public class AnnuncioDaoFile extends AbstractFileDao  implements AnnuncioDao {
 
     @Override
     public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) {
-       return ottieniAnnunciPerTipo(tipo);
+       return helper.ottieniAnnunciPerTipo(tipo);
     }
 }
 

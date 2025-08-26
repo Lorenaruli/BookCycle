@@ -7,7 +7,7 @@ import it.uniroma2.eu.bookcycle.model.domain.Annuncio;
 import it.uniroma2.eu.bookcycle.model.domain.TipoAnnuncio;
 
 import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
 
 public class AnnuncioDaoMemory implements AnnuncioDao {
@@ -83,7 +83,7 @@ public class AnnuncioDaoMemory implements AnnuncioDao {
 
     @Override
     public List<Annuncio> ottieniAnnunciPerTipo(TipoAnnuncio tipo) {
-       return ottieniAnnunciPerTipo(tipo);
+       return helper.ottieniAnnunciPerTipo(tipo);
     }
 
 }

@@ -45,7 +45,7 @@ public class ScegliLibriMieiViewController extends GraphicController {
         if (libri.isEmpty()) {
             mostraMessaggioNessunLibro();
         } else {
-            mostraLibriConBottone(username, libri);
+            mostraLibriConBottone( libri);
         }
     }
 
@@ -66,7 +66,7 @@ public class ScegliLibriMieiViewController extends GraphicController {
         contenitoreLibri.getChildren().add(messaggio);
     }
 
-    private void mostraLibriConBottone(String username, List<LibroBean> libri) {
+    private void mostraLibriConBottone( List<LibroBean> libri) {
         for (LibroBean libro : libri) {
             HBox riga = new HBox();
             riga.setSpacing(10);

@@ -21,18 +21,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         ClienteDao clienteDao = factory.ottieniClienteDao();
 
 
-
-        clienteDao.aggiungiUtente("diego", "pass", "123", "diego03");
         clienteDao.aggiungiUtente("franco", "pass", "987", "franco03");
 
-        Utente mittente=(Utente)clienteDao.trovaPerUsername("diego");
         Utente destinatario=(Utente)clienteDao.trovaPerUsername("franco");
 
 
 
         PropostaDiScambio proposta = new PropostaDiScambio(
-                new Libro("Titolo1", "Autore1", "Genere1", 20),
-                new Libro("Titolo2", "Autore2", "Genere2",21),0, StatoProposta.RIFIUTATA,"franco");
+                new Libro("Titolo1", "Autore1", "Genere1", 1L),
+                new Libro("Titolo2", "Autore2", "Genere2",2L),0, StatoProposta.RIFIUTATA,"franco");
 
 
 
@@ -41,7 +38,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
         assertEquals(StatoProposta.RIFIUTATA, propostaAggiornata.getStato());
         propostaDao.rimuoviProposta(0);
-        clienteDao.rimuoviCliente(mittente.getUsername());
         clienteDao.rimuoviCliente(destinatario.getUsername());
 
     }
